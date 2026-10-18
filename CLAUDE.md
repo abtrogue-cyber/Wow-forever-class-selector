@@ -3,7 +3,7 @@
 Fan-made, very visual class / spec / race finder for **World of Warcraft: Forever** (launch Nov 4, 2026).
 Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current plan: [docs/PLAN.md](docs/PLAN.md).
 
-**Status:** Phase 1 (data + engine) is done. Waiting for your score review (`docs/SCORES_REVIEW.md`) and the go for Phase 2 (playable MVP).
+**Status:** Phase 2 (playable MVP) is done on branch `phase-2`. Waiting for the go to merge and deploy to Vercel (M1, Mon Oct 26), then Phase 3.
 
 ## Working rules (from the brief §0 — always apply)
 
@@ -21,7 +21,8 @@ Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current pla
 ```bash
 npm install
 npm run dev            # http://localhost:5173 — /debug is the dev-only engine inspector
-npm test               # Vitest: data validation, engine unit tests, 300 random-player invariants, persona snapshots, share codec
+npm test               # Vitest: data validation, engine unit tests, 300 random-player invariants, persona snapshots, share codec, components (jsdom)
+npm run test:e2e       # Playwright smoke test of the full quiz flow on the production build (mobile + desktop)
 npm run typecheck      # tsc for the app (src) and the node scripts
 npm run build          # production build
 npm run scores:review  # regenerate docs/SCORES_REVIEW.md after editing builds.json
@@ -38,7 +39,12 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - `src/data/` — game data JSON + `schemas.ts` (Zod, typed vocabularies) + `validate.ts` (cross-reference checks) + `index.ts` (`gameData`)
 - `src/engine/` — pure TS engine: `profile` → `filters` → `score` (+ calibration) → `races` → `explain` → `dualSpec`, orchestrated by `rank.ts`. **All tuning constants live in `config.ts`.** `personas.ts` holds the test players.
 - `src/share/` — share codes (`codec.ts`) with frozen answer layouts per code version (`layout.ts`)
-- `src/pages/` — routes (`/`, dev-only `/debug`, 404); `src/i18n/en.ts` — every UI string
+- `src/data/vocab.ts` — plain id lists (no Zod). App and engine code import ids from here, never runtime values from `schemas.ts`, so Zod stays out of the bundle.
+- `src/pages/` — routes: `/` (eager), `/quiz`, `/result/:code`, `/about` (lazy), dev-only `/debug`, 404
+- `src/components/` — `quiz/` (setup + question types + hotkeys), `results/` (cards, radar, reveal, tweaks, share), `hero/Hero2D`, `icons/Glyphs`, `layout/Site`
+- `src/state/quizStore.ts` — Zustand quiz progress (sessionStorage, falls back to memory)
+- `src/i18n/en.ts` — every UI string
+- `tests/e2e/` — Playwright smoke test; `vercel.json` — SPA rewrites + asset caching
 - `scripts/` — node scripts run with `tsx`
 - `docs/` — RESEARCH, OPEN_QUESTIONS, PLAN, DECISIONS, SCORES_REVIEW (generated)
 

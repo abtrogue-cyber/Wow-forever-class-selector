@@ -1,11 +1,11 @@
 import { rawData } from './raw'
 import type { GameData } from './schemas'
-import { parseGameData } from './validate'
 
 /**
- * Validated game data for the app. Dev and tests validate on load; production trusts the JSON
- * (the test suite fails on invalid data) so Zod stays out of the user's bundle.
+ * Game data for the app. The JSON is validated by the test suite and, in dev, once at startup
+ * (see main.tsx), so neither Zod nor the validator ends up in the production bundle.
  */
-export const gameData: GameData = import.meta.env.DEV ? parseGameData(rawData) : (rawData as unknown as GameData)
+export const gameData = rawData as unknown as GameData
 
-export * from './schemas'
+export * from './vocab'
+export type * from './schemas'

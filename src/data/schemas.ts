@@ -1,65 +1,29 @@
 import { z } from 'zod'
+import {
+  AESTHETICS, AXIS_IDS, CLASS_IDS, FACTIONS, FLAGS, HARD_FILTERS, RACIAL_TAGS, ROLES, SETUP_FIELDS, TAG_IDS,
+} from './vocab'
 
-// ---------------------------------------------------------------------------
-// Vocabularies. Fixed id lists give the engine exact types (Record<AxisId, …>);
-// the JSON files describe them and tests check both sides match.
-// ---------------------------------------------------------------------------
+export * from './vocab'
 
-export const AXIS_IDS = [
-  'range', 'complexity', 'soloLeveling', 'sustain', 'survivability', 'dungeon', 'raid',
-  'worldPvp', 'battlegrounds', 'goldFarming', 'groupUtility', 'petReliance', 'burst', 'armor',
-] as const
+// Zod enums over the shared vocabularies (see vocab.ts).
 export const AxisId = z.enum(AXIS_IDS)
 export type AxisId = z.infer<typeof AxisId>
-
-export const TAG_IDS = [
-  'holy', 'shadow', 'nature', 'elements', 'arcane', 'fire', 'frost', 'fel', 'beast',
-  'stealth', 'berserker', 'shapeshifter', 'protector', 'healer', 'sharpshooter', 'trickster',
-] as const
 export const TagId = z.enum(TAG_IDS)
 export type TagId = z.infer<typeof TagId>
-
-export const CLASS_IDS = ['druid', 'hunter', 'mage', 'paladin', 'priest', 'rogue', 'shaman', 'warlock', 'warrior'] as const
 export const ClassId = z.enum(CLASS_IDS)
 export type ClassId = z.infer<typeof ClassId>
-
-export const ROLES = ['tank', 'healer', 'dps'] as const
 export const Role = z.enum(ROLES)
 export type Role = z.infer<typeof Role>
-
-export const FACTIONS = ['alliance', 'horde'] as const
 export const Faction = z.enum(FACTIONS)
 export type Faction = z.infer<typeof Faction>
-
-// What a racial is good for. Builds and player context turn these into a "needs" vector.
-export const RACIAL_TAGS = [
-  'critChance', 'critPower', 'haste', 'burstCD', 'defensiveCD', 'stunBreak', 'stunResist',
-  'fearBreak', 'rootBreak', 'cleanseSelf', 'escape', 'stealthDetect', 'controlCD', 'health',
-  'avoidance', 'mobility', 'downtime', 'selfHeal', 'manaRegen', 'resourcePool', 'beastDamage',
-  'elementalDamage', 'gold', 'profession', 'utility', 'healUtility',
-] as const
 export const RacialTag = z.enum(RACIAL_TAGS)
 export type RacialTag = z.infer<typeof RacialTag>
-
-export const AESTHETICS = ['noble', 'rugged', 'clever', 'elven', 'primal', 'eerie'] as const
 export const Aesthetic = z.enum(AESTHETICS)
 export type Aesthetic = z.infer<typeof Aesthetic>
-
-export const HARD_FILTERS = ['noPets', 'mustHeal', 'mustTank', 'rangedOnly', 'meleeOnly', 'noStealth'] as const
 export const HardFilter = z.enum(HARD_FILTERS)
 export type HardFilter = z.infer<typeof HardFilter>
-
-export const FLAGS = ['wantsComplexity'] as const
 export const Flag = z.enum(FLAGS)
 export type Flag = z.infer<typeof Flag>
-
-export const SETUP_FIELDS = ['experience', 'faction', 'ruleset', 'skyborne'] as const
-export const SETUP_OPTIONS = {
-  experience: ['new', 'played', 'veteran'],
-  faction: ['alliance', 'horde', 'any'],
-  ruleset: ['normal', 'pvp', 'rp', 'hardcore'],
-  skyborne: ['yes', 'no', 'unsure'],
-} as const
 
 // ---------------------------------------------------------------------------
 // Building blocks

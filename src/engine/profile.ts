@@ -1,4 +1,5 @@
-import { AXIS_IDS, type Aesthetic, type AxisId, type Effect, type Flag, type HardFilter, type Role, type TagId } from '../data/schemas'
+import { AXIS_IDS } from '../data/vocab'
+import type { Aesthetic, AxisId, Effect, Flag, HardFilter, Role, TagId } from '../data/schemas'
 import { CONFIG } from './config'
 import { entries, type EngineContext } from './context'
 import type { Answers, AxisPreference, PlayerProfile } from './types'

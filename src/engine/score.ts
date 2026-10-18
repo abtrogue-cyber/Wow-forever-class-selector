@@ -1,4 +1,5 @@
-import { AXIS_IDS, type Build, type TagId } from '../data/schemas'
+import { AXIS_IDS } from '../data/vocab'
+import type { Build, TagId } from '../data/schemas'
 import { CONFIG } from './config'
 import { entries, type EngineContext } from './context'
 import type { ComponentId, PlayerProfile } from './types'

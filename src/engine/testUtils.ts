@@ -1,4 +1,5 @@
-import { AXIS_IDS, SETUP_OPTIONS, type GameData } from '../data/schemas'
+import { AXIS_IDS, SETUP_OPTIONS } from '../data/vocab'
+import type { GameData } from '../data/schemas'
 import type { Answers, TweakLevel } from './types'
 
 /** Small deterministic PRNG for reproducible random players in tests. */

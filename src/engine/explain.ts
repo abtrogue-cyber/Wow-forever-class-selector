@@ -1,4 +1,5 @@
-import { AXIS_IDS, type AxisId, type Build, type TagId, type Wording } from '../data/schemas'
+import { AXIS_IDS } from '../data/vocab'
+import type { AxisId, Build, TagId, Wording } from '../data/schemas'
 import { CONFIG } from './config'
 import { entries, type EngineContext } from './context'
 import type { RawComponent } from './score'

@@ -11,25 +11,27 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   }
   await page.getByRole('button', { name: 'Begin' }).click()
 
-  // 14 questions: tap through by touch/click like a phone user would.
-  let n = 1
-  const pickFirst = async () => {
-    await page.locator('button.choice').first().click()
-    n += 1
-    if (n <= 14) await expect(page.getByText(`Question ${n} of 14`)).toBeVisible()
+  // 14 questions, tapped through like a phone user. After each step we wait for the progress text,
+  // because the outgoing question is still on screen during its exit animation.
+  const at = (n: number) => expect(page.getByText(`Question ${n} of 14`)).toBeVisible()
+  await at(1)
+  for (let n = 1; n <= 8; n++) {
+    await page.locator('button.choice').first().click() // scenarios + this-or-that
+    await at(n + 1)
   }
-  await expect(page.getByText('Question 1 of 14')).toBeVisible()
-  for (let i = 0; i < 8; i++) await pickFirst() // scenarios + this-or-that
-  await page.getByRole('button', { name: 'Next' }).click() // slider
-  n += 1
-  await expect(page.getByText('Question 10 of 14')).toBeVisible()
-  await pickFirst() // bad pull
-  await page.getByRole('button', { name: /Leveling smoothly/ }).click()
+  await page.getByRole('button', { name: 'Next' }).click() // 9: downtime slider
+  await at(10)
+  await page.locator('button.choice').first().click() // 10: bad pull
+  await at(11)
+  await page.getByRole('button', { name: /Leveling smoothly/ }).click() // 11: priorities
   await page.getByRole('button', { name: /Dungeons with friends/ }).click()
-  await page.getByRole('button', { name: 'Next' }).click() // priorities
-  await page.getByRole('button', { name: 'None of these' }).click() // deal-breakers
-  await pickFirst() // look
-  await page.locator('button.choice').nth(1).click() // something new in Forever
+  await page.getByRole('button', { name: 'Next' }).click()
+  await at(12)
+  await page.getByRole('button', { name: 'None of these' }).click() // 12: deal-breakers
+  await at(13)
+  await page.locator('button.choice').first().click() // 13: look
+  await at(14)
+  await page.locator('button.choice').nth(1).click() // 14: something new in Forever
 
   // Reveal, then the full ranking
   await expect(page).toHaveURL(/\/result\/v1\.[A-Za-z0-9_-]+$/)

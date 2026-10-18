@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
+import { useEffect } from 'react'
 import { useLocation } from 'wouter'
-import { gameData } from '../data'
+import meta from '../data/meta.json'
 import { Hero2D } from '../components/hero/Hero2D'
 import { Page } from '../components/layout/Site'
 import { en } from '../i18n/en'
@@ -10,6 +11,13 @@ export function LandingPage() {
   const [, navigate] = useLocation()
   const step = useQuizStore((s) => s.step)
   const reset = useQuizStore((s) => s.reset)
+
+  // Warm up the quiz (engine + data) while the visitor reads, so the CTA responds instantly.
+  useEffect(() => {
+    const load = () => void import('./QuizPage')
+    const idle = window.requestIdleCallback?.(load) ?? window.setTimeout(load, 1500)
+    return () => (window.cancelIdleCallback ? window.cancelIdleCallback(idle) : window.clearTimeout(idle))
+  }, [])
 
   const start = () => {
     reset()
@@ -56,7 +64,7 @@ export function LandingPage() {
               </li>
             ))}
           </ul>
-          <p className="text-xs text-ash-400">{en.landing.beta(gameData.meta.lastVerified)}</p>
+          <p className="text-xs text-ash-400">{en.landing.beta(meta.lastVerified)}</p>
         </motion.div>
       </section>
     </Page>

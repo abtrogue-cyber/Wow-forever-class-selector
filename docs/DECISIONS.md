@@ -29,3 +29,8 @@ Short entries, newest at the bottom. **Status:** ✅ decided · ⏳ open. "Bn" r
 | D23 | 2026-10-18 | Share codes carry engine (mod 16) and data (mod 64) versions; each code version has a frozen answer layout. | Old links decode forever and can show "results updated". | ✅ |
 | D24 | 2026-10-18 | Explanations: role reasons go last on DPS cards, the tag that just restates the role is skipped, watch-out templates are relative ("than other picks"). | Found in persona review: generic or overstated sentences. | ✅ |
 | D25 | 2026-10-18 | Race ranking: racial need-tags × a needs vector from role + player priorities; look weight 1.5 (a full look match ≈ a strong racial edge); ★ novelty bonus; "not sure" Skyborne −1 + badge. | Look matters to most players unless the racial gap is big. | ✅ |
+| D26 | 2026-10-18 | Routes are lazy except the landing page; the landing prefetches the quiz chunk when idle. Id lists live in Zod-free `vocab.ts`; dev validates data at startup via a dynamic import. | Landing JS 191 → 120 KB gzip; data (27 KB) and engine load with the quiz. | ✅ |
+| D27 | 2026-10-18 | Result #1 opens fully; #2 and #3 start compact (match, 3 reasons, 1 caveat, best race) with a Details toggle for radar, all races, dual spec and Forever notes. | Full cards were ~1,300 px each on phones. | ✅ |
+| D28 | 2026-10-18 | M1 ships without swipe gestures on this-or-that cards (tap + keys 1/2/3 instead) and without the `/galaxy` route. | Both belong to the Phase 3 "wow" work; nothing in M1 depends on them. | ✅ backlog |
+| D29 | 2026-10-18 | Quiz progress persists in sessionStorage (Zustand), falling back to memory when storage is blocked. Result pages work from the URL alone. | Refresh-safe quiz; shared links need nothing but the code. | ✅ |
+
