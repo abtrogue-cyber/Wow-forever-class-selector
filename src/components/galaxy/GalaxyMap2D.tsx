@@ -18,12 +18,14 @@ export function GalaxyMap2D({ stars, you, selected, onSelect }: Props) {
   const byId = new Map(stars.map((s) => [s.id, s]))
   const label = selected ? byId.get(selected) : undefined
   return (
-    <svg viewBox="-54 -48 108 96" className="h-full w-full" role="group" aria-label="Spec Galaxy map">
+    <svg
+      viewBox="-54 -48 108 96"
+      className="h-full w-full"
+      style={{ background: 'radial-gradient(ellipse at center, #141c33 0%, #04060c 70%)' }}
+      role="group"
+      aria-label="Spec Galaxy map"
+    >
       <defs>
-        <radialGradient id="galaxy-bg" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stopColor="#141c33" />
-          <stop offset="100%" stopColor="#04060c" />
-        </radialGradient>
         <filter id="galaxy-glow" x="-100%" y="-100%" width="300%" height="300%">
           <feGaussianBlur stdDeviation="1.2" result="b" />
           <feMerge>
@@ -32,7 +34,6 @@ export function GalaxyMap2D({ stars, you, selected, onSelect }: Props) {
           </feMerge>
         </filter>
       </defs>
-      <rect x="-54" y="-48" width="108" height="96" fill="url(#galaxy-bg)" />
       {you &&
         you.links.map((id) => {
           const t = byId.get(id)
