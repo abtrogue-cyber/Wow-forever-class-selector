@@ -171,6 +171,7 @@ export const Build = z.strictObject({
   variants: z.array(z.strictObject({ name: z.string(), note: z.string() })),
   dualSpecPartners: z.array(Id).min(1),
   popular: z.boolean(),
+  /** Multipliers on the engine's racial needs vector for this build (e.g. feral druids barely use mana). */
   racialNeeds: z.partialRecord(RacialTag, z.number().min(0).max(2)).optional(),
   scoreBasis: z.string(),
   sources: SourceRefs,
