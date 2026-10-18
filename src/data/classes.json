@@ -1,0 +1,74 @@
+[
+  {
+    "id": "druid", "name": "Druid", "colorHex": "#FF7C0A", "colorVerified": false, "armor": "leather",
+    "roles": ["tank", "healer", "dps"], "resources": ["mana", "rage", "energy"],
+    "pitch": { "newcomer": "A shapeshifter who can be a bear, a cat, a healer or a star-caller, whatever the moment needs.", "veteran": "The ultimate hybrid: tank, heal, melee or caster DPS from one class." },
+    "strengths": ["Can fill every combat role with the right gear and talents.", "Strong healer, and a capable tank and damage dealer."],
+    "weaknesses": ["No snares, silences or interrupts.", "Weaker, less reliable crowd control; heal-over-time healing needs planning."],
+    "sources": ["BLZ-HD", "TAV-HD"], "verified": true
+  },
+  {
+    "id": "hunter", "name": "Hunter", "colorHex": "#AAD372", "colorVerified": false, "armor": "mail",
+    "roles": ["dps"], "resources": ["mana"],
+    "pitch": { "newcomer": "A ranged hunter with a loyal animal companion, or a lone wolf who needs no one.", "veteran": "Ranged physical DPS with pets, traps and the longest range in the game; petless via Lone Wolf." },
+    "strengths": ["Longest attack range of any class.", "The pet can tank in solo and small-group play.", "Talents support pet, ranged, trap-and-melee or petless builds."],
+    "weaknesses": ["Damage is its only role.", "Ranged attacks don't work within 8 yards.", "No stuns or interrupts."],
+    "sources": ["BLZ-HD", "TAV-HD"], "verified": true
+  },
+  {
+    "id": "mage", "name": "Mage", "colorHex": "#3FC7EB", "colorVerified": false, "armor": "cloth",
+    "roles": ["dps"], "resources": ["mana"],
+    "pitch": { "newcomer": "A master of arcane, fire and frost who rains destruction from afar, and conjures snacks for everyone.", "veteran": "Ranged caster DPS with top AoE, Polymorph and portals; new Frostfire Bolt and Arcane Blast." },
+    "strengths": ["Strong ranged single-target and area damage.", "Crowd control (Polymorph), raid buffs, food and water."],
+    "weaknesses": ["Very fragile.", "Vulnerable in melee."],
+    "sources": ["BLZ-MS"], "verified": true
+  },
+  {
+    "id": "paladin", "name": "Paladin", "colorHex": "#F48CBA", "colorVerified": false, "armor": "plate",
+    "roles": ["tank", "healer", "dps"], "resources": ["mana"],
+    "pitch": { "newcomer": "A holy knight in heavy armor who can protect, heal or smite, and is very hard to kill.", "veteran": "Plate hybrid: tank, heal or melee; Seal of Fury tanking and Twist of Light seal twisting." },
+    "strengths": ["Very strong against Undead and Demons.", "Effective tank, competitive damage dealer and strong single-target healer."],
+    "weaknesses": ["Limited ranged reach.", "No interrupts and no movement slows."],
+    "sources": ["BLZ-PAL"], "verified": true
+  },
+  {
+    "id": "priest", "name": "Priest", "colorHex": "#FFFFFF", "colorVerified": false, "armor": "cloth",
+    "roles": ["healer", "dps"], "resources": ["mana"],
+    "pitch": { "newcomer": "A healer of body and spirit, or a master of shadow who drains enemies' minds.", "veteran": "The most versatile healer (HoTs, direct heals, shields), with Shadow as a DoT caster." },
+    "strengths": ["The most versatile healer: heals over time, direct heals and shields.", "Every priest gets Fear Ward and Devouring Plague at 20."],
+    "weaknesses": ["Fragile cloth wearer with few escapes.", "Relies on tanks and allies for control; Shadow brings less utility than a Warlock."],
+    "sources": ["BLZ-PW"], "verified": true
+  },
+  {
+    "id": "rogue", "name": "Rogue", "colorHex": "#FFF468", "colorVerified": false, "armor": "leather",
+    "roles": ["dps"], "resources": ["energy"],
+    "pitch": { "newcomer": "A stealthy assassin who strikes from the shadows with blades and poison.", "veteran": "Melee DPS with stealth, poisons and control; Mutilate, Venom and Hack and Slash." },
+    "strengths": ["Stealth and control specialist.", "The only class with poisons; high single-target melee damage."],
+    "weaknesses": ["(Editorial) Brings little to a group beyond damage and control, and can't heal or tank."],
+    "sources": ["BLZ-RW", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "shaman", "name": "Shaman", "colorHex": "#0070DD", "colorVerified": false, "armor": "mail",
+    "roles": ["healer", "dps"], "resources": ["mana"],
+    "pitch": { "newcomer": "A spirit-caller who commands the elements and plants totems to empower friends.", "veteran": "Totem hybrid: Elemental caster, Enhancement melee (small-group off-tank) or Restoration healer." },
+    "strengths": ["Totem mastery with party and raid buffs.", "Flexible melee or spell damage plus strong healing; wears mail and a shield."],
+    "weaknesses": ["No effective crowd control.", "Depends on allies for control and survivability."],
+    "sources": ["BLZ-MS"], "verified": true
+  },
+  {
+    "id": "warlock", "name": "Warlock", "colorHex": "#8788EE", "colorVerified": false, "armor": "cloth",
+    "roles": ["dps"], "resources": ["mana"],
+    "pitch": { "newcomer": "A dark caster who commands demons and drains the life of their foes.", "veteran": "DoT/drain caster with demon pets; Banes, Wrack, Demonic Pact and Incinerate." },
+    "strengths": ["Caster damage on par with other casters, in three distinct styles.", "Demon pets protect you and scale with your stats."],
+    "weaknesses": ["Physically weak.", "Depends on demon pets for protection."],
+    "sources": ["BLZ-RW"], "verified": true
+  },
+  {
+    "id": "warrior", "name": "Warrior", "colorHex": "#C69B6D", "colorVerified": false, "armor": "plate",
+    "roles": ["tank", "dps"], "resources": ["rage"],
+    "pitch": { "newcomer": "A fearless fighter in heavy armor: charge in, take the hits, hit harder.", "veteran": "Plate melee: Arms, Fury or Protection; rage rework, Victory Rush, Weaponmaster." },
+    "strengths": ["Melee specialist who deals and absorbs damage.", "Great sustained damage against groups of melee enemies, with unique buffs and debuffs."],
+    "weaknesses": ["Struggles to recover from heavy damage."],
+    "sources": ["BLZ-PW"], "verified": true
+  }
+]

@@ -1,0 +1,138 @@
+[
+  {
+    "id": "human", "name": "Human", "shortName": "Human", "factions": ["alliance"], "requiresPurchase": false,
+    "aesthetic": { "noble": 3 },
+    "racials": [
+      { "id": "will-to-survive", "name": "Will to Survive", "type": "active", "effect": "Break out of a stun.", "tags": { "stunBreak": 3, "escape": 0.5 }, "verified": true },
+      { "id": "perception", "name": "Perception", "type": "active", "effect": "Spot stealthed enemies for 20 seconds.", "tags": { "stealthDetect": 3 }, "verified": true },
+      { "id": "ruthless", "name": "Ruthless", "type": "passive", "effect": "+2% critical strike chance, whatever weapon or spell you use.", "tags": { "critChance": 2 }, "change": "Oct 15 beta: replaced Sword Specialization.", "verified": true },
+      { "id": "the-human-spirit", "name": "The Human Spirit", "type": "passive", "effect": "+5% Spirit.", "tags": { "manaRegen": 1, "downtime": 0.5 }, "verified": true }
+    ],
+    "classSpells": { "priest": [
+      { "name": "Divine Grace", "effect": "Instantly heal an ally below 50% health (not yourself).", "tags": { "healUtility": 2 } },
+      { "name": "Feedback", "effect": "Unchanged from Classic.", "tags": { "controlCD": 0.5 } }
+    ] },
+    "sources": ["BLZ-RACE", "BLZ-NOTES", "BLZ-PW"], "verified": true
+  },
+  {
+    "id": "dwarf", "name": "Dwarf", "shortName": "Dwarf", "factions": ["alliance"], "requiresPurchase": false,
+    "aesthetic": { "rugged": 3 },
+    "racials": [
+      { "id": "stoneform", "name": "Stoneform", "type": "active", "effect": "For 8 seconds: immune to bleeds, poisons and diseases, and take less physical damage.", "tags": { "defensiveCD": 2, "cleanseSelf": 2 }, "verified": true },
+      { "id": "find-treasure", "name": "Find Treasure", "type": "active", "effect": "Track treasure chests, which sometimes hold extra loot for you.", "tags": { "gold": 1.5 }, "change": "Oct 15 beta: chance for extra items.", "verified": true },
+      { "id": "earth-fury", "name": "Earth Fury", "type": "passive", "effect": "+2% critical damage and critical healing.", "tags": { "critPower": 2 }, "change": "Oct 15 beta: replaced Mace Specialization.", "verified": true },
+      { "id": "big-game-hunter", "name": "Big Game Hunter", "type": "passive", "effect": "+5% damage against Beasts.", "tags": { "beastDamage": 2 }, "verified": true }
+    ],
+    "classSpells": { "priest": [
+      { "name": "Desperate Prayer", "effect": "Unchanged from Classic (an instant self-heal).", "tags": { "selfHeal": 2 } },
+      { "name": "Chastise", "effect": "Root a humanoid in place for 2 seconds.", "tags": { "controlCD": 1 } }
+    ] },
+    "sources": ["BLZ-RACE", "BLZ-NOTES", "BLZ-PW"], "verified": true
+  },
+  {
+    "id": "gnome", "name": "Gnome", "shortName": "Gnome", "factions": ["alliance"], "requiresPurchase": false,
+    "aesthetic": { "clever": 3 },
+    "racials": [
+      { "id": "escape-artist", "name": "Escape Artist", "type": "active", "effect": "Briefly become immune to roots and snares.", "tags": { "rootBreak": 3, "escape": 1.5 }, "verified": true },
+      { "id": "eureka", "name": "Eureka!", "type": "active", "effect": "For 8 seconds your spells and abilities cost less and deal +10% damage and healing.", "tags": { "burstCD": 2, "resourcePool": 0.5 }, "change": "Oct 15 beta: now an 8-second buff (was 3 charges); not usable in stealth.", "verified": true },
+      { "id": "expansive-mind", "name": "Expansive Mind", "type": "passive", "effect": "+5% maximum mana, rage or energy.", "tags": { "resourcePool": 2 }, "verified": true },
+      { "id": "engineering-specialization", "name": "Engineering Specialization", "type": "passive", "effect": "Your engineering gadgets are more reliable.", "tags": { "profession": 1.5 }, "verified": true }
+    ],
+    "classSpells": { "priest": [
+      { "name": "Confounding Flash", "effect": "Confuse up to 5 nearby enemies for 3 seconds; damage breaks it.", "tags": { "controlCD": 2, "escape": 1 } },
+      { "name": "Contingency Plan", "effect": "Ward an ally: if they drop below 35% health they get a shield and a heal over time.", "tags": { "healUtility": 2 } }
+    ] },
+    "sources": ["BLZ-RACE", "BLZ-NOTES", "BLZ-PW"], "verified": true
+  },
+  {
+    "id": "night-elf", "name": "Night Elf", "shortName": "Night Elf", "factions": ["alliance"], "requiresPurchase": false,
+    "aesthetic": { "elven": 3, "primal": 1 },
+    "racials": [
+      { "id": "elunes-light", "name": "Elune's Light", "type": "active", "effect": "+10% critical strike chance for 15 seconds.", "tags": { "burstCD": 2, "critChance": 0.5 }, "verified": true },
+      { "id": "shadowmeld", "name": "Shadowmeld", "type": "active", "effect": "Turn invisible while standing still.", "tags": { "escape": 2, "utility": 0.5 }, "verified": true },
+      { "id": "quickness", "name": "Quickness", "type": "passive", "effect": "+1% dodge chance and +2% run speed.", "tags": { "avoidance": 1.5, "mobility": 1 }, "change": "Oct 15 beta: the speed bonus now stacks with others.", "verified": true },
+      { "id": "wisp-spirit", "name": "Wisp Spirit", "type": "passive", "effect": "+75% run speed as a ghost after dying.", "tags": { "utility": 1 }, "verified": true }
+    ],
+    "classSpells": { "priest": [
+      { "name": "Starshards", "effect": "A much stronger damage spell, now on a 30-second cooldown.", "tags": { "burstCD": 1 } },
+      { "name": "Elune's Grace", "effect": "Attacks are 50% less likely to hit you for 15 seconds, or until 3 of them miss.", "tags": { "defensiveCD": 2 } }
+    ] },
+    "sources": ["BLZ-RACE", "BLZ-NOTES", "BLZ-PW"], "verified": true
+  },
+  {
+    "id": "orc", "name": "Orc", "shortName": "Orc", "factions": ["horde"], "requiresPurchase": false,
+    "aesthetic": { "primal": 2, "rugged": 2 },
+    "racials": [
+      { "id": "blood-fury", "name": "Blood Fury", "type": "active", "effect": "+10% attack power and spell power for 15 seconds (3-minute cooldown).", "tags": { "burstCD": 3 }, "change": "Oct 15 beta: cooldown 2 → 3 minutes.", "verified": true },
+      { "id": "shatter-curse", "name": "Shatter Curse", "type": "active", "effect": "Remove curses and banes from yourself, then take 5% less magic damage for 8 seconds.", "tags": { "cleanseSelf": 1.5, "defensiveCD": 1 }, "change": "Oct 15 beta: dispels instead of granting immunity; 15% → 5%.", "verified": true },
+      { "id": "savage", "name": "Savage", "type": "passive", "effect": "+1% critical strike chance.", "tags": { "critChance": 1 }, "change": "Oct 15 beta: replaced Axe Specialization.", "verified": true },
+      { "id": "hardiness", "name": "Hardiness", "type": "passive", "effect": "Stuns on you last 20% shorter.", "tags": { "stunResist": 2 }, "verified": true }
+    ],
+    "sources": ["BLZ-RACE", "BLZ-NOTES"], "verified": true
+  },
+  {
+    "id": "undead", "name": "Undead", "shortName": "Undead", "factions": ["horde"], "requiresPurchase": false,
+    "aesthetic": { "eerie": 3 },
+    "racials": [
+      { "id": "will-of-the-forsaken", "name": "Will of the Forsaken", "type": "active", "effect": "Break free of charm, fear and sleep.", "tags": { "fearBreak": 3 }, "verified": true },
+      { "id": "cannibalize", "name": "Cannibalize", "type": "active", "effect": "Feed on a corpse to restore 35% of your health and mana over time.", "tags": { "downtime": 2, "selfHeal": 1 }, "verified": true },
+      { "id": "underwater-breathing", "name": "Underwater Breathing", "type": "passive", "effect": "Hold your breath 300% longer.", "tags": { "utility": 1 }, "verified": true },
+      { "id": "touch-of-the-grave", "name": "Touch of the Grave", "type": "passive", "effect": "Your attacks and spells sometimes drain health from the target.", "tags": { "selfHeal": 1, "downtime": 0.5 }, "change": "Oct 15 beta: proc retuned (about 30% for casters, 20% for Paladin/Rogue/Warrior, 25 s internal cooldown).", "verified": true }
+    ],
+    "classSpells": { "priest": [
+      { "name": "Touch of Weakness", "effect": "Unchanged from Classic.", "tags": { "defensiveCD": 0.5 } },
+      { "name": "Dark Sacrifice", "effect": "Turn your own health into mana over time (scales with Spirit).", "tags": { "manaRegen": 2 } }
+    ] },
+    "sources": ["BLZ-RACE", "BLZ-NOTES", "BLZ-PW"], "verified": true
+  },
+  {
+    "id": "tauren", "name": "Tauren", "shortName": "Tauren", "factions": ["horde"], "requiresPurchase": false,
+    "aesthetic": { "primal": 3, "rugged": 1 },
+    "racials": [
+      { "id": "war-stomp", "name": "War Stomp", "type": "active", "effect": "Stun nearby enemies for 2 seconds (90-second cooldown).", "tags": { "controlCD": 3, "escape": 1 }, "change": "Oct 15 beta: cooldown 2 minutes → 90 seconds.", "verified": true },
+      { "id": "cultivation", "name": "Cultivation", "type": "active", "effect": "Grow bonus herbs anyone can gather, no Herbalism needed (15-minute cooldown).", "tags": { "gold": 1, "profession": 1 }, "change": "Oct 15 beta: cooldown 60 → 15 minutes.", "verified": true },
+      { "id": "plainsrunning", "name": "Plainsrunning", "type": "passive", "effect": "Run faster the longer you keep moving; +3% mounted speed.", "tags": { "mobility": 2 }, "change": "Oct 15 beta: adds mounted speed; stutter-stepping no longer keeps it active.", "verified": true },
+      { "id": "endurance", "name": "Endurance", "type": "passive", "effect": "+5% maximum health and +2% critical damage and healing.", "tags": { "health": 2, "critPower": 1.5 }, "change": "Oct 15 beta: +1% hit replaced by +2% critical damage/healing. Assumption: the health bonus is unchanged.", "verified": false }
+    ],
+    "sources": ["BLZ-RACE", "BLZ-NOTES"], "verified": true
+  },
+  {
+    "id": "troll", "name": "Troll", "shortName": "Troll", "factions": ["horde"], "requiresPurchase": false,
+    "aesthetic": { "primal": 3, "eerie": 1 },
+    "racials": [
+      { "id": "berserking", "name": "Berserking", "type": "active", "effect": "+10% attack and casting speed for 10 seconds.", "tags": { "burstCD": 2.5, "haste": 1 }, "verified": true },
+      { "id": "rapid-regeneration", "name": "Rapid Regeneration", "type": "active", "effect": "Regenerate 50% of your maximum health over time.", "tags": { "selfHeal": 2.5, "downtime": 1 }, "verified": true },
+      { "id": "beast-slaying", "name": "Beast Slaying", "type": "passive", "effect": "+5% damage against Beasts.", "tags": { "beastDamage": 2 }, "verified": true },
+      { "id": "regeneration", "name": "Regeneration", "type": "passive", "effect": "20% of your health regeneration continues during combat.", "tags": { "selfHeal": 1, "downtime": 1 }, "change": "Oct 15 beta: 10% → 20%.", "verified": true }
+    ],
+    "classSpells": { "priest": [
+      { "name": "Hex of Weakness", "effect": "Unchanged from Classic.", "tags": { "defensiveCD": 0.5 } },
+      { "name": "Shadowguard", "effect": "Unchanged from Classic.", "tags": { "defensiveCD": 0.5 } }
+    ] },
+    "sources": ["BLZ-RACE", "BLZ-NOTES", "BLZ-PW"], "verified": true
+  },
+  {
+    "id": "skyborne-high-order", "name": "Skyborne (High Order)", "shortName": "Skyborne", "group": "skyborne",
+    "factions": ["alliance"], "requiresPurchase": true,
+    "aesthetic": { "elven": 3, "noble": 2 },
+    "racials": [
+      { "id": "walk-on-air", "name": "Walk on Air", "type": "active", "effect": "A slow fall you can steer (90-second cooldown).", "tags": { "utility": 1.5, "escape": 0.5 }, "change": "Oct 15 beta: cooldown 2 minutes → 90 seconds.", "verified": true },
+      { "id": "read-ley-line", "name": "Read Ley Line", "type": "active", "effect": "+100% health and mana regeneration for 30 seconds, or 15 minutes near a ley line.", "tags": { "downtime": 2.5, "manaRegen": 2 }, "change": "Oct 15 beta: castable while moving; minimum duration 30 s.", "verified": true },
+      { "id": "wind-blessed", "name": "Wind Blessed", "type": "passive", "effect": "+3% haste for attacks and spells.", "tags": { "haste": 3 }, "change": "Oct 15 beta: 1% → 3%.", "verified": true },
+      { "id": "elemental-insight", "name": "Elemental Insight", "type": "passive", "effect": "+5% damage against Elementals.", "tags": { "elementalDamage": 1.5 }, "verified": true }
+    ],
+    "sources": ["BLZ-RACE", "BLZ-NOTES", "TAV-SKY", "WIKI-SKY"], "verified": true
+  },
+  {
+    "id": "skyborne-windshaper", "name": "Skyborne (Windshaper)", "shortName": "Skyborne", "group": "skyborne",
+    "factions": ["horde"], "requiresPurchase": true,
+    "aesthetic": { "elven": 3, "primal": 1 },
+    "racials": [
+      { "id": "walk-on-air", "name": "Walk on Air", "type": "active", "effect": "A slow fall you can steer (90-second cooldown).", "tags": { "utility": 1.5, "escape": 0.5 }, "change": "Oct 15 beta: cooldown 2 minutes → 90 seconds.", "verified": true },
+      { "id": "skysight", "name": "Skysight", "type": "active", "effect": "+10% run and mounted speed for 30 seconds, or 15 minutes near an Elemental Convergence.", "tags": { "mobility": 2.5 }, "change": "Oct 15 beta: castable while moving.", "verified": true },
+      { "id": "wind-blessed", "name": "Wind Blessed", "type": "passive", "effect": "+3% haste for attacks and spells.", "tags": { "haste": 3 }, "change": "Oct 15 beta: 1% → 3%.", "verified": true },
+      { "id": "elemental-insight", "name": "Elemental Insight", "type": "passive", "effect": "+5% damage against Elementals.", "tags": { "elementalDamage": 1.5 }, "verified": true }
+    ],
+    "sources": ["BLZ-RACE", "BLZ-NOTES", "TAV-SKY", "WIKI-SKY"], "verified": true
+  }
+]

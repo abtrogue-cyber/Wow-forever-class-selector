@@ -1,0 +1,71 @@
+{
+  "combos": [
+    { "raceId": "human", "classId": "hunter", "newInForever": true },
+    { "raceId": "human", "classId": "mage", "newInForever": false },
+    { "raceId": "human", "classId": "paladin", "newInForever": false },
+    { "raceId": "human", "classId": "priest", "newInForever": false },
+    { "raceId": "human", "classId": "rogue", "newInForever": false },
+    { "raceId": "human", "classId": "warlock", "newInForever": false },
+    { "raceId": "human", "classId": "warrior", "newInForever": false },
+
+    { "raceId": "dwarf", "classId": "hunter", "newInForever": false },
+    { "raceId": "dwarf", "classId": "paladin", "newInForever": false },
+    { "raceId": "dwarf", "classId": "priest", "newInForever": false },
+    { "raceId": "dwarf", "classId": "rogue", "newInForever": false },
+    { "raceId": "dwarf", "classId": "shaman", "newInForever": true },
+    { "raceId": "dwarf", "classId": "warrior", "newInForever": false },
+
+    { "raceId": "gnome", "classId": "mage", "newInForever": false },
+    { "raceId": "gnome", "classId": "priest", "newInForever": true },
+    { "raceId": "gnome", "classId": "rogue", "newInForever": false },
+    { "raceId": "gnome", "classId": "warlock", "newInForever": false },
+    { "raceId": "gnome", "classId": "warrior", "newInForever": false },
+
+    { "raceId": "night-elf", "classId": "druid", "newInForever": false },
+    { "raceId": "night-elf", "classId": "hunter", "newInForever": false },
+    { "raceId": "night-elf", "classId": "priest", "newInForever": false },
+    { "raceId": "night-elf", "classId": "rogue", "newInForever": false },
+    { "raceId": "night-elf", "classId": "warrior", "newInForever": false },
+
+    { "raceId": "orc", "classId": "hunter", "newInForever": false },
+    { "raceId": "orc", "classId": "mage", "newInForever": true },
+    { "raceId": "orc", "classId": "rogue", "newInForever": false },
+    { "raceId": "orc", "classId": "shaman", "newInForever": false },
+    { "raceId": "orc", "classId": "warlock", "newInForever": false },
+    { "raceId": "orc", "classId": "warrior", "newInForever": false },
+
+    { "raceId": "undead", "classId": "mage", "newInForever": false },
+    { "raceId": "undead", "classId": "paladin", "newInForever": true },
+    { "raceId": "undead", "classId": "priest", "newInForever": false },
+    { "raceId": "undead", "classId": "rogue", "newInForever": false },
+    { "raceId": "undead", "classId": "warlock", "newInForever": false },
+    { "raceId": "undead", "classId": "warrior", "newInForever": false },
+
+    { "raceId": "tauren", "classId": "druid", "newInForever": false },
+    { "raceId": "tauren", "classId": "hunter", "newInForever": false },
+    { "raceId": "tauren", "classId": "shaman", "newInForever": false },
+    { "raceId": "tauren", "classId": "warrior", "newInForever": false },
+
+    { "raceId": "troll", "classId": "hunter", "newInForever": false },
+    { "raceId": "troll", "classId": "mage", "newInForever": false },
+    { "raceId": "troll", "classId": "priest", "newInForever": false },
+    { "raceId": "troll", "classId": "rogue", "newInForever": false },
+    { "raceId": "troll", "classId": "shaman", "newInForever": false },
+    { "raceId": "troll", "classId": "warlock", "newInForever": true },
+    { "raceId": "troll", "classId": "warrior", "newInForever": false },
+
+    { "raceId": "skyborne-high-order", "classId": "druid", "newInForever": true },
+    { "raceId": "skyborne-high-order", "classId": "hunter", "newInForever": true },
+    { "raceId": "skyborne-high-order", "classId": "mage", "newInForever": true },
+    { "raceId": "skyborne-high-order", "classId": "rogue", "newInForever": true },
+    { "raceId": "skyborne-high-order", "classId": "warrior", "newInForever": true },
+
+    { "raceId": "skyborne-windshaper", "classId": "druid", "newInForever": true },
+    { "raceId": "skyborne-windshaper", "classId": "hunter", "newInForever": true },
+    { "raceId": "skyborne-windshaper", "classId": "rogue", "newInForever": true },
+    { "raceId": "skyborne-windshaper", "classId": "shaman", "newInForever": true },
+    { "raceId": "skyborne-windshaper", "classId": "warrior", "newInForever": true }
+  ],
+  "sources": ["BLZ-RACE", "WIKI", "ZOK-RACE"],
+  "verified": true
+}
