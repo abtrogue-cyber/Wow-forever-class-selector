@@ -223,7 +223,17 @@ const PrioritiesQuestion = z.strictObject({
   type: z.literal('priorities'),
   pick: z.literal(3),
   rankWeights: z.array(z.number().positive()).length(3),
-  options: z.array(z.strictObject({ id: Id, label: Wording, axis: AxisId })).min(3),
+  options: z
+    .array(
+      z.strictObject({
+        id: Id,
+        label: Wording,
+        axis: AxisId,
+        /** "Good at this" level the pick asks for. Default 5 (the very best), which tends to single out one build. */
+        target: z.number().min(0).max(5).optional(),
+      }),
+    )
+    .min(3),
 })
 const MultiQuestion = z.strictObject({
   ...questionBase,

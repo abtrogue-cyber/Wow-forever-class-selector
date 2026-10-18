@@ -52,7 +52,8 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 
 - TypeScript strict (+ `noUncheckedIndexedAccess`). The engine is pure: no React, no clock, no randomness, stable tie-breaks.
 - **Versioning:** bump `ENGINE_VERSION` (`src/engine/config.ts`) when engine logic or constants change results; bump `meta.dataVersion` when data changes results. Share links carry both.
-- **Never edit a published share layout.** If `questions.json` changes, add `LAYOUT_V2` + decoder and keep V1 (a test enforces this).
+- **Never edit a published share layout.** If `questions.json` changes, add `LAYOUT_V2` + decoder and keep V1 (a test enforces this). V1 was rewritten once, before the first deploy (D32).
+- **Quiz questions are about the person, not WoW** (D30): no class words, every option must boost builds from ≥3 classes. Only setup and the final hard-preferences screen ask directly.
 - Game data in `src/data/*.json`, validated by Zod in tests and dev. Production trusts the JSON to keep Zod out of the bundle. Answer effects live in data, not code. Sources are ids into `sources.json` (ids match `docs/RESEARCH.md` §1).
 - Ids are kebab-case (`warrior-protection`, `skyborne-high-order`). Every player-facing sentence has `newcomer` and `veteran` wording.
 - After changing scores or weights: `npm run scores:review`, `npm test`, review the snapshot diff, then `npx vitest run -u`.

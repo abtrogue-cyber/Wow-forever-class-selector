@@ -1,7 +1,7 @@
 import type { AxisId, RacialTag, Role } from '../data/schemas'
 
 /** Bump whenever the same answers could produce a different result. Share links carry it. */
-export const ENGINE_VERSION = 1
+export const ENGINE_VERSION = 2
 
 type Needs = Partial<Record<RacialTag, number>>
 
@@ -32,12 +32,13 @@ export const CONFIG = {
   /** Tag weight grows with how strongly the player expressed a fantasy. */
   tags: { base: 0.5, perPoint: 0.35, max: 3, rpMultiplier: 1.3 },
   role: { weight: 4, perPoint: 0.25, hybridBonus: 0.12 },
-  novelty: { weightPerPoint: 0.8 },
+  novelty: { weightPerPoint: 0.8, saturateAt: 2 },
   /**
-   * match = 100 · σ(k · (score − s0)), clamped. Fitted on the persona fixtures (raw #1 ≈ 0.87–0.95,
-   * median ≈ 0.70–0.75) so a great fit lands at 90–97% and the median build near 50%.
+   * match = 100 · σ(k · (score − s0)), clamped. Refitted for the person-first quiz on the persona fixtures
+   * (raw #1 ≈ 0.91–0.97, median ≈ 0.77–0.84) so a great fit lands at 88–95%, the median build at ~40–65%,
+   * and #1 stays ≥ 15 points above #10.
    */
-  calibration: { k: 14.5, s0: 0.72, min: 5, max: 97 },
+  calibration: { k: 18, s0: 0.8, min: 5, max: 97 },
   context: {
     hardcore: { survivability: { minTarget: 4, addWeight: 2 }, soloLeveling: { minTarget: 4, addWeight: 1 } },
     pvp: { worldPvp: { minTarget: 3.5, addWeight: 1.2 }, survivability: { minTarget: 3.5, addWeight: 0.5 } },
@@ -69,6 +70,6 @@ export const CONFIG = {
     whyNotCount: 3,
     whyNotSkipTop: 5,
     /** Below this top match % we say the answers pull in different directions. */
-    contradictoryBelow: 70,
+    contradictoryBelow: 65,
   },
 } as const

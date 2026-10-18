@@ -19,7 +19,7 @@ describe('game data', () => {
     expect(data.classes).toHaveLength(9)
     expect(data.builds).toHaveLength(28)
     expect(data.races).toHaveLength(10)
-    expect(data.questions.questions).toHaveLength(14)
+    expect(data.questions.questions).toHaveLength(13)
   })
 
   it('matches the race/class matrix in docs/RESEARCH.md §4', () => {

@@ -35,9 +35,12 @@ export function roleFit(build: Build, profile: PlayerProfile, ctx: EngineContext
   return Math.min(1, Math.max(0, fit))
 }
 
-/** Novelty lovers like builds that changed a lot in Forever; classic lovers like the opposite. */
+/**
+ * Novelty lovers like builds that changed a lot in Forever; classic lovers like the opposite.
+ * Build novelty (0–3) counts only up to `saturateAt`, so every big rework is equally "new" and no single build wins on it.
+ */
 export function noveltyFit(build: Build, novelty: number): number {
-  const n = build.novelty / 3
+  const n = Math.min(build.novelty, CONFIG.novelty.saturateAt) / 3
   return novelty > 0 ? n : 1 - n
 }
 

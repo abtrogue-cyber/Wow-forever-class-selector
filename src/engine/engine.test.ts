@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { rawData } from '../data/raw'
+import type { Question } from '../data/schemas'
 import { parseGameData } from '../data/validate'
 import { getContext } from './context'
 import { exclusionReason } from './filters'
 import { buildProfile } from './profile'
 import { rank } from './rank'
 import { rankRaces } from './races'
-import { fitCurve, tagFit, toMatch } from './score'
+import { fitCurve, noveltyFit, tagFit, toMatch } from './score'
 import type { Answers, Setup } from './types'
 
 const data = parseGameData(rawData)
@@ -32,43 +33,51 @@ describe('fit curve and calibration', () => {
     expect(toMatch(0)).toBe(5)
     expect(toMatch(1)).toBe(97)
     expect(toMatch(0.9)).toBeGreaterThan(toMatch(0.8))
-    expect(toMatch(0.72)).toBe(50)
+    expect(toMatch(0.8)).toBe(50)
   })
 })
 
 describe('profile', () => {
   it('turns priorities into rank-weighted axis targets', () => {
-    const p = buildProfile(answers({ priorities: ['raids', 'solo', 'gold'] }), ctx)
+    const p = buildProfile(answers({ 'two-hours': ['big-team', 'own-pace', 'fortune'] }), ctx)
     expect(p.priorities).toEqual(['raid', 'soloLeveling', 'goldFarming'])
-    expect(p.axes.raid).toEqual({ target: 5, weight: 3 * 0.7 })
+    expect(p.axes.raid).toEqual({ target: 4, weight: 3 * 0.7 })
     expect(p.axes.soloLeveling.weight).toBe(2)
     expect(p.axes.goldFarming.weight).toBe(1.2)
   })
 
   it('Hardcore raises survival and solo leveling', () => {
-    const p = buildProfile(answers({ 'bad-pull': 'burn' }, { ruleset: 'hardcore' }), ctx)
+    const p = buildProfile(answers({ festival: 'overview' }, { ruleset: 'hardcore' }), ctx)
     expect(p.axes.survivability.target).toBe(4)
-    expect(p.axes.survivability.weight).toBeCloseTo(0.4 + 2)
+    expect(p.axes.survivability.weight).toBeCloseTo(0.2 + 2)
     expect(p.axes.soloLeveling.target).toBe(4)
   })
 
   it('newcomers get low complexity unless they asked for complexity', () => {
     expect(buildProfile(answers({}, { experience: 'new' }), ctx).axes.complexity).toEqual({ target: 2, weight: 1 })
-    const complex = buildProfile(answers({ 'simple-complex': 'complex' }, { experience: 'new' }), ctx)
+    const complex = buildProfile(answers({ stuck: 'look-it-up' }, { experience: 'new' }), ctx)
     expect(complex.flags).toContain('wantsComplexity')
-    expect(complex.axes.complexity.target).toBe(4.5)
+    expect(complex.axes.complexity.target).toBe(4.25)
   })
 
-  it('clamps tag affinities and scales tag weight', () => {
-    const p = buildProfile(answers({ gnolls: 'vanish', 'light-shadow': 'shadow', 'bad-pull': 'escape' }), ctx)
-    expect(p.tags.trickster).toBe(3)
+  it('adds up and clamps tag affinities, and scales tag weight', () => {
+    const p = buildProfile(answers({ wins: 'outsmart', feeling: 'edge' }), ctx)
+    expect(p.tags.trickster).toBeCloseTo(0.7)
     expect(p.tagWeight).toBeGreaterThan(0)
     expect(buildProfile(answers(), ctx).tagWeight).toBe(0)
+    // Real answers stay far below the ±3 clamp, so check it on a made-up loud question.
+    const wording = { newcomer: 'x', veteran: 'x' }
+    const loud: Question = {
+      id: 'loud', type: 'multi', text: wording, exclusive: [],
+      options: ['a', 'b'].map((id) => ({ id, label: wording, effects: { tags: { trickster: 2 } } })),
+    }
+    const loudCtx = getContext({ ...data, questions: { ...data.questions, questions: [...data.questions.questions, loud] } })
+    expect(buildProfile(answers({ loud: ['a', 'b'] }), loudCtx).tags.trickster).toBe(3)
   })
 
   it('applies tweak multipliers', () => {
-    const base = buildProfile(answers({ downtime: 'unbearable' }), ctx)
-    const tweaked = buildProfile({ ...answers({ downtime: 'unbearable' }), tweaks: { sustain: 6 } }, ctx)
+    const base = buildProfile(answers({ annoyance: 'waiting' }), ctx)
+    const tweaked = buildProfile({ ...answers({ annoyance: 'waiting' }), tweaks: { sustain: 6 } }, ctx)
     expect(tweaked.axes.sustain.weight).toBe(base.axes.sustain.weight * 2)
   })
 })
@@ -77,15 +86,23 @@ describe('scoring pieces', () => {
   it('tag fit is 0.5 without preferences and higher for matching fantasy', () => {
     const neutral = buildProfile(answers(), ctx)
     expect(tagFit(build('priest-shadow'), neutral)).toBe(0.5)
-    const shadowFan = buildProfile(answers({ 'light-shadow': 'shadow' }), ctx)
-    // cosine({shadow 2, fel 1, trickster 0.5, holy −1}, {shadow 3}) = 0.8 → fit 0.9
-    expect(tagFit(build('priest-shadow'), shadowFan)).toBeCloseTo(0.9, 6)
-    expect(tagFit(build('paladin-holy'), shadowFan)).toBeLessThan(0.5)
+    const edgy = buildProfile(answers({ feeling: 'edge' }), ctx)
+    // cosine({shadow .2, trickster .2, fire .1, berserker .1}, {shadow 3}) = 0.632 → fit 0.816
+    expect(tagFit(build('priest-shadow'), edgy)).toBeCloseTo(0.816, 3)
+    expect(tagFit(build('paladin-holy'), edgy)).toBe(0.5)
+  })
+
+  it('novelty saturates at 2: every big rework counts as equally new', () => {
+    const reworks = data.builds.filter((b) => b.novelty >= 2)
+    expect(reworks.some((b) => b.novelty === 3)).toBe(true)
+    expect(new Set(reworks.map((b) => noveltyFit(b, 2))).size).toBe(1)
+    const small = data.builds.find((b) => b.novelty === 1)!
+    expect(noveltyFit(small, 2)).toBeLessThan(noveltyFit(reworks[0]!, 2))
   })
 })
 
 describe('hard filters', () => {
-  const profile = (filters: string[]) => buildProfile(answers({ 'deal-breakers': filters }), ctx)
+  const profile = (filters: string[]) => buildProfile(answers({ preferences: filters }), ctx)
 
   it('"no pets" drops pet-required builds but keeps optional-pet ones', () => {
     const p = profile(['no-pets'])
@@ -134,17 +151,17 @@ describe('races', () => {
     expect((yes?.score ?? 0) - (unsure?.score ?? 0)).toBeCloseTo(1)
   })
 
-  it('the look question moves races', () => {
-    const elven = rankRaces(build('priest-holy'), buildProfile(answers({ look: 'elven' }), ctx), ctx)
+  it('the place question moves races', () => {
+    const elven = rankRaces(build('priest-holy'), buildProfile(answers({ home: 'moon-forest' }), ctx), ctx)
     expect(elven[0]?.raceId).toBe('night-elf')
-    const eerie = rankRaces(build('priest-holy'), buildProfile(answers({ look: 'eerie' }), ctx), ctx)
+    const eerie = rankRaces(build('priest-holy'), buildProfile(answers({ home: 'misty-ruins' }), ctx), ctx)
     expect(eerie[0]?.raceId).toBe('undead')
   })
 })
 
 describe('rank', () => {
   it('forces a healing dual spec when the main build cannot heal', () => {
-    const res = rank(answers({ 'boss-pull': 'ranged', 'light-shadow': 'shadow', 'deal-breakers': ['must-heal'] }), data)
+    const res = rank(answers({ festival: 'overview', feeling: 'edge', preferences: ['must-heal'] }), data)
     for (const r of res.results) {
       const main = build(r.buildId)
       if (main.role !== 'healer') expect(build(r.dualSpec?.buildId ?? '').role).toBe('healer')
@@ -157,11 +174,11 @@ describe('rank', () => {
     expect(new Set(res.results.map((r) => r.match)).size).toBe(1)
   })
 
-  it('reports when deal-breakers leave nothing', () => {
-    const res = rank(answers({ 'deal-breakers': ['must-tank', 'ranged-only', 'no-stealth', 'must-heal'] }), data)
+  it('reports when hard preferences leave nothing', () => {
+    const res = rank(answers({ preferences: ['must-tank', 'ranged-only', 'no-stealth', 'must-heal'] }), data)
     // Druid survives: Balance is ranged, the class can heal and tank via dual spec.
     expect(res.results.map((r) => r.buildId)).toContain('druid-balance')
-    const none = rank(answers({ 'deal-breakers': ['ranged-only', 'melee-only'] }), data)
+    const none = rank(answers({ preferences: ['ranged-only', 'melee-only'] }), data)
     expect(none.results).toHaveLength(0)
     expect(none.notes).toEqual([data.explanations.notes.nothingLeft])
   })

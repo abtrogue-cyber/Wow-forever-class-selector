@@ -87,6 +87,8 @@ Builds carry strengths 1–3 per tag (e.g. Holy Paladin: holy 3, healer 3, prote
 
 ## 4. Quiz (draft wording)
 
+> **Superseded (D30–D32):** the questions below were replaced by a person-first set of 13 in `src/data/questions.json`. The setup screen is unchanged.
+
 **Setup (one screen)**
 
 | Field | Newcomer wording | Options |

@@ -80,7 +80,7 @@ describe('share codec', () => {
   })
 
   it('refuses to encode unknown option ids', () => {
-    const bad: Answers = { ...PERSONAS[0]!.answers, picks: { gnolls: 'dance' } }
+    const bad: Answers = { ...PERSONAS[0]!.answers, picks: { festival: 'dance' } }
     expect(() => encodeShareCode(bad, versions)).toThrow(/unknown option/)
   })
 })

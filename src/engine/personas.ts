@@ -18,9 +18,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'new', faction: 'any', ruleset: 'normal', skyborne: 'no' },
       picks: {
-        gnolls: 'blast', 'boss-pull': 'behind', 'light-shadow': 'light', 'nature-arcane': 'nature', 'plate-robes': 'robes',
-        'simple-complex': 'simple', 'burst-dot': 'dot', downtime: 'mostly-fine', 'bad-pull': 'outlast',
-        priorities: ['dungeons', 'solo', 'raids'], 'deal-breakers': ['must-heal'], look: 'elven', 'new-classic': 'classic',
+        'two-hours': ['few-friends', 'own-pace', 'big-team'], 'group-project': 'nobody-behind', 'team-sport': 'playmaker',
+        annoyance: 'too-much', wins: 'slow-certain', stuck: 'ask-friends', festival: 'backstage', packing: 'light',
+        feeling: 'calm', home: 'moon-forest', restaurant: 'usual', patience: 'kind-of-nice', preferences: ['must-heal'],
       },
     },
     expect: [
@@ -34,9 +34,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'played', faction: 'any', ruleset: 'hardcore', skyborne: 'no' },
       picks: {
-        gnolls: 'companion', 'boss-pull': 'ranged', 'nature-arcane': 'nature', 'pet-solo': 'pet', 'simple-complex': 'simple',
-        downtime: 'annoying', 'bad-pull': 'escape', priorities: ['solo', 'gold', 'dungeons'], 'deal-breakers': [],
-        look: 'rugged', 'new-classic': 'classic',
+        'two-hours': ['own-pace', 'fortune', 'few-friends'], 'group-project': 'own-part', 'team-sport': 'solo-sport',
+        annoyance: 'sudden-death', stuck: 'come-back', festival: 'overview', feeling: 'freedom', home: 'mountain-hall',
+        restaurant: 'usual', patience: 'annoying', preferences: ['want-companion'],
       },
     },
     expect: [
@@ -50,9 +50,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'veteran', faction: 'horde', ruleset: 'pvp', skyborne: 'no' },
       picks: {
-        gnolls: 'vanish', 'boss-pull': 'melee', 'light-shadow': 'shadow', 'pet-solo': 'solo', 'simple-complex': 'complex',
-        'burst-dot': 'burst', downtime: 'meh', 'bad-pull': 'escape', priorities: ['world-pvp', 'battlegrounds', 'gold'],
-        'deal-breakers': [], look: 'eerie',
+        'two-hours': ['rivals', 'fair-match', 'fortune'], 'group-project': 'own-part', 'team-sport': 'scorer',
+        annoyance: 'sudden-death', wins: 'big-moment', stuck: 'look-it-up', festival: 'front-row', feeling: 'edge',
+        home: 'misty-ruins', patience: 'annoying', preferences: [],
       },
     },
     expect: [
@@ -66,8 +66,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'new', faction: 'alliance', ruleset: 'normal', skyborne: 'no' },
       picks: {
-        gnolls: 'companion', 'boss-pull': 'ranged', 'light-shadow': 'shadow', 'pet-solo': 'pet', 'simple-complex': 'simple',
-        downtime: 'unbearable', 'bad-pull': 'outlast', priorities: ['solo', 'gold', 'dungeons'], 'deal-breakers': [],
+        'two-hours': ['own-pace', 'fortune', 'few-friends'], 'group-project': 'own-part', 'team-sport': 'solo-sport',
+        annoyance: 'waiting', stuck: 'come-back', festival: 'overview', feeling: 'edge', patience: 'agony',
+        preferences: ['want-companion'],
       },
     },
     expect: [
@@ -81,9 +82,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'veteran', faction: 'any', ruleset: 'normal', skyborne: 'yes' },
       picks: {
-        gnolls: 'blast', 'boss-pull': 'ranged', 'nature-arcane': 'arcane', 'plate-robes': 'robes', 'pet-solo': 'solo',
-        'simple-complex': 'complex', 'burst-dot': 'burst', downtime: 'meh', 'bad-pull': 'burn',
-        priorities: ['raids', 'dungeons', 'gold'], 'deal-breakers': [],
+        'two-hours': ['big-team', 'few-friends', 'fortune'], 'group-project': 'hardest-part', 'team-sport': 'scorer',
+        annoyance: 'not-mattering', wins: 'big-moment', stuck: 'look-it-up', festival: 'overview', packing: 'light',
+        feeling: 'wonder', patience: 'annoying', preferences: [],
       },
     },
     expect: [{ inTop: 3, anyOf: ['mage-arcane', 'mage-fire'] }],
@@ -94,9 +95,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'new', faction: 'any', ruleset: 'normal', skyborne: 'unsure' },
       picks: {
-        gnolls: 'charge', 'boss-pull': 'melee', 'light-shadow': 'light', 'plate-robes': 'plate', 'simple-complex': 'simple',
-        'burst-dot': 'burst', downtime: 'annoying', 'bad-pull': 'outlast', priorities: ['solo', 'dungeons', 'world-pvp'],
-        'deal-breakers': [], look: 'noble', 'new-classic': 'new',
+        'two-hours': ['own-pace', 'few-friends', 'rivals'], 'group-project': 'hardest-part', 'team-sport': 'scorer',
+        annoyance: 'too-much', wins: 'big-moment', stuck: 'try-harder', festival: 'front-row', packing: 'sturdy',
+        feeling: 'counted-on', home: 'stone-city', restaurant: 'something-new', patience: 'annoying', preferences: [],
       },
     },
     expect: [
@@ -110,9 +111,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'played', faction: 'alliance', ruleset: 'normal', skyborne: 'no' },
       picks: {
-        gnolls: 'blast', 'boss-pull': 'ranged', 'nature-arcane': 'nature', 'pet-solo': 'solo', 'burst-dot': 'burst',
-        downtime: 'meh', 'bad-pull': 'escape', priorities: ['solo', 'raids', 'world-pvp'],
-        'deal-breakers': ['no-pets', 'ranged-only'], look: 'elven', 'new-classic': 'new',
+        'two-hours': ['own-pace', 'big-team', 'rivals'], 'group-project': 'own-part', 'team-sport': 'scorer',
+        annoyance: 'sudden-death', wins: 'big-moment', festival: 'overview', feeling: 'freedom', home: 'moon-forest',
+        restaurant: 'something-new', patience: 'annoying', preferences: ['no-pets', 'ranged-only'],
       },
     },
     expect: [{ inTop: 1, anyOf: ['hunter-marksmanship'] }],
@@ -123,9 +124,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'played', faction: 'horde', ruleset: 'normal', skyborne: 'yes' },
       picks: {
-        gnolls: 'shield', 'boss-pull': 'behind', 'light-shadow': 'light', 'plate-robes': 'plate', 'pet-solo': 'solo',
-        'burst-dot': 'burst', downtime: 'meh', 'bad-pull': 'outlast', priorities: ['dungeons', 'raids', 'battlegrounds'],
-        'deal-breakers': ['must-heal'], look: 'eerie', 'new-classic': 'new',
+        'two-hours': ['few-friends', 'big-team', 'fair-match'], 'group-project': 'nobody-behind', 'team-sport': 'last-line',
+        annoyance: 'sudden-death', wins: 'big-moment', festival: 'backstage', packing: 'sturdy', feeling: 'counted-on',
+        home: 'misty-ruins', restaurant: 'something-new', patience: 'annoying', preferences: ['must-heal'],
       },
     },
     expect: [{ inTop: 1, anyOf: ['paladin-holy'] }],
@@ -136,9 +137,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'veteran', faction: 'alliance', ruleset: 'normal', skyborne: 'yes' },
       picks: {
-        gnolls: 'blast', 'boss-pull': 'ranged', 'nature-arcane': 'nature', 'pet-solo': 'solo', 'burst-dot': 'burst',
-        downtime: 'meh', 'bad-pull': 'burn', priorities: ['battlegrounds', 'world-pvp', 'dungeons'], 'deal-breakers': [],
-        look: 'rugged', 'new-classic': 'new',
+        'two-hours': ['fair-match', 'rivals', 'few-friends'], 'group-project': 'hardest-part', 'team-sport': 'scorer',
+        annoyance: 'not-mattering', wins: 'big-moment', festival: 'overview', feeling: 'freedom', home: 'mountain-hall',
+        restaurant: 'something-new', patience: 'annoying', preferences: [],
       },
     },
     expect: [{ inTop: 3, anyOf: ['shaman-elemental'] }],
@@ -149,8 +150,9 @@ export const PERSONAS: Persona[] = [
     answers: {
       setup: { experience: 'played', faction: 'any', ruleset: 'normal', skyborne: 'no' },
       picks: {
-        gnolls: 'shield', 'boss-pull': 'front', 'nature-arcane': 'nature', downtime: 'meh', 'bad-pull': 'outlast',
-        priorities: ['dungeons', 'raids', 'solo'], 'deal-breakers': ['must-tank'], look: 'primal',
+        'two-hours': ['few-friends', 'big-team', 'own-pace'], 'group-project': 'takes-charge', 'team-sport': 'last-line',
+        annoyance: 'sudden-death', festival: 'front-row', feeling: 'freedom', home: 'open-plains', patience: 'annoying',
+        preferences: ['must-tank'],
       },
     },
     expect: [

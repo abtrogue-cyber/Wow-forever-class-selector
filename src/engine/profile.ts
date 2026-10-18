@@ -45,7 +45,7 @@ export function buildProfile(answers: Answers, ctx: EngineContext): PlayerProfil
         const option = q.options.find((o) => o.id === id)
         if (!option || priorities.includes(option.axis)) return
         priorities.push(option.axis)
-        addAxis(option.axis, 5, q.rankWeights[rank] ?? 0)
+        addAxis(option.axis, option.target ?? 5, q.rankWeights[rank] ?? 0)
       })
     } else if (q.type === 'multi') {
       for (const id of ids) {

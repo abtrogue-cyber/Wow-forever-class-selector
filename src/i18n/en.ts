@@ -4,7 +4,7 @@ export const en = {
   tagline: 'Find your Forever Main.',
   landing: {
     eyebrow: 'World of Warcraft: Forever · launches Nov 4',
-    lead: 'Answer 14 quick questions, watch your hero take shape, and get a ranked, explained shortlist of class, spec and race.',
+    lead: 'Answer 13 quick questions, watch your hero take shape, and get a ranked, explained shortlist of class, spec and race.',
     cta: 'Find your Forever Main',
     resume: 'Continue where you left off',
     facts: ['About 3 minutes', 'Every pick explained', 'Built for Forever: new combos, Skyborne, dual spec'],
