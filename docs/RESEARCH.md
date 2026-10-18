@@ -176,7 +176,7 @@ Sources: BLZ-RACE, BLZ-NOTES, TAV-RAC, TAV-SKY, ZOK-RACE. Druids can use racials
 - **High Order** = Alliance, an arcane-leaning variant that can be a Mage. **Windshaper** = Horde, a shamanic variant that can be a Shaman. (BLZ-RACE, WIKI-SKY)
 - Classes on both sides: Druid, Hunter, Rogue, Warrior. Skyborne druids get race-specific forms (Bear, Cat, Travel, Moonkin shown). (ZOK-SKY)
 - Start on Zephras Isle, levels 1–12. Requires a Skyborne pack or the Forever Collection. (WIKI, ZOK-SKY)
-- **Engine note:** Wind Blessed (+3% haste) is the strongest passive DPS racial on paper **[assumption]**, so Skyborne will often rank high on "racial synergy". The setup's pack question must filter reliably, and "Not sure" gets a small penalty (DECISIONS D15).
+- **Engine note:** Wind Blessed (+3% haste) is the strongest passive DPS racial on paper **[assumption]**, so Skyborne will often rank high on "racial synergy". The setup's pack question must filter reliably, and "Not sure" gets a pack badge plus a small penalty (DECISIONS D15).
 
 ---
 

@@ -1,6 +1,6 @@
 # Plan — Forever Main (Phase 0 proposal)
 
-> Status: **accepted 2026-10-18.** Decisions B1–B7 are answered in `OPEN_QUESTIONS.md` §B (B2 without the pack badge) and logged in
+> Status: **accepted 2026-10-18.** Decisions B1–B7 are answered in `OPEN_QUESTIONS.md` §B and logged in
 > `DECISIONS.md`. Game facts come from `RESEARCH.md`. Weights and constants get tuned in Phase 1 against the persona tests.
 
 ---
@@ -179,7 +179,7 @@ It's absolute, so a build shows the same % no matter what else is listed. If the
   - from the profile: PvP → stun/fear/root breaks, escape, stealthDetect; Hardcore → escape, defensiveCD, downtime; leveling → downtime, beastDamage, mobility; gold → gold, herbalism
   - from class spells: Priest racial spells, e.g. Human Divine Grace for healers
 - **Aesthetic** comes from Q13 (× 1.5 on RP). **Novelty** adds a bonus to ★ combos only if Q14 = new.
-- **Skyborne:** "No" → excluded; "Yes" → normal; "Not sure" → allowed with a small penalty, no badge (B2).
+- **Skyborne:** "No" → excluded; "Yes" → normal; "Not sure" → allowed with a small penalty and a "needs Skyborne pack" badge (B2).
 - **Output:** the top 3 races, each with 1–2 reasons from its biggest racial contributions, in our own words ("Ruthless — +2% crit chance on everything").
 
 **Skyborne is modelled as two race entries:** `skyborne-high-order` (Alliance) and `skyborne-windshaper` (Horde), grouped as "Skyborne". Their racials and class lists differ.

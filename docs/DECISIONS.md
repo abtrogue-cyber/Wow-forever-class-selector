@@ -18,6 +18,6 @@ Short entries, newest at the bottom. **Status:** ✅ decided · ⏳ open. "Bn" r
 | D12 | 2026-10-18 | Routing with **wouter**. Fonts: **Cinzel** (display) + **Alegreya Sans** (body). | Tiny router for 6 routes. Engraved caps fit the mood without copying game fonts. | ✅ |
 | D13 | 2026-10-18 | TypeScript/tooling versions for the main app. | `npm install` now gives TS 7.0 (native) + Vite 8. Check Vitest/ESLint support before choosing, or pin TS 5.x/6.x. | ⏳ Phase 1 |
 | D14 | 2026-10-18 | Show Hardcore in setup as "planning ahead (launches this winter)". | Players are picking HC mains now. | ✅ B1 |
-| D15 | 2026-10-18 | Skyborne "Not sure": show Skyborne races with a small penalty, **no "needs pack" badge**. | Your call. The setup question already explains the pack. | ✅ B2 |
+| D15 | 2026-10-18 | Skyborne "Not sure": show Skyborne races with a "needs Skyborne pack" badge and a small penalty. | Unsure players still see Skyborne but know it costs extra; a no-purchase race wins close calls. | ✅ B2 |
 | D16 | 2026-10-18 | "Why not…?" uses a hand-picked `popular` flag in the data, labelled "popular picks", with no balance claims. | Community perception is opinion, so we label it as such. | ✅ B6 |
 | D17 | 2026-10-18 | Name stays **Forever Main**. Vercel subdomain first, custom domain optional. | Ship fast; a domain can come later. | ✅ B7 |

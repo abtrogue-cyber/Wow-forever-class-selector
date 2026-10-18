@@ -33,7 +33,7 @@ Status key: 🔴 blocks a feature · 🟡 affects data quality · 🟢 nice to k
 | # | Question | Decision |
 |---|---|---|
 | B1 | Show **Hardcore** in setup before it launches? | ✅ Yes, as "Hardcore (planning ahead — launches this winter)". |
-| B2 | Skyborne "Not sure" handling | ✅ Show Skyborne races with a small penalty, so a no-purchase race leads when it's close. **No "needs pack" badge.** |
+| B2 | Skyborne "Not sure" handling | ✅ Show Skyborne races with a "needs Skyborne pack" badge and a small penalty, so a no-purchase race leads when it's close. |
 | B3 | Should "must be able to heal/tank" accept a class whose **second spec** covers it (e.g. Shadow Priest + Holy dual spec)? | ✅ Yes, it's class-level. The dual-spec partner then *must* be the healer/tank build. |
 | B4 | Add variant builds (Shockadin, Enhancement off-tank, petless MM) as separate stars? | ✅ No. Keep 28 builds, variants become notes/flags. Revisit after launch. |
 | B5 | Old share links after a data update: recompute with new data (and say so), or freeze old data? | ✅ Recompute with current data and show "results updated since this link was made". Keep every decoder forever. |
