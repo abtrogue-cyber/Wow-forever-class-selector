@@ -1,0 +1,139 @@
+[
+  {
+    "id": "range", "label": "Melee ↔ Ranged", "short": "Range",
+    "description": "Where you fight from.", "low": "Always in melee", "high": "Always at range",
+    "mode": "closeness",
+    "texts": {
+      "highFit": { "newcomer": "Fights from a safe distance, just like you wanted.", "veteran": "Ranged playstyle, as requested." },
+      "lowFit": { "newcomer": "Right in the thick of the fight, up close and personal.", "veteran": "Melee playstyle, as requested." },
+      "highWatch": { "newcomer": "Fights from a distance, not up close like you wanted.", "veteran": "Ranged, not the melee you asked for." },
+      "lowWatch": { "newcomer": "Has to fight up close, not from a distance like you wanted.", "veteran": "Melee, not the ranged playstyle you asked for." }
+    }
+  },
+  {
+    "id": "complexity", "label": "Complexity", "short": "Complex",
+    "description": "How many buttons, timers and decisions it asks of you.", "low": "Few buttons, forgiving", "high": "Many buttons, timing, juggling",
+    "mode": "closeness",
+    "texts": {
+      "highFit": { "newcomer": "Lots to master, and it rewards getting good.", "veteran": "High skill ceiling, rewarding rotation." },
+      "lowFit": { "newcomer": "Easy to pick up: a few buttons go a long way.", "veteran": "Simple, forgiving rotation." },
+      "highWatch": { "newcomer": "Has a lot of buttons and timing to learn.", "veteran": "Busy rotation, more than you asked for." },
+      "lowWatch": { "newcomer": "Fairly simple, so it may feel samey after a while.", "veteran": "Low skill ceiling, less to master than you'd like." }
+    }
+  },
+  {
+    "id": "soloLeveling", "label": "Solo leveling", "short": "Solo",
+    "description": "How fast and smooth leveling feels on your own.", "low": "Slow and awkward alone", "high": "Fast and smooth alone",
+    "mode": "atLeast",
+    "texts": {
+      "highFit": { "newcomer": "Levels up quickly and comfortably on its own.", "veteran": "Strong, smooth solo leveler." },
+      "lowWatch": { "newcomer": "Leveling alone is slower; it shines more in a group.", "veteran": "Slower solo leveling; group up when you can." }
+    }
+  },
+  {
+    "id": "sustain", "label": "Low downtime", "short": "Sustain",
+    "description": "How rarely you stop to eat, drink or rest between fights.", "low": "Eat or drink after every pull", "high": "Rarely stops",
+    "mode": "atLeast",
+    "texts": {
+      "highFit": { "newcomer": "You'll rarely stop to eat or drink between fights.", "veteran": "Very low downtime between pulls." },
+      "lowWatch": { "newcomer": "Expect to stop and eat or drink between fights.", "veteran": "Noticeable downtime between pulls." }
+    }
+  },
+  {
+    "id": "survivability", "label": "Survival & escapes", "short": "Survive",
+    "description": "How well you survive a fight that goes wrong: escapes, self-heals, toughness.", "low": "Dies when a pull goes wrong", "high": "Escapes or outlasts trouble",
+    "mode": "atLeast",
+    "texts": {
+      "highFit": { "newcomer": "Hard to kill: when a fight goes wrong, you have a way out.", "veteran": "Excellent survivability and escapes." },
+      "lowWatch": { "newcomer": "Fragile when things go wrong, so pick your fights.", "veteran": "Fragile; bad pulls get dangerous fast." }
+    }
+  },
+  {
+    "id": "dungeon", "label": "Dungeon fit", "short": "Dungeon",
+    "description": "How welcome you are in 5-player dungeons and how easily you find groups.", "low": "Rarely wanted in 5-mans", "high": "Always welcome, easy groups",
+    "mode": "atLeast",
+    "texts": {
+      "highFit": { "newcomer": "Groups will be happy to have you in dungeons.", "veteran": "Always welcome in 5-mans; easy groups." },
+      "lowWatch": { "newcomer": "Finding dungeon groups may take a bit longer.", "veteran": "Less sought after for dungeons." }
+    }
+  },
+  {
+    "id": "raid", "label": "Raid fit (speculative)", "short": "Raid",
+    "description": "How wanted you'll likely be in raids. Raids open Dec 9, so this is an educated guess.", "low": "Hard to get a spot", "high": "Always wanted",
+    "mode": "atLeast",
+    "weightMultiplier": 0.7,
+    "texts": {
+      "highFit": { "newcomer": "Likely a welcome pick for raids (they open Dec 9, so this is a forecast).", "veteran": "Projected strong raid demand (speculative until Dec 9)." },
+      "lowWatch": { "newcomer": "Raid spots may be harder to get (a forecast until raids open Dec 9).", "veteran": "Projected lower raid demand (speculative until Dec 9)." }
+    }
+  },
+  {
+    "id": "worldPvp", "label": "World PvP", "short": "W-PvP",
+    "description": "How you fare when you meet the other faction out in the world.", "low": "Easy prey", "high": "Apex predator",
+    "mode": "atLeast",
+    "texts": {
+      "highFit": { "newcomer": "Dangerous when you meet enemy players in the open world.", "veteran": "Strong world PvP presence." },
+      "lowWatch": { "newcomer": "Enemy players in the world can be a real threat to you.", "veteran": "Weak in world PvP encounters." }
+    }
+  },
+  {
+    "id": "battlegrounds", "label": "Battlegrounds", "short": "BGs",
+    "description": "How much impact you have in team PvP battlegrounds.", "low": "Little impact", "high": "Game-changer",
+    "mode": "atLeast",
+    "texts": {
+      "highFit": { "newcomer": "Makes a big difference in team PvP battles.", "veteran": "High battleground impact." },
+      "lowWatch": { "newcomer": "Has less impact in team PvP battles.", "veteran": "Lower battleground impact." }
+    }
+  },
+  {
+    "id": "goldFarming", "label": "Gold farming", "short": "Gold",
+    "description": "How well you can farm gold on your own.", "low": "Struggles to farm", "high": "Farms efficiently solo",
+    "mode": "atLeast",
+    "texts": {
+      "highFit": { "newcomer": "Good at earning gold on your own.", "veteran": "Efficient solo gold farmer." },
+      "lowWatch": { "newcomer": "Earning gold alone is slower.", "veteran": "Weak solo farmer." }
+    }
+  },
+  {
+    "id": "groupUtility", "label": "Group utility", "short": "Utility",
+    "description": "Buffs, crowd control, resurrections, cleanses and other help you bring to a group.", "low": "Brings only damage", "high": "Buffs, CC, rez, cleanses",
+    "mode": "atLeast",
+    "texts": {
+      "highFit": { "newcomer": "Brings lots of helpful tricks that make the whole group better.", "veteran": "Strong group utility: buffs, CC, cleanses." },
+      "lowWatch": { "newcomer": "Brings little besides its own damage to a group.", "veteran": "Light on group utility." }
+    }
+  },
+  {
+    "id": "petReliance", "label": "Pet reliance", "short": "Pet",
+    "description": "How much of your power comes from a companion.", "low": "No pet", "high": "The pet is half your power",
+    "mode": "closeness",
+    "texts": {
+      "highFit": { "newcomer": "A loyal companion fights at your side.", "veteran": "Pet-centric gameplay, as requested." },
+      "lowFit": { "newcomer": "No pet to manage: it's all you.", "veteran": "No pet to babysit." },
+      "highWatch": { "newcomer": "Much of its power comes from a pet you'll need to manage.", "veteran": "Leans heavily on a pet." },
+      "lowWatch": { "newcomer": "No animal companion fighting at your side.", "veteran": "Little or no pet play." }
+    }
+  },
+  {
+    "id": "burst", "label": "Damage rhythm", "short": "Burst",
+    "description": "Slow-burn pressure (damage or heals over time) versus big single hits.", "low": "Slow burn (DoTs, HoTs)", "high": "Big hits",
+    "mode": "closeness",
+    "texts": {
+      "highFit": { "newcomer": "Lands big, satisfying hits.", "veteran": "Burst-oriented, big numbers." },
+      "lowFit": { "newcomer": "Wears enemies down with steady pressure over time.", "veteran": "Attrition and over-time effects." },
+      "highWatch": { "newcomer": "Plays around big hits rather than steady pressure.", "veteran": "Bursty rather than slow-burn." },
+      "lowWatch": { "newcomer": "Wins by wearing enemies down, not with big hits.", "veteran": "Attrition-based rather than bursty." }
+    }
+  },
+  {
+    "id": "armor", "label": "Armor weight", "short": "Armor",
+    "description": "What you wear at the endgame, from cloth robes to heavy plate.", "low": "Cloth robes", "high": "Heavy plate",
+    "mode": "closeness",
+    "texts": {
+      "highFit": { "newcomer": "Clad in heavy armor, just the look you picked.", "veteran": "Heavy armor, as requested." },
+      "lowFit": { "newcomer": "Wears flowing robes, just the look you picked.", "veteran": "Cloth caster look, as requested." },
+      "highWatch": { "newcomer": "Wears heavy armor, not the robes you pictured.", "veteran": "Heavy armor, not robes." },
+      "lowWatch": { "newcomer": "Wears light armor, not the heavy plate you pictured.", "veteran": "Light armor, not plate." }
+    }
+  }
+]

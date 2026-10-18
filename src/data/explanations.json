@@ -1,0 +1,51 @@
+{
+  "role": {
+    "fit": {
+      "tank": { "newcomer": "You'll be the one in front, holding the enemies' attention.", "veteran": "Tank role, as requested." },
+      "healer": { "newcomer": "You'll keep your friends alive, exactly the role you picked.", "veteran": "Healer role, as requested." },
+      "dps": { "newcomer": "Your job is dealing damage, exactly the role you picked.", "veteran": "Damage role, as requested." }
+    },
+    "watch": {
+      "tank": { "newcomer": "This is a tank, not the role you picked. Dual spec can change that at 40.", "veteran": "Tank spec, not your preferred role (dual spec at 40)." },
+      "healer": { "newcomer": "This is a healer, not the role you picked. Dual spec can change that at 40.", "veteran": "Healer spec, not your preferred role (dual spec at 40)." },
+      "dps": { "newcomer": "This deals damage rather than the role you picked. Dual spec can change that at 40.", "veteran": "Damage spec, not your preferred role (dual spec at 40)." }
+    }
+  },
+  "hybrid": { "newcomer": "Can switch between several group roles, perfect for 'wherever I'm needed'.", "veteran": "Hybrid class: flexible roles via dual spec." },
+  "novelty": {
+    "fitNew": { "newcomer": "Plays very differently in Forever, with lots of brand-new tools.", "veteran": "Heavily reworked in Forever, fresh territory." },
+    "fitClassic": { "newcomer": "Close to how it played in the original game: familiar and proven.", "veteran": "Close to its Classic roots." },
+    "watchNew": { "newcomer": "Plays a lot like the original game, with fewer new tricks.", "veteran": "Few Forever changes; close to Classic." },
+    "watchClassic": { "newcomer": "Plays quite differently from the original game.", "veteran": "Heavily reworked vs Classic." }
+  },
+  "filters": {
+    "noPets": { "newcomer": "Built around a pet, and you said no pets.", "veteran": "Pet-dependent; ruled out by 'no pets'." },
+    "mustHeal": { "newcomer": "This class can't heal, and you said you must be able to.", "veteran": "Class has no healing spec; ruled out by 'must heal'." },
+    "mustTank": { "newcomer": "This class can't tank, and you said you must be able to.", "veteran": "Class has no tank spec; ruled out by 'must tank'." },
+    "rangedOnly": { "newcomer": "Fights in melee, and you wanted ranged only.", "veteran": "Melee; ruled out by 'ranged only'." },
+    "meleeOnly": { "newcomer": "Fights from range, and you wanted melee only.", "veteran": "Ranged; ruled out by 'melee only'." },
+    "noStealth": { "newcomer": "Built around stealth, and you said no stealth.", "veteran": "Stealth-based; ruled out by 'no stealth'." }
+  },
+  "noRace": { "newcomer": "No race you can play (with your faction and pack choices) can be this class.", "veteran": "No eligible race for your faction/pack choices." },
+  "dualSpec": {
+    "heal": { "newcomer": "Unlock dual spec at level 40 (10 gold) and keep this as your healing spec.", "veteran": "Dual spec (40, 10 g): your healing spec." },
+    "tank": { "newcomer": "Unlock dual spec at level 40 (10 gold) and keep this as your tank spec.", "veteran": "Dual spec (40, 10 g): your tanking spec." },
+    "generic": { "newcomer": "A great second spec once you unlock dual spec at level 40.", "veteran": "Strong dual-spec partner (40, 10 g)." },
+    "priority": {
+      "soloLeveling": { "newcomer": "Swap to it for smooth solo play, your next priority.", "veteran": "For solo play, your #2 priority." },
+      "dungeon": { "newcomer": "Swap to it for dungeons, your next priority.", "veteran": "For dungeons, your #2 priority." },
+      "raid": { "newcomer": "Swap to it for raids, your next priority.", "veteran": "For raids, your #2 priority." },
+      "worldPvp": { "newcomer": "Swap to it for world PvP, your next priority.", "veteran": "For world PvP, your #2 priority." },
+      "battlegrounds": { "newcomer": "Swap to it for battlegrounds, your next priority.", "veteran": "For battlegrounds, your #2 priority." },
+      "goldFarming": { "newcomer": "Swap to it for farming gold, your next priority.", "veteran": "For gold farming, your #2 priority." }
+    }
+  },
+  "race": {
+    "aesthetic": { "newcomer": "Has the look you picked.", "veteran": "Matches your look pick." },
+    "novelty": { "newcomer": "A brand-new combination in Forever.", "veteran": "New race/class combo in Forever." }
+  },
+  "notes": {
+    "contradictory": { "newcomer": "Your answers pull in different directions, so these are the best compromises.", "veteran": "Mixed signals in your answers; best compromises shown." },
+    "nothingLeft": { "newcomer": "No build matches every deal-breaker. Try relaxing one of them.", "veteran": "Hard filters exclude every build; relax one." }
+  }
+}
