@@ -2,7 +2,8 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useMemo, useRef } from 'react'
 import { Link, useLocation } from 'wouter'
 import { gameData } from '../data'
-import { Hero2D } from '../components/hero/Hero2D'
+import { HeroStage } from '../components/hero/HeroStage'
+import { DEFAULT_LOOK, lookFor } from '../components/hero/look'
 import { SiteFooter } from '../components/layout/Site'
 import { QuestionScreen } from '../components/quiz/QuestionScreen'
 import { SetupScreen } from '../components/quiz/SetupScreen'
@@ -16,7 +17,6 @@ import { isSetupComplete, useQuizStore, wordingFor } from '../state/quizStore'
 const ctx = getContext(gameData)
 const QUESTIONS = gameData.questions.questions
 const TOTAL = QUESTIONS.length
-const GOLD = '#f5c86b'
 
 export function QuizPage() {
   const [, navigate] = useLocation()
@@ -27,17 +27,14 @@ export function QuizPage() {
   const w = wordingFor(setup)
   const stepRef = useRef<HTMLDivElement>(null)
 
-  // The hero glows in the color of the class currently leading, once there is something to go on.
-  const leading = useMemo(() => {
-    if (!complete || Object.keys(picks).length === 0) return null
-    const result = rank({ setup, picks }, gameData)
-    const top = result.results[0]
+  // The hero takes on the look of the class currently leading (glow, armor, weapon, particles),
+  // once there is something to go on.
+  const look = useMemo(() => {
+    if (!complete || Object.keys(picks).length === 0) return DEFAULT_LOOK
+    const top = rank({ setup, picks }, gameData).results[0]
     const build = top && ctx.builds.get(top.buildId)
-    const armor = result.profile.axes.armor
-    return {
-      color: build ? (ctx.classes.get(build.classId)?.colorHex ?? GOLD) : GOLD,
-      armor: armor.weight > 0 ? armor.target / 5 : 0.5,
-    }
+    const cls = build && ctx.classes.get(build.classId)
+    return build && cls ? lookFor(build, cls) : DEFAULT_LOOK
   }, [complete, setup, picks])
 
   useEffect(() => {
@@ -59,12 +56,7 @@ export function QuizPage() {
     <div className="flex min-h-dvh flex-col">
       <div className="mx-auto grid w-full max-w-5xl flex-1 gap-4 px-4 pt-4 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
         <aside className="flex flex-col items-center gap-3 lg:sticky lg:top-0 lg:h-dvh lg:justify-center">
-          <Hero2D
-            progress={progress}
-            color={leading?.color ?? GOLD}
-            armor={leading?.armor}
-            className="h-28 w-auto sm:h-40 lg:h-[440px]"
-          />
+          <HeroStage progress={progress} look={look} className="h-28 w-full max-w-md sm:h-40 lg:h-[440px]" />
           <div
             role="progressbar"
             aria-label={step > 0 ? en.quiz.progress(step, TOTAL) : en.quiz.setupTitle}

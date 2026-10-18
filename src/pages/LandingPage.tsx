@@ -2,7 +2,7 @@ import { motion } from 'motion/react'
 import { useEffect } from 'react'
 import { useLocation } from 'wouter'
 import meta from '../data/meta.json'
-import { Hero2D } from '../components/hero/Hero2D'
+import { HeroStage } from '../components/hero/HeroStage'
 import { Page } from '../components/layout/Site'
 import { en } from '../i18n/en'
 import { useQuizStore } from '../state/quizStore'
@@ -33,7 +33,7 @@ export function LandingPage() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="order-1 md:order-2"
         >
-          <Hero2D progress={0.18} color="#f5c86b" className="mx-auto h-56 w-auto sm:h-72 md:h-[440px]" />
+          <HeroStage progress={0.18} className="mx-auto h-56 w-full max-w-md sm:h-72 md:h-[440px]" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 16 }}

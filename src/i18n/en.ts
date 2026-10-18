@@ -32,6 +32,10 @@ export const en = {
     exit: 'Leave quiz',
   },
   roles: { tank: 'Tank', healer: 'Healer', dps: 'Damage' },
+  hero: {
+    toSd: 'Switch to the chunky 2004 look',
+    toHd: 'Switch back to the smooth HD look',
+  },
   result: {
     whatsNew: "What's new in Forever",
     moreDetails: 'Details: radar, all races, dual spec',
