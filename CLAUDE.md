@@ -3,7 +3,7 @@
 Fan-made, very visual class / spec / race finder for **World of Warcraft: Forever** (launch Nov 4, 2026).
 Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current plan: [docs/PLAN.md](docs/PLAN.md).
 
-**Status:** Phase 2 (playable MVP, person-first quiz) is merged into `main` and live at https://wow-forever-class-selector.vercel.app (M1 shipped ahead of Mon Oct 26). Phase 3 (the wow: 3D hero, card reveal, Spec Galaxy, result image, link previews) is done on branch `phase-3`, waiting for review and the go to merge.
+**Status:** Phases 2 and 3 are merged into `main` and live at https://wow-forever-class-selector.vercel.app: the playable MVP with the person-first quiz (M1), plus the 3D hero, card reveal, Spec Galaxy, result image and link previews (M2, ahead of Sun Nov 1). Share layout V1 is now published: question changes need `LAYOUT_V2`. Next: Phase 4 (launch hardening, Nov 2–3).
 
 **Hosting:** GitHub `abtrogue-cyber/Wow-forever-class-selector` (`origin`). Vercel deploys every push to `main` automatically. Commits use the GitHub noreply email (set in this repo's local git config).
 
