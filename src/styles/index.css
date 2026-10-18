@@ -1,25 +1,81 @@
 @import "tailwindcss";
 
-/* Design tokens (first pass — the full visual system lands in Phase 2). */
+/* Forever Main — "the torch-lit night before launch". */
 @theme {
+  --font-display: "Cinzel", ui-serif, Georgia, serif;
+  --font-body: "Alegreya Sans", ui-sans-serif, system-ui, sans-serif;
+
   --color-night-950: #05070d;
   --color-night-900: #0a0f1c;
   --color-night-800: #121a2e;
   --color-night-700: #1c2742;
   --color-night-600: #2a3656;
+  --color-gold-200: #fbe6b8;
   --color-gold-300: #f5d38b;
   --color-gold-400: #f5c86b;
   --color-gold-500: #d9a440;
+  --color-gold-600: #a87a2a;
   --color-parchment-100: #f3ead6;
   --color-parchment-200: #e8e2d0;
+  --color-ash-300: #b8bfd0;
   --color-ash-400: #9aa3b8;
+  --color-ember-400: #f08a5d;
+  --color-moss-400: #8fcf8a;
 }
 
 @layer base {
   html {
     color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-night-950 text-parchment-200 antialiased;
+    @apply bg-night-950 font-body text-[17px] leading-relaxed text-parchment-200 antialiased;
+    min-height: 100dvh;
+    /* Deep blue-black night with a warm torch glow at the bottom, plus a faint stone grain. */
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 110%, rgb(217 164 64 / 0.14), transparent 70%),
+      radial-gradient(ellipse 120% 70% at 50% -10%, rgb(42 54 86 / 0.55), transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+  }
+  h1, h2, h3 {
+    @apply font-display tracking-wide text-parchment-100;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold-400);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: rgb(245 200 107 / 0.35);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold-400/70 bg-gradient-to-b from-gold-400 to-gold-500 px-7 py-3 font-display text-base font-semibold tracking-wider text-night-950 shadow-[0_0_30px_-6px_rgb(245_200_107/0.6)] transition hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-night-600 px-5 py-2.5 text-ash-300 transition hover:border-gold-500/60 hover:text-parchment-100;
+  }
+  .panel {
+    @apply rounded-2xl border border-night-700/80 bg-night-900/80 shadow-[0_10px_40px_-20px_rgb(0_0_0/0.8)] backdrop-blur-sm;
+  }
+  .choice {
+    @apply relative flex w-full items-center gap-3 rounded-xl border border-night-600 bg-night-800/70 px-4 py-3.5 text-left text-parchment-100 transition hover:border-gold-500/70 hover:bg-night-700/80;
+  }
+  .choice[aria-pressed="true"],
+  .choice[aria-checked="true"] {
+    @apply border-gold-400 bg-night-700 shadow-[0_0_24px_-8px_rgb(245_200_107/0.7)];
+  }
+  .kbd {
+    @apply inline-flex size-6 shrink-0 items-center justify-center rounded-md border border-night-600 font-display text-xs text-ash-400;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
