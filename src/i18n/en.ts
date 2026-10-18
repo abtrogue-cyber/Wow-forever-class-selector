@@ -51,7 +51,6 @@ export const en = {
     progress: (n: number, total: number) => `Question ${n} of ${total}`,
     prioritiesHint: (left: number) => (left > 0 ? `Pick ${left} more, in order of importance.` : 'Tap one again to remove it.'),
     sliderValue: (label: string) => `Your answer: ${label}`,
-    keysHint: 'Tip: use the number keys to answer, ← to go back.',
     swipeHint: 'Tap a card, or swipe toward your pick.',
     exit: 'Leave quiz',
   },

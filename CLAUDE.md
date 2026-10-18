@@ -67,6 +67,6 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 
 ## IP / legal hygiene
 
-- Footer: "Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft and Warcraft are trademarks or registered trademarks of Blizzard Entertainment, Inc."
+- The notice "Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft and Warcraft are trademarks or registered trademarks of Blizzard Entertainment, Inc." lives on the About page (Legal). No site-wide footer (user's call, D42). The shareable result image keeps its short "Fan-made. Not affiliated…" line.
 - No Blizzard assets (models, textures, icons, art, music, logos) in the repo, and none proxied through our domain. Our own SVG glyphs and our own 3D designs only.
 - Write descriptions in our own words and link the sources. Never copy wiki or guide text.

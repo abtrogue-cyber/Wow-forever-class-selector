@@ -4,7 +4,6 @@ import { Link, useLocation } from 'wouter'
 import { gameData } from '../data'
 import { AXIS_ENDS, lookFor, positionFor, STARS, trailFor } from '../components/compass/compass'
 import { CompassStage } from '../components/compass/CompassStage'
-import { SiteFooter } from '../components/layout/Site'
 import { QuestionScreen } from '../components/quiz/QuestionScreen'
 import { SetupScreen } from '../components/quiz/SetupScreen'
 import { ENGINE_VERSION } from '../engine/config'
@@ -88,7 +87,6 @@ export function QuizPage() {
   }
   const next = () => (step >= TOTAL ? finish() : goTo(step + 1))
   const back = () => (step === 0 ? navigate('/') : goTo(step - 1))
-  const progress = step / TOTAL
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -114,16 +112,6 @@ export function QuizPage() {
             wander={false}
             className={`w-full transition-[height] duration-700 ${reveal ? 'h-[60vh] lg:h-[540px]' : 'h-44 sm:h-52 lg:h-[460px]'}`}
           />
-          <div
-            role="progressbar"
-            aria-label={step > 0 ? en.quiz.progress(step, TOTAL) : en.quiz.setupTitle}
-            aria-valuemin={0}
-            aria-valuemax={TOTAL}
-            aria-valuenow={step}
-            className="h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-night-700"
-          >
-            <div className="h-full rounded-full bg-gold-400 transition-[width] duration-500" style={{ width: `${progress * 100}%` }} />
-          </div>
           <p className="text-center text-xs text-ash-400" aria-live="polite">
             {reveal ? en.compass.skip : step <= 1 ? en.compass.hint : ' '}
           </p>
@@ -168,10 +156,8 @@ export function QuizPage() {
               )}
             </motion.div>
           </AnimatePresence>
-          <p className="hidden text-xs text-ash-400 lg:block">{en.quiz.keysHint}</p>
         </section>
       </div>
-      <SiteFooter />
     </div>
   )
 }

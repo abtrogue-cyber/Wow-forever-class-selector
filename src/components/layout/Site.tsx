@@ -21,14 +21,6 @@ export function SiteHeader({ right }: { right?: ReactNode }) {
   )
 }
 
-export function SiteFooter() {
-  return (
-    <footer className="mx-auto w-full max-w-5xl px-4 pt-10 pb-8 text-xs leading-relaxed text-ash-400">
-      <p>{en.disclaimer}</p>
-    </footer>
-  )
-}
-
 export function Page({ children, headerRight }: { children: ReactNode; headerRight?: ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col">
@@ -36,10 +28,9 @@ export function Page({ children, headerRight }: { children: ReactNode; headerRig
         Skip to content
       </a>
       <SiteHeader right={headerRight} />
-      <main id="main" className="mx-auto w-full max-w-5xl flex-1 px-4">
+      <main id="main" className="mx-auto w-full max-w-5xl flex-1 px-4 pb-10">
         {children}
       </main>
-      <SiteFooter />
     </div>
   )
 }
