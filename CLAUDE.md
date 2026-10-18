@@ -3,7 +3,7 @@
 Fan-made, very visual class / spec / race finder for **World of Warcraft: Forever** (launch Nov 4, 2026).
 Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current plan: [docs/PLAN.md](docs/PLAN.md).
 
-**Status:** Phase 2 (playable MVP, person-first quiz) is merged into `main` and live at https://wow-forever-class-selector.vercel.app (M1 shipped ahead of Mon Oct 26). Next: Phase 3.
+**Status:** Phase 2 (playable MVP, person-first quiz) is merged into `main` and live at https://wow-forever-class-selector.vercel.app (M1 shipped ahead of Mon Oct 26). Phase 3 (the wow: 3D hero, card reveal, Spec Galaxy, result image, link previews) is done on branch `phase-3`, waiting for review and the go to merge.
 
 **Hosting:** GitHub `abtrogue-cyber/Wow-forever-class-selector` (`origin`). Vercel deploys every push to `main` automatically. Commits use the GitHub noreply email (set in this repo's local git config).
 
@@ -28,6 +28,7 @@ npm run test:e2e       # Playwright smoke test of the full quiz flow on the prod
 npm run typecheck      # tsc for the app (src) and the node scripts
 npm run build          # production build
 npm run scores:review  # regenerate docs/SCORES_REVIEW.md after editing builds.json
+npm run og:image       # regenerate public/og-image.png (link-preview image) with the app's drawing code
 npx vitest run -u      # update persona snapshots — only after reviewing the diff
 ```
 
@@ -42,8 +43,10 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - `src/engine/` — pure TS engine: `profile` → `filters` → `score` (+ calibration) → `races` → `explain` → `dualSpec`, orchestrated by `rank.ts`. **All tuning constants live in `config.ts`.** `personas.ts` holds the test players.
 - `src/share/` — share codes (`codec.ts`) with frozen answer layouts per code version (`layout.ts`)
 - `src/data/vocab.ts` — plain id lists (no Zod). App and engine code import ids from here, never runtime values from `schemas.ts`, so Zod stays out of the bundle.
-- `src/pages/` — routes: `/` (eager), `/quiz`, `/result/:code`, `/about` (lazy), dev-only `/debug`, 404
-- `src/components/` — `quiz/` (setup + question types + hotkeys), `results/` (cards, radar, reveal, tweaks, share), `hero/Hero2D`, `icons/Glyphs`, `layout/Site`
+- `src/pages/` — routes: `/` (eager), `/quiz`, `/result/:code`, `/galaxy`, `/galaxy/:code`, `/about` (lazy), dev-only `/debug`, 404
+- `src/components/` — `quiz/` (setup + question types + hotkeys), `results/` (cards, radar, reveal, tweaks, share), `hero/` (HeroStage picks 3D or 2D, `look.ts` maps a build to its hero look), `galaxy/GalaxyMap2D`, `icons/Glyphs`, `layout/Site`
+- `src/three/` — lazy 3D scenes (R3F): `HeroScene` (forming hero, particles, fog) and `GalaxyScene`. Only these files import three.
+- `src/galaxy/pca.ts` — Spec Galaxy layout (PCA), nearest builds, player position
 - `src/state/quizStore.ts` — Zustand quiz progress (sessionStorage, falls back to memory)
 - `src/i18n/en.ts` — every UI string
 - `tests/e2e/` — Playwright smoke test; `vercel.json` — SPA rewrites + asset caching
