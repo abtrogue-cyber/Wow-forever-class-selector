@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* Design tokens (first pass — the full visual system lands in Phase 2). */
+@theme {
+  --color-night-950: #05070d;
+  --color-night-900: #0a0f1c;
+  --color-night-800: #121a2e;
+  --color-night-700: #1c2742;
+  --color-night-600: #2a3656;
+  --color-gold-300: #f5d38b;
+  --color-gold-400: #f5c86b;
+  --color-gold-500: #d9a440;
+  --color-parchment-100: #f3ead6;
+  --color-parchment-200: #e8e2d0;
+  --color-ash-400: #9aa3b8;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-night-950 text-parchment-200 antialiased;
+  }
+}
