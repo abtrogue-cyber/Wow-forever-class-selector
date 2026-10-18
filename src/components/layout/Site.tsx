@@ -10,6 +10,9 @@ export function SiteHeader({ right }: { right?: ReactNode }) {
       </Link>
       <nav className="flex items-center gap-4 text-sm text-ash-400">
         {right}
+        <Link href="/galaxy" className="hover:text-parchment-100">
+          {en.nav.galaxy}
+        </Link>
         <Link href="/about" className="hover:text-parchment-100">
           {en.nav.about}
         </Link>

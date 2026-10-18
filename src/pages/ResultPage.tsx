@@ -201,6 +201,18 @@ function ResultView({ decoded }: { decoded: DecodedShare }) {
           <TweakPanel axes={tweakAxes} tweaks={answers.tweaks ?? {}} onChange={setTweak} onReset={() => setTweaks({})} />
         </div>
 
+        <section className="panel flex flex-col items-start gap-3 p-5 sm:flex-row sm:items-center sm:justify-between" aria-labelledby="galaxy-teaser">
+          <div>
+            <h2 id="galaxy-teaser" className="text-xl">
+              {en.galaxy.teaserTitle}
+            </h2>
+            <p className="mt-1 text-sm text-ash-300">{en.galaxy.teaser}</p>
+          </div>
+          <Link href={`/galaxy/${encodeShareCode(answers, versions)}`} className="btn-ghost shrink-0">
+            {en.galaxy.teaserCta}
+          </Link>
+        </section>
+
         {first && firstInfo && <SharePanel buildName={firstInfo.build.name} match={first.match} />}
 
         <p className="text-sm text-ash-400">{en.result.betaNote}</p>

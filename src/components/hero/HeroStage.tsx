@@ -23,7 +23,7 @@ export function can3d(): boolean {
 }
 
 /** Phones and weak machines start in low quality (DPR 1, fewer particles, no grain). */
-function isLowPower(): boolean {
+export function isLowPower(): boolean {
   const nav = navigator as Navigator & { deviceMemory?: number }
   return window.matchMedia('(max-width: 640px)').matches || (nav.deviceMemory ?? 8) <= 4 || (nav.hardwareConcurrency ?? 8) <= 4
 }
@@ -41,7 +41,7 @@ function readSd(): boolean {
 }
 
 /** If the 3D scene throws (lost context, driver bug), show the 2D hero instead of a broken page. */
-class Fallback extends Component<{ fallback: ReactNode; children: ReactNode }, { failed: boolean }> {
+export class Fallback extends Component<{ fallback: ReactNode; children: ReactNode }, { failed: boolean }> {
   state = { failed: false }
   static getDerivedStateFromError() {
     return { failed: true }

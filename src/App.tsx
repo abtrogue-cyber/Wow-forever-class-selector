@@ -8,6 +8,7 @@ import { NotFoundPage } from './pages/NotFoundPage'
 const QuizPage = lazy(() => import('./pages/QuizPage').then((m) => ({ default: m.QuizPage })))
 const ResultPage = lazy(() => import('./pages/ResultPage').then((m) => ({ default: m.ResultPage })))
 const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })))
+const GalaxyPage = lazy(() => import('./pages/GalaxyPage').then((m) => ({ default: m.GalaxyPage })))
 // Dev-only tool: with DEV=false the import is dead code and stays out of production builds.
 const DebugPage = import.meta.env.DEV ? lazy(() => import('./pages/DebugPage')) : null
 
@@ -29,6 +30,18 @@ export default function App() {
           {(params) => (
             <Lazy>
               <ResultPage params={params} />
+            </Lazy>
+          )}
+        </Route>
+        <Route path="/galaxy">
+          <Lazy>
+            <GalaxyPage />
+          </Lazy>
+        </Route>
+        <Route path="/galaxy/:code">
+          {(params) => (
+            <Lazy>
+              <GalaxyPage key={params.code} code={params.code} />
             </Lazy>
           )}
         </Route>
