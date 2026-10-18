@@ -2,7 +2,8 @@ import { useId, useState } from 'react'
 import type { Wording } from '../../data'
 import type { BuildResult, PlayerProfile } from '../../engine/types'
 import { en } from '../../i18n/en'
-import { ClassGlyph, RoleGlyph } from '../icons/Glyphs'
+import { ClassIcon, SpecIcon } from '../icons/GameIcons'
+import { RoleGlyph } from '../icons/Glyphs'
 import { RadarChart } from './RadarChart'
 import { buildInfo, ctx, MatchBadge, RaceList, radarAxes } from './shared'
 
@@ -30,8 +31,10 @@ export function ResultCard({ result, profile, wording: w, featured = false }: Pr
       <div className="pointer-events-none absolute inset-x-0 top-0 h-1" style={{ background: color }} />
       <header className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="mt-1 flex size-11 shrink-0 items-center justify-center rounded-xl border" style={{ borderColor: `${color}88`, color }}>
-            <ClassGlyph classId={cls.id} className="size-7" />
+          {/* Hearthstone class icon with the spec's Classic talent-tree icon as a corner badge. */}
+          <span className="relative mt-0.5 size-14 shrink-0" style={{ color }}>
+            <ClassIcon classId={cls.id} className="size-14" />
+            <SpecIcon build={build} className="absolute -right-1 -bottom-1 size-7" />
           </span>
           <div>
             <p className="font-display text-xs tracking-[0.2em] text-ash-400 uppercase">#{result.rank}</p>

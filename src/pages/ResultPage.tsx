@@ -2,7 +2,7 @@ import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { useMemo, useState } from 'react'
 import { Link, useLocation } from 'wouter'
 import { gameData, type AxisId } from '../data'
-import { ClassGlyph } from '../components/icons/Glyphs'
+import { SpecIcon } from '../components/icons/GameIcons'
 import { Page } from '../components/layout/Site'
 import { ResultCard } from '../components/results/ResultCard'
 import { RevealCard } from '../components/results/RevealCard'
@@ -151,7 +151,7 @@ function ResultView({ decoded }: { decoded: DecodedShare }) {
                       className="panel flex items-center gap-3 px-4 py-3"
                     >
                       <span className="w-6 text-right font-display text-sm text-ash-400">{r.rank}</span>
-                      <ClassGlyph classId={cls.id} className="size-6 shrink-0" />
+                      <SpecIcon build={build} className="size-8 shrink-0" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-semibold" style={{ color: cls.colorHex }}>
                           {build.name}
@@ -184,14 +184,17 @@ function ResultView({ decoded }: { decoded: DecodedShare }) {
               {result.whyNot.map((x) => {
                 const { build, cls } = buildInfo(x.buildId)
                 return (
-                  <li key={x.buildId}>
-                    <p className="font-semibold" style={{ color: cls.colorHex }}>
-                      {build.name}{' '}
-                      <span className="text-sm font-normal text-ash-400">
-                        {x.rank ? `#${x.rank} · ${x.match}%` : en.result.excluded}
-                      </span>
-                    </p>
-                    <p className="text-ash-300">{x.reason[w]}</p>
+                  <li key={x.buildId} className="flex gap-3">
+                    <SpecIcon build={build} className="mt-0.5 size-7 shrink-0" />
+                    <div>
+                      <p className="font-semibold" style={{ color: cls.colorHex }}>
+                        {build.name}{' '}
+                        <span className="text-sm font-normal text-ash-400">
+                          {x.rank ? `#${x.rank} · ${x.match}%` : en.result.excluded}
+                        </span>
+                      </p>
+                      <p className="text-ash-300">{x.reason[w]}</p>
+                    </div>
                   </li>
                 )
               })}

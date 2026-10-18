@@ -4,7 +4,7 @@ import type { Wording } from '../../data'
 import type { BuildResult } from '../../engine/types'
 import { en } from '../../i18n/en'
 import { particlesFor } from './particles'
-import { ClassGlyph } from '../icons/Glyphs'
+import { ClassIcon, SpecIcon } from '../icons/GameIcons'
 import { ParticleBurst } from './ParticleBurst'
 import { buildInfo, ctx } from './shared'
 
@@ -88,7 +88,10 @@ export function RevealCard({ result, wording: w, onClose }: { result: BuildResul
               style={{ backfaceVisibility: 'hidden', borderColor: cls.colorHex, boxShadow: `0 0 80px -10px ${cls.colorHex}` }}
             >
               <span className="font-display text-xs tracking-[0.25em] text-ash-400 uppercase">{cls.name}</span>
-              <ClassGlyph classId={cls.id} className="size-24" />
+              <span className="relative size-20" style={{ color: cls.colorHex }}>
+                <ClassIcon classId={cls.id} className="size-20" />
+                <SpecIcon build={build} className="absolute -right-2 -bottom-1 size-9" />
+              </span>
               <div>
                 <h2 className="text-3xl leading-tight" style={{ color: cls.colorHex }}>
                   {build.name}

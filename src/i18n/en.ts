@@ -152,4 +152,6 @@ export const en = {
   },
   disclaimer:
     'Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft and Warcraft are trademarks or registered trademarks of Blizzard Entertainment, Inc.',
+  iconsCredit:
+    "Class icons (from Hearthstone) and spec icons (from WoW Classic) are Blizzard Entertainment's artwork. They load from Blizzard's and Wowhead's image servers and are not stored on this site.",
 } as const

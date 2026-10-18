@@ -68,5 +68,5 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 ## IP / legal hygiene
 
 - The notice "Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft and Warcraft are trademarks or registered trademarks of Blizzard Entertainment, Inc." lives on the About page (Legal). No site-wide footer (user's call, D42). The shareable result image keeps its short "Fan-made. Not affiliated…" line.
-- No Blizzard assets (models, textures, icons, art, music, logos) in the repo, and none proxied through our domain. Our own SVG glyphs and our own 3D designs only.
+- No Blizzard assets (models, textures, icons, art, music, logos) in the repo, and none proxied through our domain. Our own SVG glyphs and our own 3D designs, with one owner-approved exception (D43): on the results pages, each class's Hearthstone icon and each spec's WoW Classic talent-tree icon, loaded from Blizzard's and Wowhead's image servers (links in `src/data/icons.json`), without a referrer, falling back to our glyphs, credited on the About page. Don't extend this to other Blizzard art without asking.
 - Write descriptions in our own words and link the sources. Never copy wiki or guide text.

@@ -50,6 +50,7 @@ export function AboutPage() {
         <section>
           <h2 className="mb-2 text-xl">{en.about.legalTitle}</h2>
           <p className="text-ash-300">{en.disclaimer}</p>
+          <p className="mt-2 text-ash-300">{en.iconsCredit}</p>
         </section>
       </article>
     </Page>

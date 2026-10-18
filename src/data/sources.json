@@ -21,5 +21,7 @@
   { "id": "ZOK-SHA", "title": "WoW Forever Shaman guide", "publisher": "Zockify", "url": "https://www.zockify.com/forever/shaman/", "published": "2026-10-17", "accessed": "2026-10-18", "kind": "community" },
   { "id": "ZOK-WLK", "title": "WoW Forever Warlock guide", "publisher": "Zockify", "url": "https://www.zockify.com/forever/warlock/", "published": "2026-10-17", "accessed": "2026-10-18", "kind": "community" },
   { "id": "ZOK-LEG", "title": "WoW Forever Legacy System & Talents", "publisher": "Zockify", "url": "https://www.zockify.com/forever/legacy-system/", "accessed": "2026-10-18", "kind": "community" },
+  { "id": "BLZ-HS-CARDS", "title": "Hearthstone Card Library (class icons in the class filter)", "publisher": "Blizzard Entertainment", "url": "https://hearthstone.blizzard.com/en-us/cards", "accessed": "2026-10-19", "kind": "official" },
+  { "id": "WH-CLASSIC-TALENTS", "title": "WoW Classic talent calculator (talent tree icons per class)", "publisher": "Wowhead", "url": "https://www.wowhead.com/classic/talent-calc", "accessed": "2026-10-19", "kind": "community" },
   { "id": "EDITORIAL", "title": "Forever Main editorial judgment: scores informed by Classic-era play and the beta sources above, labelled as assumptions", "publisher": "Forever Main", "accessed": "2026-10-18", "kind": "editorial" }
 ]
