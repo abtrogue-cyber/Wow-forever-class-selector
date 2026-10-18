@@ -1,0 +1,676 @@
+[
+  {
+    "id": "warrior-arms", "classId": "warrior", "tree": "Arms", "role": "dps", "name": "Arms Warrior",
+    "pitch": { "newcomer": "A two-handed weapon master who lands crushing blows and knocks riders off their mounts.", "veteran": "Two-hander burst with Mortal Strike, Weaponmaster and Spearing Strike." },
+    "axes": { "range": 0, "complexity": 3, "soloLeveling": 3.5, "sustain": 2.5, "survivability": 3, "dungeon": 3, "raid": 2.5, "worldPvp": 4, "battlegrounds": 4, "goldFarming": 2.5, "groupUtility": 2.5, "petReliance": 0, "burst": 4.5, "armor": 5 },
+    "confidence": "med", "lowConfidenceAxes": ["sustain", "soloLeveling"],
+    "tags": { "berserker": 2 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["burst", "worldPvp"], "text": { "newcomer": "Huge two-handed hits that can end a fight fast.", "veteran": "Big Mortal Strike burst; strong in world PvP." } },
+      { "axes": ["battlegrounds"], "text": { "newcomer": "Spearing Strike knocks riders off their mounts, great against other players.", "veteran": "Spearing Strike dismounts: a Forever-only PvP tool." } },
+      { "axes": ["soloLeveling", "sustain"], "text": { "newcomer": "Victory Rush heals you after kills, so you keep moving.", "veteran": "Victory Rush (20) heals 10% on kills, which cuts downtime." } }
+    ],
+    "weaknesses": [
+      { "axes": ["survivability"], "text": { "newcomer": "Has a hard time recovering once badly hurt.", "veteran": "Poor recovery from heavy damage (Blizzard's own words)." } },
+      { "axes": ["groupUtility", "dungeon"], "text": { "newcomer": "Mostly brings damage to a group.", "veteran": "Light utility beyond Battle Shout and debuffs." } }
+    ],
+    "hardcoreNote": { "newcomer": "Plate and Victory Rush help, but a warrior can't easily escape a fight gone wrong.", "veteran": "Plate + Victory Rush help, but few escapes; pull carefully." },
+    "newInForever": ["Weaponmaster merges all weapon specializations.", "Spearing Strike (16-point) dismounts targets.", "Victory Rush baseline at 20.", "Bloodthrill can proc Overpower from Rend."],
+    "variants": [],
+    "dualSpecPartners": ["warrior-protection", "warrior-fury"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption), adjusted for Forever: Victory Rush, rage from damage no longer cut by armor, separate shorter cooldowns, Spearing Strike. Beta rage bugs make sustain and leveling less certain.",
+    "sources": ["BLZ-PW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "warrior-fury", "classId": "warrior", "tree": "Fury", "role": "dps", "name": "Fury Warrior",
+    "pitch": { "newcomer": "A dual-wielding berserker who turns rage into a whirlwind of blades.", "veteran": "Dual-wield rage DPS: Bloodthirst, Raging Blows, Flurry." },
+    "axes": { "range": 0, "complexity": 3.5, "soloLeveling": 3, "sustain": 2, "survivability": 2.5, "dungeon": 3.5, "raid": 4.5, "worldPvp": 3, "battlegrounds": 3, "goldFarming": 2.5, "groupUtility": 3, "petReliance": 0, "burst": 3.5, "armor": 5 },
+    "confidence": "med", "lowConfidenceAxes": ["sustain"],
+    "tags": { "berserker": 3 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["raid"], "text": { "newcomer": "A classic raid damage dealer that groups love to bring.", "veteran": "Traditional top raid melee; projected high demand." } },
+      { "axes": ["burst", "dungeon"], "text": { "newcomer": "Whirlwind hits with both weapons, shredding groups of enemies.", "veteran": "Raging Blows: dual-wield Whirlwind for strong AoE." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Your Battle Shout now powers up your whole raid.", "veteran": "Raid-wide Battle Shout (Oct 15 beta)." } }
+    ],
+    "weaknesses": [
+      { "axes": ["survivability"], "text": { "newcomer": "Death Wish makes you take more damage, so it's risky when things go wrong.", "veteran": "Death Wish raises damage taken; little self-sustain." } },
+      { "axes": ["sustain", "soloLeveling"], "text": { "newcomer": "Bloodthirst no longer heals, so you'll rest more while leveling.", "veteran": "Bloodthirst lost its heal; more downtime solo." } }
+    ],
+    "hardcoreNote": { "newcomer": "High risk, high reward: you hit hard but can't take much punishment.", "veteran": "Glass-cannon melee; risky solo on Hardcore." },
+    "newInForever": ["Raging Blows (16-point): Whirlwind with both weapons.", "Bloodthirst trades its heal for +10% run speed.", "Death Wish now increases damage taken.", "Boundless Rage and Precision talents."],
+    "variants": [],
+    "dualSpecPartners": ["warrior-protection", "warrior-arms"],
+    "popular": true,
+    "scoreBasis": "Classic-era raid reputation (assumption), adjusted for Forever: Bloodthirst lost its heal, Flurry reduced, Death Wish redesigned. Raid demand is speculative until Dec 9.",
+    "sources": ["BLZ-PW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "warrior-protection", "classId": "warrior", "tree": "Protection", "role": "tank", "name": "Protection Warrior",
+    "pitch": { "newcomer": "The classic shield-bearer: you hold the line so your friends can win.", "veteran": "Shield tank with Vanguard charges, Bastion and big rage tools." },
+    "axes": { "range": 0, "complexity": 4, "soloLeveling": 2.5, "sustain": 2.5, "survivability": 4.5, "dungeon": 5, "raid": 4.5, "worldPvp": 2.5, "battlegrounds": 3, "goldFarming": 2.5, "groupUtility": 2.5, "petReliance": 0, "burst": 2.5, "armor": 5 },
+    "confidence": "med", "lowConfidenceAxes": ["soloLeveling"],
+    "tags": { "protector": 3, "berserker": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["dungeon", "raid"], "text": { "newcomer": "Tanks are always needed, so you'll find groups fast.", "veteran": "Tank demand: instant dungeon groups." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Shield Wall and Last Stand keep you standing through huge hits.", "veteran": "Shield Wall (15 min, own cooldown) plus Last Stand." } },
+      { "axes": ["complexity"], "text": { "newcomer": "Lots of tools to master: stances, shouts and shield skills.", "veteran": "Deep threat and rage toolkit; Charge in Defensive Stance via Vanguard." } }
+    ],
+    "weaknesses": [
+      { "axes": ["soloLeveling"], "text": { "newcomer": "Slow when leveling alone; many level as Arms and swap later.", "veteran": "Slow solo; dual-spec Arms for questing." } },
+      { "axes": ["goldFarming"], "text": { "newcomer": "Not great at farming gold on your own.", "veteran": "Weak solo farming." } }
+    ],
+    "hardcoreNote": { "newcomer": "Very sturdy, but slow solo leveling means more time in danger.", "veteran": "Durable, but slow solo; dual spec at 40 helps." },
+    "newInForever": ["Vanguard (16-point): Charge in Defensive Stance.", "Bastion, Master of Defense and Focused Rage talents.", "Thunder Clap usable in Defensive Stance.", "Shield Wall and Retaliation no longer share a cooldown."],
+    "variants": [],
+    "dualSpecPartners": ["warrior-fury", "warrior-arms"],
+    "popular": true,
+    "scoreBasis": "Classic-era tank baseline (assumption) plus Forever changes: Vanguard, Bastion, separate cooldowns, rage from damage taken no longer reduced by armor.",
+    "sources": ["BLZ-PW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "paladin-holy", "classId": "paladin", "tree": "Holy", "role": "healer", "name": "Holy Paladin",
+    "pitch": { "newcomer": "A holy knight who heals with the Light while wearing heavy plate.", "veteran": "Single-target plate healer; Holy Shock at 21, Light's Vigil at 31." },
+    "axes": { "range": 4, "complexity": 2.5, "soloLeveling": 2.5, "sustain": 3.5, "survivability": 4.5, "dungeon": 4.5, "raid": 4.5, "worldPvp": 3.5, "battlegrounds": 4, "goldFarming": 2, "groupUtility": 5, "petReliance": 0, "burst": 4, "armor": 5 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "holy": 3, "healer": 3, "protector": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 2,
+    "strengths": [
+      { "axes": ["dungeon", "raid"], "text": { "newcomer": "A strong single-target healer every group wants.", "veteran": "Top single-target healing; healers are always in demand." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Heavy armor and healing make you very hard to kill.", "veteran": "Plate, bubble and self-heals: extremely durable." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Blessings and auras make everyone around you stronger.", "veteran": "Blessings, auras, cleanse, rez." } }
+    ],
+    "weaknesses": [
+      { "axes": ["soloLeveling"], "text": { "newcomer": "Leveling alone as a healer is slow; many swap specs to level.", "veteran": "Slow solo; dual-spec Ret for questing." } },
+      { "axes": ["goldFarming"], "text": { "newcomer": "Not built for farming gold.", "veteran": "Weak solo farming." } }
+    ],
+    "hardcoreNote": { "newcomer": "One of the safest Hardcore picks: plate, heals and a holy shield.", "veteran": "Divine Shield + plate + heals = top HC safety." },
+    "newInForever": ["Holy Shock moves to 21 points with a 10-second cooldown.", "Light's Vigil (31-point) adds group healing.", "Voice of Truth makes you immune to silences and interrupts.", "Lay on Hands every 20 minutes."],
+    "variants": [{ "name": "Shockadin", "note": "Blizzard positions Holy Shock as the alternative to Twist of Light for hybrid Holy damage builds." }],
+    "dualSpecPartners": ["paladin-retribution", "paladin-protection"],
+    "popular": true,
+    "scoreBasis": "Blizzard calls Holy strongest at single-target healing, with group healing needing planning. Classic-era baseline (assumption) for leveling and farming.",
+    "sources": ["BLZ-PAL", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "paladin-protection", "classId": "paladin", "tree": "Protection", "role": "tank", "name": "Protection Paladin",
+    "pitch": { "newcomer": "A holy shield-bearer who tanks with the Light and outlasts anything.", "veteran": "A real plate tank now: Seal of Fury, Templar's Bulwark, taunting Judgement." },
+    "axes": { "range": 0.5, "complexity": 3, "soloLeveling": 3.5, "sustain": 4, "survivability": 5, "dungeon": 4.5, "raid": 3, "worldPvp": 2.5, "battlegrounds": 3, "goldFarming": 4, "groupUtility": 4, "petReliance": 0, "burst": 2, "armor": 5 },
+    "confidence": "med", "lowConfidenceAxes": ["goldFarming", "dungeon"],
+    "tags": { "holy": 2, "protector": 3 },
+    "petStyle": "none", "stealth": 0, "novelty": 2,
+    "strengths": [
+      { "axes": ["survivability"], "text": { "newcomer": "Templar's Bulwark can absorb your entire health bar: incredibly tough.", "veteran": "Templar's Bulwark (21): absorb equal to 100% max health." } },
+      { "axes": ["sustain", "soloLeveling"], "text": { "newcomer": "Seal of Fury shields you as you fight, so you rarely need to rest.", "veteran": "Seal of Fury absorbs plus mana returns: low downtime." } },
+      { "axes": ["dungeon", "goldFarming"], "text": { "newcomer": "Tanks are always needed, and Forever makes paladins real tanks.", "veteran": "Forever turns Prot into a real tank option." } }
+    ],
+    "weaknesses": [
+      { "axes": ["range", "worldPvp"], "text": { "newcomer": "Little ranged reach, so enemies that keep their distance are a pain.", "veteran": "Limited range; no interrupts or slows." } },
+      { "axes": ["raid"], "text": { "newcomer": "Raid tanking is unproven until raids open.", "veteran": "Raid tanking unproven (speculative)." } }
+    ],
+    "hardcoreNote": { "newcomer": "Among the toughest Hardcore picks: heavy armor, heals and an emergency bubble.", "veteran": "Extremely durable; strong HC pick." },
+    "newInForever": ["Seal of Fury (level 10): a tanking seal with absorbs and a ranged taunt.", "Templar's Bulwark (21-point) emergency absorb.", "Swift Judgement and Iron Creed talents.", "Consecration's threat is capped at 4 targets."],
+    "variants": [],
+    "dualSpecPartners": ["paladin-holy", "paladin-retribution"],
+    "popular": false,
+    "scoreBasis": "Forever deliberately turns Protection into a real tank (BLZ-PAL); scores lean on Blizzard's stated intent. Consecration's 4-target cap tempers AoE farming.",
+    "sources": ["BLZ-PAL", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "paladin-retribution", "classId": "paladin", "tree": "Retribution", "role": "dps", "name": "Retribution Paladin",
+    "pitch": { "newcomer": "A holy crusader who mixes weapon strikes with blasts of Light.", "veteran": "Melee/Holy hybrid DPS: Twist of Light seal twisting, Holy Strike, Repentance." },
+    "axes": { "range": 0.5, "complexity": 3, "soloLeveling": 3.5, "sustain": 3.5, "survivability": 4, "dungeon": 3, "raid": 3, "worldPvp": 3.5, "battlegrounds": 3.5, "goldFarming": 3, "groupUtility": 4, "petReliance": 0, "burst": 4, "armor": 5 },
+    "confidence": "med", "lowConfidenceAxes": ["complexity", "burst"],
+    "tags": { "holy": 3, "berserker": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 2,
+    "strengths": [
+      { "axes": ["survivability", "soloLeveling"], "text": { "newcomer": "Hard to kill and steady while leveling: a safe, forgiving pick.", "veteran": "Durable, steady leveler." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Brings blessings and auras that help the whole group.", "veteran": "Blessings, auras, cleanse, rez." } },
+      { "axes": ["complexity", "burst"], "text": { "newcomer": "Twist of Light rewards swapping seals for big empowered swings.", "veteran": "Twist of Light (31): approachable seal twisting." } }
+    ],
+    "weaknesses": [
+      { "axes": ["raid"], "text": { "newcomer": "Raid demand is uncertain until raids open.", "veteran": "Raid viability unproven (speculative)." } },
+      { "axes": ["range", "worldPvp"], "text": { "newcomer": "Little ranged reach, and no way to slow enemies down.", "veteran": "No slows, no interrupts, limited range." } }
+    ],
+    "hardcoreNote": { "newcomer": "Plate, heals and a holy bubble make it one of the safest ways to level.", "veteran": "Bubble + heals + plate: top HC leveling safety." },
+    "newInForever": ["Holy Strike at level 6.", "Twist of Light (31-point) brings back seal twisting.", "Sacred Arbiter (16-point) and Repentance at 21.", "Judgement no longer consumes your seal."],
+    "variants": [{ "name": "Shockadin", "note": "Holy Shock hybrid built from Holy talents instead of Twist of Light." }],
+    "dualSpecPartners": ["paladin-holy", "paladin-protection"],
+    "popular": true,
+    "scoreBasis": "Classic-era baseline (assumption), adjusted for Forever's Holy Strike, seal changes and Twist of Light.",
+    "sources": ["BLZ-PAL", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "hunter-beast-mastery", "classId": "hunter", "tree": "Beast Mastery", "role": "dps", "name": "Beast Mastery Hunter",
+    "pitch": { "newcomer": "Fight side by side with a loyal beast that takes the hits for you.", "veteran": "Pet-centric ranged DPS; the pet tanks, Summon Hawk adds burst." },
+    "axes": { "range": 4.5, "complexity": 1.5, "soloLeveling": 5, "sustain": 4, "survivability": 4.5, "dungeon": 3, "raid": 3, "worldPvp": 3.5, "battlegrounds": 3, "goldFarming": 4.5, "groupUtility": 2.5, "petReliance": 5, "burst": 2.5, "armor": 3.5 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "beast": 3, "nature": 1, "sharpshooter": 1 },
+    "petStyle": "required", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["soloLeveling", "survivability"], "text": { "newcomer": "Your pet takes the hits while you shoot, so leveling is smooth and safe.", "veteran": "Pet tanks solo: top leveling speed and safety." } },
+      { "axes": ["complexity"], "text": { "newcomer": "Easy to learn and still effective.", "veteran": "Low skill floor, consistent results." } },
+      { "axes": ["goldFarming", "petReliance"], "text": { "newcomer": "Great at farming on your own, even tougher enemies.", "veteran": "Strong solo farmer." } }
+    ],
+    "weaknesses": [
+      { "axes": ["petReliance"], "text": { "newcomer": "Most of your power is in your pet, so you'll care for it a lot.", "veteran": "Heavily pet-dependent." } },
+      { "axes": ["groupUtility", "raid"], "text": { "newcomer": "Brings mostly damage to groups; hunters can't stun or interrupt.", "veteran": "No stuns or interrupts; limited group utility." } }
+    ],
+    "hardcoreNote": { "newcomer": "A favorite for Hardcore: the pet tanks and Feign Death gets you out.", "veteran": "Pet tanking + Feign Death: the classic safe HC pick." },
+    "newInForever": ["Pets scale with your gear.", "New Fox pet family; every family gets a unique ability.", "Summon Hawk (16-point).", "Traps usable in combat (30-second cooldown)."],
+    "variants": [],
+    "dualSpecPartners": ["hunter-marksmanship", "hunter-survival"],
+    "popular": true,
+    "scoreBasis": "Classic-era leveling reputation (assumption) plus Blizzard's note that the pet can tank in solo and small-group content.",
+    "sources": ["BLZ-HD", "TAV-HD", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "hunter-marksmanship", "classId": "hunter", "tree": "Marksmanship", "role": "dps", "name": "Marksmanship Hunter",
+    "pitch": { "newcomer": "A sharpshooter who hits from extreme range, with or without a pet.", "veteran": "Ranged burst: Aimed and Sniper Shot, raid-wide Trueshot, petless via Lone Wolf." },
+    "axes": { "range": 5, "complexity": 3, "soloLeveling": 4, "sustain": 3.5, "survivability": 3.5, "dungeon": 3.5, "raid": 4, "worldPvp": 4, "battlegrounds": 3.5, "goldFarming": 4, "groupUtility": 3.5, "petReliance": 2, "burst": 4.5, "armor": 3.5 },
+    "confidence": "med", "lowConfidenceAxes": ["petReliance"],
+    "tags": { "sharpshooter": 3, "nature": 1 },
+    "petStyle": "optional", "stealth": 0, "novelty": 2,
+    "strengths": [
+      { "axes": ["petReliance"], "text": { "newcomer": "Lone Wolf lets you skip the pet entirely and hit harder for it.", "veteran": "Lone Wolf (11): +20% damage without a pet." } },
+      { "axes": ["burst", "worldPvp"], "text": { "newcomer": "Big shots from very far away.", "veteran": "Aimed Shot plus Sniper Shot burst at max range." } },
+      { "axes": ["raid", "groupUtility"], "text": { "newcomer": "Trueshot Aura now boosts your whole raid.", "veteran": "Raid-wide Trueshot Aura (Oct 15 beta)." } }
+    ],
+    "weaknesses": [
+      { "axes": ["range"], "text": { "newcomer": "Can't shoot enemies who get right next to you.", "veteran": "8-yard dead zone; no stuns or interrupts." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Without a pet to tank, bad pulls get dangerous.", "veteran": "Petless builds lose the pet tank." } }
+    ],
+    "hardcoreNote": { "newcomer": "Keep a pet while leveling for safety; go Lone Wolf when you're ready.", "veteran": "Pet for safety; Lone Wolf is riskier on HC." },
+    "newInForever": ["Lone Wolf (11-point): play without a pet.", "Sniper Shot (31-point).", "Aimed Shot baseline at 20.", "Trueshot Aura is raid-wide."],
+    "variants": [{ "name": "Lone Wolf", "note": "Petless Marksmanship via the 11-point Lone Wolf talent." }],
+    "dualSpecPartners": ["hunter-beast-mastery", "hunter-survival"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption), adjusted for Lone Wolf, Sniper Shot and raid-wide Trueshot Aura.",
+    "sources": ["BLZ-HD", "TAV-HD", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "hunter-survival", "classId": "hunter", "tree": "Survival", "role": "dps", "name": "Survival Hunter",
+    "pitch": { "newcomer": "A trap-setting skirmisher who fights up close with blades and bleeds.", "veteran": "Melee hunter: traps in combat, Strider Kick, Lacerating Strikes, dual-wield." },
+    "axes": { "range": 1.5, "complexity": 3.5, "soloLeveling": 4, "sustain": 3.5, "survivability": 4, "dungeon": 3, "raid": 3, "worldPvp": 3.5, "battlegrounds": 3, "goldFarming": 4, "groupUtility": 2.5, "petReliance": 3, "burst": 3, "armor": 3.5 },
+    "confidence": "low", "lowConfidenceAxes": ["range", "soloLeveling", "survivability", "dungeon", "petReliance"],
+    "tags": { "trickster": 2, "beast": 1, "nature": 1, "berserker": 1 },
+    "petStyle": "optional", "stealth": 0, "novelty": 3,
+    "strengths": [
+      { "axes": ["range", "complexity"], "text": { "newcomer": "A real melee hunter: traps, blades and bleeding strikes.", "veteran": "Fully melee-capable hunter, new in Forever." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Traps, Deterrence and Counterattack keep you alive up close.", "veteran": "Traps in combat plus Deterrence: a sturdy skirmisher." } },
+      { "axes": ["goldFarming", "soloLeveling"], "text": { "newcomer": "Pet plus traps make solo play smooth.", "veteran": "Strong solo with pet, traps and melee." } }
+    ],
+    "weaknesses": [
+      { "axes": ["raid", "dungeon"], "text": { "newcomer": "A brand-new style, so how groups value it is still unknown.", "veteran": "Unproven group role (new design)." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Brings mostly damage; no stuns or interrupts.", "veteran": "Low utility; no stuns or interrupts." } }
+    ],
+    "hardcoreNote": { "newcomer": "Traps and a pet give you control, but melee puts you closer to danger.", "veteran": "Good control, but melee exposure; play the pet." },
+    "newInForever": ["Survival is now a full melee spec.", "Strider Kick (21-point) and Lacerating Strikes (31-point).", "Predator's Edge rewards dual-wielding.", "Wyvern Sting removed."],
+    "variants": [],
+    "dualSpecPartners": ["hunter-beast-mastery", "hunter-marksmanship"],
+    "popular": false,
+    "scoreBasis": "Low confidence: a new melee design with no Classic equivalent. Based on Blizzard's description of trap and melee builds; petless play via an MM dip into Lone Wolf is an assumption.",
+    "sources": ["BLZ-HD", "TAV-HD", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "rogue-assassination", "classId": "rogue", "tree": "Assassination", "role": "dps", "name": "Assassination Rogue",
+    "pitch": { "newcomer": "A poison master who strikes from stealth and lets venom do the rest.", "veteran": "Dagger and poison DPS: Mutilate, Venom, poison crits." },
+    "axes": { "range": 0, "complexity": 2.5, "soloLeveling": 3.5, "sustain": 2.5, "survivability": 3.5, "dungeon": 3, "raid": 4, "worldPvp": 4.5, "battlegrounds": 3.5, "goldFarming": 3.5, "groupUtility": 2, "petReliance": 0, "burst": 3.5, "armor": 2 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "stealth": 3, "trickster": 2, "shadow": 1 },
+    "petStyle": "none", "stealth": 3, "novelty": 2,
+    "strengths": [
+      { "axes": ["worldPvp"], "text": { "newcomer": "Deadly ambushes on unsuspecting enemy players.", "veteran": "Strong stealth openers and poison pressure in PvP." } },
+      { "axes": ["raid"], "text": { "newcomer": "Steady, high single-target damage for raids.", "veteran": "High single-target damage; poisons can crit." } },
+      { "axes": ["burst"], "text": { "newcomer": "Mutilate and Cold Blood make for brutal openers.", "veteran": "Mutilate (21) plus Cold Blood (16) burst." } }
+    ],
+    "weaknesses": [
+      { "axes": ["groupUtility"], "text": { "newcomer": "Brings mostly damage to a group.", "veteran": "Low group utility." } },
+      { "axes": ["sustain"], "text": { "newcomer": "You'll stop to eat between fights more than most.", "veteran": "Health downtime between pulls." } }
+    ],
+    "hardcoreNote": { "newcomer": "Stealth lets you pick your fights, and Vanish gets you out of trouble.", "veteran": "Stealth + Vanish: choose every engagement." },
+    "newInForever": ["Mutilate (21-point) and Venom (31-point finisher).", "Poisons can crit (Malice and Precision).", "More poison charges, and poisons stack with sharpening stones.", "Sap no longer breaks stealth."],
+    "variants": [],
+    "dualSpecPartners": ["rogue-combat", "rogue-subtlety"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption), adjusted for Mutilate, Venom and poison crits.",
+    "sources": ["BLZ-RW", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "rogue-combat", "classId": "rogue", "tree": "Combat", "role": "dps", "name": "Combat Rogue",
+    "pitch": { "newcomer": "A straightforward duelist with a blade in each hand and endless combos.", "veteran": "Sword, axe or mace DPS: Hack and Slash, Blade Flurry, the simplest rogue." },
+    "axes": { "range": 0, "complexity": 2, "soloLeveling": 3.5, "sustain": 2.5, "survivability": 3.5, "dungeon": 3.5, "raid": 4, "worldPvp": 3.5, "battlegrounds": 3, "goldFarming": 3.5, "groupUtility": 2, "petReliance": 0, "burst": 3, "armor": 2 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "stealth": 2, "berserker": 2, "trickster": 1 },
+    "petStyle": "none", "stealth": 3, "novelty": 1,
+    "strengths": [
+      { "axes": ["complexity"], "text": { "newcomer": "The easiest rogue to pick up.", "veteran": "Simplest rogue rotation." } },
+      { "axes": ["raid", "dungeon"], "text": { "newcomer": "Reliable damage in groups, with cleave for packs.", "veteran": "Strong sustained damage; Blade Flurry cleave." } },
+      { "axes": ["soloLeveling"], "text": { "newcomer": "Levels steadily on its own.", "veteran": "Solid solo leveler." } }
+    ],
+    "weaknesses": [
+      { "axes": ["groupUtility"], "text": { "newcomer": "Brings mostly damage to a group.", "veteran": "Low group utility." } },
+      { "axes": ["sustain"], "text": { "newcomer": "You'll stop to eat between fights more than most.", "veteran": "Health downtime between pulls." } }
+    ],
+    "hardcoreNote": { "newcomer": "Evasion, Sprint and Vanish give you three ways out of trouble.", "veteran": "Evasion + Sprint + Vanish escape kit." },
+    "newInForever": ["Hack and Slash replaces all weapon specializations.", "One-handed axes usable.", "Flawless Execution (16-point).", "Puncturing Wounds can grant extra combo points."],
+    "variants": [],
+    "dualSpecPartners": ["rogue-assassination", "rogue-subtlety"],
+    "popular": true,
+    "scoreBasis": "Classic-era baseline (assumption), adjusted for Hack and Slash and Expose Armor changes.",
+    "sources": ["BLZ-RW", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "rogue-subtlety", "classId": "rogue", "tree": "Subtlety", "role": "dps", "name": "Subtlety Rogue",
+    "pitch": { "newcomer": "A master of shadows and dirty tricks who controls every fight.", "veteran": "Control and opener rogue: Premeditation, Cutthroat, Thousand Cuts." },
+    "axes": { "range": 0, "complexity": 4, "soloLeveling": 3, "sustain": 2.5, "survivability": 4, "dungeon": 3, "raid": 2.5, "worldPvp": 5, "battlegrounds": 4, "goldFarming": 3.5, "groupUtility": 2.5, "petReliance": 0, "burst": 4.5, "armor": 2 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "stealth": 3, "trickster": 3, "shadow": 2 },
+    "petStyle": "none", "stealth": 3, "novelty": 1,
+    "strengths": [
+      { "axes": ["worldPvp", "battlegrounds"], "text": { "newcomer": "The ultimate world PvP hunter: pick your fights and control them.", "veteran": "Top-tier stealth control and PvP burst." } },
+      { "axes": ["burst"], "text": { "newcomer": "Devastating opening strikes from stealth.", "veteran": "Big Ambush openers; Cutthroat enables more Ambushes." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Plenty of tricks to slip away when needed.", "veteran": "Strong escape and control kit." } }
+    ],
+    "weaknesses": [
+      { "axes": ["raid"], "text": { "newcomer": "Less sought after for raids.", "veteran": "Lower projected raid demand." } },
+      { "axes": ["complexity"], "text": { "newcomer": "Hard to master: positioning and timing matter a lot.", "veteran": "High skill ceiling; positioning-heavy." } }
+    ],
+    "hardcoreNote": { "newcomer": "Stealth means you choose every fight, a strong Hardcore trait.", "veteran": "Total control over engagements." },
+    "newInForever": ["Thousand Cuts (31-point).", "Cutthroat lets Ambush work outside stealth after a Backstab.", "Premeditation moves to 16 points.", "Dirty Deeds allows Garrote from the front."],
+    "variants": [],
+    "dualSpecPartners": ["rogue-combat", "rogue-assassination"],
+    "popular": false,
+    "scoreBasis": "Classic-era PvP reputation (assumption) plus Forever's Cutthroat and Thousand Cuts.",
+    "sources": ["BLZ-RW", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "priest-discipline", "classId": "priest", "tree": "Discipline", "role": "healer", "name": "Discipline Priest",
+    "pitch": { "newcomer": "A protective healer who shields allies before harm even lands.", "veteran": "Shield and absorb healer: Penance, Divine Aegis, Renewed Hope." },
+    "axes": { "range": 5, "complexity": 3.5, "soloLeveling": 2.5, "sustain": 3, "survivability": 3.5, "dungeon": 5, "raid": 4, "worldPvp": 3, "battlegrounds": 4, "goldFarming": 2, "groupUtility": 4.5, "petReliance": 0, "burst": 3, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": ["complexity"],
+    "tags": { "holy": 2, "healer": 3, "protector": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 2,
+    "strengths": [
+      { "axes": ["dungeon", "raid"], "text": { "newcomer": "A healer every group wants, with shields that stop damage before it hurts.", "veteran": "Healer demand plus absorbs; Penance at 21." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Buffs, dispels, resurrection and Fear Ward for the tank.", "veteran": "Fortitude, Divine Spirit, dispels, Fear Ward." } },
+      { "axes": ["battlegrounds", "survivability"], "text": { "newcomer": "Shields make you tough to bring down in team PvP.", "veteran": "Strong BG healer with absorbs." } }
+    ],
+    "weaknesses": [
+      { "axes": ["soloLeveling", "goldFarming"], "text": { "newcomer": "Leveling alone as a healer is slow; many swap to Shadow.", "veteran": "Slow solo; dual-spec Shadow for questing." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Cloth armor and few escapes make you fragile.", "veteran": "Fragile; few escapes (Blizzard's words)." } }
+    ],
+    "hardcoreNote": { "newcomer": "Shields help, but cloth and few escapes demand care.", "veteran": "Shields help; still fragile on HC." },
+    "newInForever": ["Penance (21-point).", "Divine Aegis and Renewed Hope.", "Holy Precision removes the need for hit gear.", "Soul Warding (16-point) speeds up shields."],
+    "variants": [],
+    "dualSpecPartners": ["priest-shadow", "priest-holy"],
+    "popular": false,
+    "scoreBasis": "Classic-era healer baseline (assumption) plus Forever's Penance and absorb toolkit.",
+    "sources": ["BLZ-PW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "priest-holy", "classId": "priest", "tree": "Holy", "role": "healer", "name": "Holy Priest",
+    "pitch": { "newcomer": "The classic healer: pure Light, big heals and a calm presence.", "veteran": "Throughput healer: Binding Heal, Prayer of Mending, strong group heals." },
+    "axes": { "range": 5, "complexity": 3, "soloLeveling": 2, "sustain": 2.5, "survivability": 3, "dungeon": 5, "raid": 4.5, "worldPvp": 2.5, "battlegrounds": 4, "goldFarming": 1.5, "groupUtility": 4.5, "petReliance": 0, "burst": 3, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "holy": 3, "healer": 3 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["dungeon", "raid"], "text": { "newcomer": "The healer every group is looking for.", "veteran": "Top healing demand." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Buffs, dispels and resurrection help everyone.", "veteran": "Full priest utility kit." } },
+      { "axes": ["burst"], "text": { "newcomer": "Big heals that rescue allies at the last second.", "veteran": "Strong direct heals; Binding Heal at 16." } }
+    ],
+    "weaknesses": [
+      { "axes": ["soloLeveling", "goldFarming"], "text": { "newcomer": "Slow alone; most level as Shadow and swap at 40.", "veteran": "Weak solo; dual-spec Shadow." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Cloth armor and few escapes make you fragile.", "veteran": "Fragile; few escapes." } }
+    ],
+    "hardcoreNote": { "newcomer": "Level as Shadow and keep Holy for groups; dual spec at 40 makes this easy.", "veteran": "Shadow/Holy dual spec is the HC play." },
+    "newInForever": ["Binding Heal (16-point).", "Prayer of Mending (31-point).", "Fear Ward and Devouring Plague for all priests.", "Renew can stack from multiple priests."],
+    "variants": [],
+    "dualSpecPartners": ["priest-shadow", "priest-discipline"],
+    "popular": true,
+    "scoreBasis": "Classic-era healer reputation (assumption) plus Forever's Binding Heal and Prayer of Mending.",
+    "sources": ["BLZ-PW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "priest-shadow", "classId": "priest", "tree": "Shadow", "role": "dps", "name": "Shadow Priest",
+    "pitch": { "newcomer": "A shadow caster who melts minds and drains life to keep going.", "veteran": "DoT and drain caster: Shadowform, Devouring Contagion, Shadow Word: Death." },
+    "axes": { "range": 5, "complexity": 2.5, "soloLeveling": 4, "sustain": 4, "survivability": 3, "dungeon": 3.5, "raid": 3, "worldPvp": 4, "battlegrounds": 4, "goldFarming": 3, "groupUtility": 3.5, "petReliance": 0, "burst": 1.5, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "shadow": 3 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["sustain", "soloLeveling"], "text": { "newcomer": "Drains and shields keep you fighting without rest.", "veteran": "Low downtime; strong solo leveler." } },
+      { "axes": ["worldPvp", "battlegrounds"], "text": { "newcomer": "Dangerous in PvP with fear, silence and pressure over time.", "veteran": "DoT pressure, Psychic Scream, Silence." } },
+      { "axes": ["burst"], "text": { "newcomer": "Wears enemies down with spreading shadow plagues.", "veteran": "Devouring Contagion spreads on kills." } }
+    ],
+    "weaknesses": [
+      { "axes": ["raid", "groupUtility"], "text": { "newcomer": "Shadow Weaving now only helps you, not your group.", "veteran": "Self-only Shadow Weaving; less raid utility." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Cloth armor and few escapes make you fragile.", "veteran": "Fragile; few escapes." } }
+    ],
+    "hardcoreNote": { "newcomer": "Shields and Psychic Scream help, but you're still fragile in cloth.", "veteran": "Shield + Fear help; still cloth." },
+    "newInForever": ["Devouring Plague and Shadow Word: Death are baseline.", "Devouring Contagion spreads to new targets.", "Shadowform halves Shadow spell costs.", "Vampiric Embrace on a 30-second cooldown (Oct 15)."],
+    "variants": [],
+    "dualSpecPartners": ["priest-holy", "priest-discipline"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption) plus Forever's Shadowform and Devouring Plague changes.",
+    "sources": ["BLZ-PW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "shaman-elemental", "classId": "shaman", "tree": "Elemental", "role": "dps", "name": "Elemental Shaman",
+    "pitch": { "newcomer": "A storm-caller who hurls lightning and lava at their foes.", "veteran": "Spell burst caster: Lava Burst, Lightning Overload, totems." },
+    "axes": { "range": 5, "complexity": 2.5, "soloLeveling": 3.5, "sustain": 2.5, "survivability": 2.5, "dungeon": 3.5, "raid": 3.5, "worldPvp": 4, "battlegrounds": 4, "goldFarming": 3, "groupUtility": 4, "petReliance": 0, "burst": 4.5, "armor": 3.5 },
+    "confidence": "med", "lowConfidenceAxes": ["complexity", "burst"],
+    "tags": { "elements": 3, "nature": 1, "fire": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 2,
+    "strengths": [
+      { "axes": ["burst", "worldPvp"], "text": { "newcomer": "Big lightning and lava bursts that hit hard.", "veteran": "High burst: Lava Burst (31) plus Lightning Overload." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Totems make your whole group or raid stronger.", "veteran": "Raid-wide buff totems." } },
+      { "axes": ["battlegrounds"], "text": { "newcomer": "A strong presence in team PvP battles.", "veteran": "Strong BG caster with Earthbound roots." } }
+    ],
+    "weaknesses": [
+      { "axes": ["sustain"], "text": { "newcomer": "Uses a lot of mana, so expect breaks between fights.", "veteran": "Mana-hungry; notable downtime." } },
+      { "axes": ["survivability"], "text": { "newcomer": "No crowd control and little armor against a determined attacker.", "veteran": "No effective CC; vulnerable when focused." } }
+    ],
+    "hardcoreNote": { "newcomer": "Healing spells help you recover, but you lack ways to control enemies.", "veteran": "Self-heals help; no real CC on HC." },
+    "newInForever": ["Lava Burst (31-point).", "Lightning Overload talent.", "Call of the Elements drops 4 totems at once.", "Elemental Mastery removed."],
+    "variants": [],
+    "dualSpecPartners": ["shaman-restoration", "shaman-enhancement"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption) plus Forever's Lava Burst and totem changes. The Elemental tree was restructured again on Oct 15 (details unverified).",
+    "sources": ["BLZ-MS", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "shaman-enhancement", "classId": "shaman", "tree": "Enhancement", "role": "dps", "name": "Enhancement Shaman",
+    "pitch": { "newcomer": "A storm-charged warrior who mixes axe swings with lightning, and can even tank small groups.", "veteran": "Melee/spell hybrid: Maelstrom Weapon, Stormstrike, small-group off-tank." },
+    "axes": { "range": 1, "complexity": 3, "soloLeveling": 4, "sustain": 3.5, "survivability": 3.5, "dungeon": 3.5, "raid": 3.5, "worldPvp": 4, "battlegrounds": 3.5, "goldFarming": 3.5, "groupUtility": 4, "petReliance": 0, "burst": 4, "armor": 3.5 },
+    "confidence": "med", "lowConfidenceAxes": ["dungeon", "complexity"],
+    "tags": { "elements": 2, "berserker": 2, "nature": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 2, "offTank": "smallGroup",
+    "strengths": [
+      { "axes": ["soloLeveling", "sustain"], "text": { "newcomer": "Strong, steady leveling with heals and weapon enchants.", "veteran": "Solid solo with hour-long imbues and self-heals." } },
+      { "axes": ["burst"], "text": { "newcomer": "Instant lightning bolts after a flurry of hits.", "veteran": "Maelstrom Weapon instant Lightning Bolts." } },
+      { "axes": ["groupUtility", "dungeon"], "text": { "newcomer": "Totems help your group, and you can even tank small groups.", "veteran": "Totems plus small-group off-tanking (per Blizzard)." } }
+    ],
+    "weaknesses": [
+      { "axes": ["raid"], "text": { "newcomer": "Your place in raids is still a question mark.", "veteran": "Raid role unproven (speculative)." } },
+      { "axes": ["survivability"], "text": { "newcomer": "No crowd control to fall back on.", "veteran": "No effective CC." } }
+    ],
+    "hardcoreNote": { "newcomer": "Mail, a shield option and self-heals make for a sturdy leveler.", "veteran": "Mail + heals: sturdy; no CC though." },
+    "newInForever": ["Maelstrom Weapon talent.", "Stormstrike every 8 seconds (16-point).", "Spirit Weapons lets you build threat with Rockbiter.", "Rage of the Farseer (31-point)."],
+    "variants": [{ "name": "Off-tank", "note": "Blizzard calls Enhancement a temporary tank in small-group play (Rockbiter + Spirit Weapons)." }],
+    "dualSpecPartners": ["shaman-restoration", "shaman-elemental"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption) plus Maelstrom Weapon and Blizzard's small-group tanking statement.",
+    "sources": ["BLZ-MS", "BLZ-NOTES", "ZOK-SHA", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "shaman-restoration", "classId": "shaman", "tree": "Restoration", "role": "healer", "name": "Restoration Shaman",
+    "pitch": { "newcomer": "A healer who channels water and spirits, and buffs the group with totems.", "veteran": "Chain Heal and Riptide healer with the strongest totem support." },
+    "axes": { "range": 5, "complexity": 2.5, "soloLeveling": 2.5, "sustain": 3, "survivability": 3, "dungeon": 5, "raid": 4.5, "worldPvp": 2.5, "battlegrounds": 4.5, "goldFarming": 2, "groupUtility": 5, "petReliance": 0, "burst": 3, "armor": 3.5 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "elements": 2, "healer": 3, "nature": 2 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["dungeon", "raid"], "text": { "newcomer": "Healers are always needed, and yours heal many at once.", "veteran": "Chain Heal plus Riptide group healing." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Totems make everyone in your group stronger.", "veteran": "Raid-wide totems, Mana Tide (16-point)." } },
+      { "axes": ["battlegrounds"], "text": { "newcomer": "A powerful healer in team PvP.", "veteran": "Strong BG healer in mail." } }
+    ],
+    "weaknesses": [
+      { "axes": ["soloLeveling", "goldFarming"], "text": { "newcomer": "Slow alone; many level as Enhancement or Elemental.", "veteran": "Weak solo; dual-spec for questing." } },
+      { "axes": ["worldPvp"], "text": { "newcomer": "No crowd control to stop attackers.", "veteran": "No CC; weak alone in world PvP." } }
+    ],
+    "hardcoreNote": { "newcomer": "Mail and strong heals help, but level in a damage spec for speed.", "veteran": "Level Enh/Ele, heal at 40 via dual spec." },
+    "newInForever": ["Riptide (31-point).", "Water Shield (11-point).", "Call of the Elements totem presets.", "Several totems now buff the whole raid."],
+    "variants": [],
+    "dualSpecPartners": ["shaman-elemental", "shaman-enhancement"],
+    "popular": true,
+    "scoreBasis": "Classic-era healer reputation (assumption) plus Riptide, Water Shield and raid-wide totems.",
+    "sources": ["BLZ-MS", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "mage-arcane", "classId": "mage", "tree": "Arcane", "role": "dps", "name": "Arcane Mage",
+    "pitch": { "newcomer": "A scholar of pure magic who stacks power for devastating arcane blasts.", "veteran": "Arcane Blast stacking burst caster with Missile Barrage procs." },
+    "axes": { "range": 5, "complexity": 3, "soloLeveling": 3, "sustain": 2, "survivability": 2.5, "dungeon": 3.5, "raid": 4, "worldPvp": 3.5, "battlegrounds": 3.5, "goldFarming": 3.5, "groupUtility": 4, "petReliance": 0, "burst": 4, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": ["complexity", "burst"],
+    "tags": { "arcane": 3 },
+    "petStyle": "none", "stealth": 0, "novelty": 2,
+    "strengths": [
+      { "axes": ["raid", "burst"], "text": { "newcomer": "Builds up power for huge arcane damage.", "veteran": "Arcane Blast stacks into big burst." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Brings food, water, portals and crowd control.", "veteran": "Intellect buff, water, portals, Polymorph." } },
+      { "axes": ["dungeon"], "text": { "newcomer": "Strong area damage for clearing groups of enemies.", "veteran": "Strong AoE for dungeon packs." } }
+    ],
+    "weaknesses": [
+      { "axes": ["survivability"], "text": { "newcomer": "Very fragile, especially when enemies reach you.", "veteran": "Very fragile; vulnerable in melee (Blizzard)." } },
+      { "axes": ["sustain"], "text": { "newcomer": "You'll drink often between fights (but you make your own water).", "veteran": "Mana downtime, softened by conjured water." } }
+    ],
+    "hardcoreNote": { "newcomer": "Fragile on Hardcore; Frost is the safer mage for leveling.", "veteran": "Fragile; level Frost on HC." },
+    "newInForever": ["Arcane Blast (11-point), redesigned on Oct 15.", "Missile Barrage (16-point).", "Frostfire Bolt at 40.", "Comprehension: a new scroll-reading tradeskill."],
+    "variants": [],
+    "dualSpecPartners": ["mage-frost", "mage-fire"],
+    "popular": false,
+    "scoreBasis": "Arcane Blast was redesigned on Oct 15 (stacking spell power), so burst and complexity are uncertain. Classic-era baseline (assumption) otherwise.",
+    "sources": ["BLZ-MS", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "mage-fire", "classId": "mage", "tree": "Fire", "role": "dps", "name": "Fire Mage",
+    "pitch": { "newcomer": "A pyromancer who chains critical strikes into huge fireballs.", "veteran": "Crit-driven fire caster: Heating Up, Pyroblast, Ignite." },
+    "axes": { "range": 5, "complexity": 2.5, "soloLeveling": 3.5, "sustain": 2, "survivability": 2, "dungeon": 3.5, "raid": 4, "worldPvp": 3.5, "battlegrounds": 3.5, "goldFarming": 3.5, "groupUtility": 3.5, "petReliance": 0, "burst": 4.5, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "fire": 3, "arcane": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["burst"], "text": { "newcomer": "Massive fireball hits and explosive critical strikes.", "veteran": "Crit-driven burst: Heating Up into Pyroblast." } },
+      { "axes": ["raid"], "text": { "newcomer": "Strong, steady raid damage.", "veteran": "Strong raid DPS; Ignite is now per-mage." } },
+      { "axes": ["groupUtility"], "text": { "newcomer": "Brings food, water, portals and crowd control.", "veteran": "Intellect buff, water, portals, Polymorph." } }
+    ],
+    "weaknesses": [
+      { "axes": ["survivability"], "text": { "newcomer": "The most fragile mage: few ways to stop enemies reaching you.", "veteran": "Fragile, with few defensive tools." } },
+      { "axes": ["sustain"], "text": { "newcomer": "You'll drink often between fights.", "veteran": "Mana downtime." } }
+    ],
+    "hardcoreNote": { "newcomer": "Risky on Hardcore: great damage, little defense.", "veteran": "Glass cannon; risky on HC." },
+    "newInForever": ["Heating Up: crits speed up Pyroblast.", "Ignite is per-mage.", "Frostfire Bolt at 40.", "Fire Power reworked (Oct 15)."],
+    "variants": [],
+    "dualSpecPartners": ["mage-frost", "mage-arcane"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption) plus Heating Up and per-mage Ignite.",
+    "sources": ["BLZ-MS", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "mage-frost", "classId": "mage", "tree": "Frost", "role": "dps", "name": "Frost Mage",
+    "pitch": { "newcomer": "An ice mage who freezes enemies in place and shatters them.", "veteran": "Control caster: Ice Lance, Fingers of Frost, Ice Block, top kiting." },
+    "axes": { "range": 5, "complexity": 2.5, "soloLeveling": 4, "sustain": 2.5, "survivability": 4, "dungeon": 4, "raid": 3.5, "worldPvp": 4.5, "battlegrounds": 4.5, "goldFarming": 4, "groupUtility": 4, "petReliance": 0, "burst": 3.5, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": ["goldFarming"],
+    "tags": { "frost": 3, "arcane": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["survivability", "worldPvp"], "text": { "newcomer": "Freezes enemies and escapes trouble with Ice Block.", "veteran": "Frost Nova, Ice Block, Cold Snap: elite control." } },
+      { "axes": ["goldFarming", "soloLeveling"], "text": { "newcomer": "Pulls big groups and blasts them down: great for farming.", "veteran": "Strong AoE farming and leveling." } },
+      { "axes": ["battlegrounds"], "text": { "newcomer": "Slows and freezes make you a menace in team PvP.", "veteran": "Top BG control." } }
+    ],
+    "weaknesses": [
+      { "axes": ["sustain"], "text": { "newcomer": "You'll drink often between fights (but you make your own water).", "veteran": "Mana downtime, softened by conjured water." } },
+      { "axes": ["raid"], "text": { "newcomer": "Slightly less raid damage than the other mages.", "veteran": "Projected lower raid DPS than Fire or Arcane." } }
+    ],
+    "hardcoreNote": { "newcomer": "The safest mage for Hardcore: freeze, blink and Ice Block.", "veteran": "Best mage HC spec: control plus Ice Block." },
+    "newInForever": ["Ice Lance (11-point) and Fingers of Frost.", "Frost Blast at level 24 (Oct 15).", "Cold Snap at 21 points (10-minute cooldown).", "Shorter Cone of Cold to curb kite-farming."],
+    "variants": [],
+    "dualSpecPartners": ["mage-fire", "mage-arcane"],
+    "popular": true,
+    "scoreBasis": "Classic-era leveling and farming reputation (assumption). Blizzard shortened Cone of Cold specifically to curb kite-farming, so farming is scored a bit lower.",
+    "sources": ["BLZ-MS", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "warlock-affliction", "classId": "warlock", "tree": "Affliction", "role": "dps", "name": "Affliction Warlock",
+    "pitch": { "newcomer": "A curse-weaver who drains life and lets shadows do the work.", "veteran": "DoT and drain caster: Wrack, Soul Siphon, DoT crits, near-zero downtime." },
+    "axes": { "range": 5, "complexity": 3.5, "soloLeveling": 4.5, "sustain": 5, "survivability": 3.5, "dungeon": 3, "raid": 3.5, "worldPvp": 4, "battlegrounds": 4, "goldFarming": 4, "groupUtility": 3.5, "petReliance": 3.5, "burst": 0.5, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "shadow": 3, "fel": 2 },
+    "petStyle": "required", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["sustain", "soloLeveling"], "text": { "newcomer": "Drains life and mana to keep going without rest.", "veteran": "Drain-tanking and Life Tap: almost no downtime." } },
+      { "axes": ["worldPvp", "battlegrounds"], "text": { "newcomer": "Curses, fear and drains wear enemies down.", "veteran": "DoT pressure plus Fear and Death Coil." } },
+      { "axes": ["burst"], "text": { "newcomer": "Patient pressure: enemies wither while you stay safe.", "veteran": "Pure attrition: DoTs and drains." } }
+    ],
+    "weaknesses": [
+      { "axes": ["burst"], "text": { "newcomer": "Few big hits: your damage builds up over time.", "veteran": "Low burst." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Physically weak, so you rely on your demon to protect you.", "veteran": "Physically weak; relies on demons." } }
+    ],
+    "hardcoreNote": { "newcomer": "Drains and a demon tank make leveling safe, if slow and steady.", "veteran": "Safe HC leveler with a Voidwalker." },
+    "newInForever": ["Wrack (31-point).", "Improved Drains, Pandemic and Soul Siphon.", "DoTs and drains can crit.", "Curses of Agony and Doom become Banes."],
+    "variants": [],
+    "dualSpecPartners": ["warlock-destruction", "warlock-demonology"],
+    "popular": true,
+    "scoreBasis": "Classic-era leveling reputation (assumption) plus Forever's drain talents and Spirit-scaled Life Tap.",
+    "sources": ["BLZ-RW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "warlock-demonology", "classId": "warlock", "tree": "Demonology", "role": "dps", "name": "Demonology Warlock",
+    "pitch": { "newcomer": "A demon master whose summoned minions fight and tank for them.", "veteran": "Pet-empowerment caster: Demonic Sacrifice and Pact, Demonic Brand tanking, Soul Fire." },
+    "axes": { "range": 5, "complexity": 3, "soloLeveling": 4.5, "sustain": 4.5, "survivability": 4, "dungeon": 3, "raid": 3, "worldPvp": 3.5, "battlegrounds": 3, "goldFarming": 4, "groupUtility": 3.5, "petReliance": 4.5, "burst": 2.5, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": ["survivability"],
+    "tags": { "fel": 3, "shadow": 1 },
+    "petStyle": "required", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["petReliance"], "text": { "newcomer": "Your demons are powerful partners that grow with you.", "veteran": "Pets scale with your stats; Demonic Knowledge." } },
+      { "axes": ["survivability", "soloLeveling"], "text": { "newcomer": "Your Voidwalker can hold enemies while you cast.", "veteran": "Demonic Brand gives the Voidwalker high threat." } },
+      { "axes": ["sustain"], "text": { "newcomer": "Little downtime thanks to Life Tap and a healing demon.", "veteran": "Life Tap plus Demonic Energies sustain." } }
+    ],
+    "weaknesses": [
+      { "axes": ["raid"], "text": { "newcomer": "Raid value depends on how demons perform at the endgame.", "veteran": "Raid role uncertain (speculative)." } },
+      { "axes": ["complexity", "petReliance"], "text": { "newcomer": "Managing demons adds more to think about.", "veteran": "Pet management overhead." } }
+    ],
+    "hardcoreNote": { "newcomer": "A demon tank between you and danger makes leveling safer.", "veteran": "Voidwalker tanking: safe HC leveling." },
+    "newInForever": ["Demonic Sacrifice (11-point) now lasts 2 hours.", "Demonic Pact (31-point).", "Demonic Brand: pet attacks generate high threat.", "Decimation lowers Soul Fire's cooldown."],
+    "variants": [],
+    "dualSpecPartners": ["warlock-destruction", "warlock-affliction"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption) plus Blizzard's note that Demonic Brand suits tanking pets like the Voidwalker.",
+    "sources": ["BLZ-RW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "warlock-destruction", "classId": "warlock", "tree": "Destruction", "role": "dps", "name": "Destruction Warlock",
+    "pitch": { "newcomer": "A chaos caster who hurls fire and shadow for explosive damage.", "veteran": "Burst caster: Conflagrate, Shadowburn, Bane of Havoc, Incinerate." },
+    "axes": { "range": 5, "complexity": 2, "soloLeveling": 3.5, "sustain": 3, "survivability": 2.5, "dungeon": 3, "raid": 4, "worldPvp": 4, "battlegrounds": 3.5, "goldFarming": 3, "groupUtility": 3.5, "petReliance": 2, "burst": 4, "armor": 0 },
+    "confidence": "med", "lowConfidenceAxes": ["petReliance"],
+    "tags": { "fire": 2, "fel": 2, "shadow": 2 },
+    "petStyle": "optional", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["burst"], "text": { "newcomer": "Explosive fire and shadow hits.", "veteran": "Shadowburn and Conflagrate burst." } },
+      { "axes": ["raid"], "text": { "newcomer": "Strong damage for raids, splashing extra harm with Bane of Havoc.", "veteran": "Bane of Havoc cleave; Incinerate (31)." } },
+      { "axes": ["complexity"], "text": { "newcomer": "A simple, punchy way to play a warlock.", "veteran": "Simplest warlock rotation." } }
+    ],
+    "weaknesses": [
+      { "axes": ["survivability"], "text": { "newcomer": "Physically weak: if enemies reach you, you're in trouble.", "veteran": "Fragile without a demon tank." } },
+      { "axes": ["sustain"], "text": { "newcomer": "More downtime than other warlocks.", "veteran": "Higher downtime than Affliction." } }
+    ],
+    "hardcoreNote": { "newcomer": "Keep a demon out while leveling; going petless is risky.", "veteran": "Pet out on HC; Demonic Sacrifice later." },
+    "newInForever": ["Incinerate (31-point).", "Bane of Havoc (21-point).", "Shadow and Flame links Conflagrate and Shadowburn.", "Firestone and Spellstone are now weapon imbues."],
+    "variants": [{ "name": "Demonic Sacrifice", "note": "Sacrifice your demon for a 2-hour buff (Demonology 11-point) to play without a pet." }],
+    "dualSpecPartners": ["warlock-affliction", "warlock-demonology"],
+    "popular": false,
+    "scoreBasis": "Classic-era baseline (assumption) plus Incinerate and Bane of Havoc. Petless play via Demonic Sacrifice is assumed viable.",
+    "sources": ["BLZ-RW", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "druid-balance", "classId": "druid", "tree": "Balance", "role": "dps", "name": "Balance Druid",
+    "pitch": { "newcomer": "A moonkin star-caller who calls down moonfire and the wrath of nature.", "veteran": "Moonkin caster: Eclipse, Insect Swarm, raid-wide Moonkin aura." },
+    "axes": { "range": 5, "complexity": 3, "soloLeveling": 3, "sustain": 2.5, "survivability": 3, "dungeon": 3, "raid": 3, "worldPvp": 3.5, "battlegrounds": 3.5, "goldFarming": 3.5, "groupUtility": 4, "petReliance": 0, "burst": 3.5, "armor": 2 },
+    "confidence": "med", "lowConfidenceAxes": ["complexity"],
+    "tags": { "nature": 3, "arcane": 2, "shapeshifter": 2 },
+    "petStyle": "none", "stealth": 0, "novelty": 2,
+    "strengths": [
+      { "axes": ["groupUtility"], "text": { "newcomer": "Buffs, battle resurrection and a raid-wide aura.", "veteran": "Moonkin aura (raid-wide), Innervate, Rebirth." } },
+      { "axes": ["survivability"], "text": { "newcomer": "Can shift into a bear or travel form to escape trouble.", "veteran": "Shapeshift escapes plus self-heals." } },
+      { "axes": ["complexity", "burst"], "text": { "newcomer": "Eclipse rewards weaving Wrath and Starfire.", "veteran": "Eclipse charges reward rotation play." } }
+    ],
+    "weaknesses": [
+      { "axes": ["sustain"], "text": { "newcomer": "Uses a lot of mana, so expect breaks.", "veteran": "Mana downtime." } },
+      { "axes": ["worldPvp"], "text": { "newcomer": "No slows or interrupts to stop enemies.", "veteran": "No snares or interrupts (Blizzard)." } }
+    ],
+    "hardcoreNote": { "newcomer": "Forms and heals give you lots of ways to survive.", "veteran": "Forms + heals: flexible HC survival." },
+    "newInForever": ["Eclipse and Nature's Majesty talents.", "Moonkin aura is raid-wide.", "Insect Swarm (16-point).", "Wrath is much cheaper to cast."],
+    "variants": [],
+    "dualSpecPartners": ["druid-restoration", "druid-feral-bear", "druid-feral-cat"],
+    "popular": false,
+    "scoreBasis": "Balance changed a lot in Forever (Eclipse, cheaper Wrath, raid-wide aura); Classic-era baseline (assumption) for the rest.",
+    "sources": ["BLZ-HD", "TAV-HD", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "druid-feral-cat", "classId": "druid", "tree": "Feral", "role": "dps", "name": "Feral Druid (Cat)",
+    "pitch": { "newcomer": "A stalking cat who shreds prey from the shadows: sly, fast and fierce.", "veteran": "Energy and combo melee: Shifting Power powershifting, Berserk, bleeds." },
+    "axes": { "range": 0, "complexity": 4.5, "soloLeveling": 4, "sustain": 4, "survivability": 3.5, "dungeon": 3, "raid": 3, "worldPvp": 4, "battlegrounds": 3, "goldFarming": 4, "groupUtility": 3.5, "petReliance": 0, "burst": 3, "armor": 2 },
+    "confidence": "med", "lowConfidenceAxes": ["complexity", "sustain"],
+    "tags": { "shapeshifter": 3, "beast": 2, "nature": 1, "stealth": 1 },
+    "petStyle": "none", "stealth": 1, "novelty": 1,
+    "strengths": [
+      { "axes": ["sustain", "soloLeveling"], "text": { "newcomer": "Shapeshifting heals and fast kills keep you moving.", "veteran": "Low downtime; strong solo." } },
+      { "axes": ["goldFarming"], "text": { "newcomer": "Sneak past enemies to gather herbs and treasure.", "veteran": "Stealth plus travel form: an excellent farmer and gatherer." } },
+      { "axes": ["complexity"], "text": { "newcomer": "Rewards skill: master energy and form-shifting.", "veteran": "Shifting Power powershifting: high skill ceiling." } }
+    ],
+    "weaknesses": [
+      { "axes": ["complexity"], "text": { "newcomer": "Lots of timing to learn before it clicks.", "veteran": "Demanding rotation." } },
+      { "axes": ["raid"], "text": { "newcomer": "Raid demand is uncertain.", "veteran": "Raid role speculative." } }
+    ],
+    "hardcoreNote": { "newcomer": "Stealth, Dash and healing forms help you survive.", "veteran": "Prowl + Dash + heals: flexible HC escapes." },
+    "newInForever": ["Shifting Power (16-point) brings back a simpler powershifting.", "Berserk (31-point).", "Leader of the Pack is raid-wide.", "Potions and weapon enchants work in forms."],
+    "variants": [],
+    "dualSpecPartners": ["druid-feral-bear", "druid-restoration", "druid-balance"],
+    "popular": false,
+    "racialNeeds": { "manaRegen": 0.3 },
+    "scoreBasis": "Classic-era baseline (assumption) plus Shifting Power and form quality-of-life changes; Shifting Power arrived late in the beta.",
+    "sources": ["BLZ-HD", "TAV-HD", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "druid-feral-bear", "classId": "druid", "tree": "Feral", "role": "tank", "name": "Feral Druid (Bear)",
+    "pitch": { "newcomer": "A great bear who shields the group with thick hide and mighty roars.", "veteran": "Bear tank: Primal Bite, Lacerate, Frenzied Regeneration, reworked Thick Hide." },
+    "axes": { "range": 0, "complexity": 3.5, "soloLeveling": 3.5, "sustain": 4, "survivability": 4.5, "dungeon": 4.5, "raid": 3.5, "worldPvp": 2.5, "battlegrounds": 3.5, "goldFarming": 3.5, "groupUtility": 3.5, "petReliance": 0, "burst": 2, "armor": 2 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "shapeshifter": 3, "protector": 3, "beast": 2, "nature": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["survivability", "sustain"], "text": { "newcomer": "Frenzied Regeneration heals you to full in a pinch.", "veteran": "Frenzied Regeneration: up to 100% health with rage." } },
+      { "axes": ["dungeon"], "text": { "newcomer": "Tanks are always needed, and you can swap to cat or healer too.", "veteran": "Tank demand plus hybrid flexibility." } },
+      { "axes": ["battlegrounds"], "text": { "newcomer": "Tough enough to carry the flag in battlegrounds.", "veteran": "Durable BG flag carrier." } }
+    ],
+    "weaknesses": [
+      { "axes": ["worldPvp"], "text": { "newcomer": "Hard to kill, but not much of a threat to other players.", "veteran": "Low PvP kill pressure." } },
+      { "axes": ["raid"], "text": { "newcomer": "Raid tanking is still unproven.", "veteran": "Raid tanking unproven (speculative)." } }
+    ],
+    "hardcoreNote": { "newcomer": "Very tough to kill: one of the safest ways to tank on Hardcore.", "veteran": "High durability; strong HC tank." },
+    "newInForever": ["Primal Bite (16-point) replaces Mangle.", "Lacerate baseline at 42.", "Thick Hide reworked for tanks.", "Natural Reaction: dodges can give rage."],
+    "variants": [],
+    "dualSpecPartners": ["druid-feral-cat", "druid-restoration", "druid-balance"],
+    "popular": false,
+    "racialNeeds": { "manaRegen": 0.3 },
+    "scoreBasis": "Classic-era baseline (assumption) plus Forever's bear tanking upgrades (Primal Bite, Frenzied Regeneration, Thick Hide).",
+    "sources": ["BLZ-HD", "TAV-HD", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  },
+  {
+    "id": "druid-restoration", "classId": "druid", "tree": "Restoration", "role": "healer", "name": "Restoration Druid",
+    "pitch": { "newcomer": "A nature healer who blankets allies in blooming heals over time.", "veteran": "HoT healer: Wild Growth, Swiftmend, Revive at 12." },
+    "axes": { "range": 5, "complexity": 3, "soloLeveling": 2.5, "sustain": 3, "survivability": 3.5, "dungeon": 4.5, "raid": 4, "worldPvp": 3, "battlegrounds": 4.5, "goldFarming": 3, "groupUtility": 4.5, "petReliance": 0, "burst": 1, "armor": 2 },
+    "confidence": "med", "lowConfidenceAxes": [],
+    "tags": { "nature": 3, "healer": 3, "shapeshifter": 1 },
+    "petStyle": "none", "stealth": 0, "novelty": 1,
+    "strengths": [
+      { "axes": ["dungeon", "raid"], "text": { "newcomer": "A healer every group wants.", "veteran": "Healer demand; Wild Growth group HoT." } },
+      { "axes": ["battlegrounds"], "text": { "newcomer": "Hard to pin down in team PvP thanks to forms.", "veteran": "Excellent BG healer with forms." } },
+      { "axes": ["burst"], "text": { "newcomer": "Healing over time that keeps everyone topped up.", "veteran": "HoT-centric healing." } }
+    ],
+    "weaknesses": [
+      { "axes": ["complexity"], "text": { "newcomer": "Heals over time need planning ahead.", "veteran": "HoTs require planning (Blizzard)." } },
+      { "axes": ["soloLeveling"], "text": { "newcomer": "Slow alone; most level as Feral and swap later.", "veteran": "Weak solo; dual-spec Feral." } }
+    ],
+    "hardcoreNote": { "newcomer": "Level as Feral and use dual spec at 40 for healing: flexible and safe.", "veteran": "Feral/Resto dual spec is the HC play." },
+    "newInForever": ["Wild Growth (31-point).", "Swiftmend (16-point) no longer eats your HoT.", "Revive: out-of-combat resurrection at 12.", "Gift of the Earthmother speeds up HoT casting."],
+    "variants": [],
+    "dualSpecPartners": ["druid-balance", "druid-feral-cat", "druid-feral-bear"],
+    "popular": false,
+    "scoreBasis": "Classic-era healer baseline (assumption) plus Wild Growth, Swiftmend and Revive.",
+    "sources": ["BLZ-HD", "TAV-HD", "BLZ-NOTES", "EDITORIAL"], "verified": true
+  }
+]

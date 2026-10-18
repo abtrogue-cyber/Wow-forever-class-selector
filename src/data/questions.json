@@ -1,0 +1,217 @@
+{
+  "setup": [
+    {
+      "id": "experience",
+      "text": { "newcomer": "How well do you know World of Warcraft?", "veteran": "Your WoW experience?" },
+      "options": [
+        { "id": "new", "label": { "newcomer": "I'm new to WoW", "veteran": "New to WoW" } },
+        { "id": "played", "label": { "newcomer": "I've played WoW (Classic or retail)", "veteran": "Played Classic or retail" } },
+        { "id": "veteran", "label": { "newcomer": "I'm a vanilla veteran", "veteran": "Vanilla veteran" } }
+      ]
+    },
+    {
+      "id": "faction",
+      "text": { "newcomer": "Pick a side", "veteran": "Faction?" },
+      "hint": { "newcomer": "Alliance and Horde can't group together. Every class exists on both sides.", "veteran": "All nine classes are available to both factions in Forever." },
+      "options": [
+        { "id": "alliance", "label": { "newcomer": "Alliance", "veteran": "Alliance" } },
+        { "id": "horde", "label": { "newcomer": "Horde", "veteran": "Horde" } },
+        { "id": "any", "label": { "newcomer": "No preference", "veteran": "No preference" } }
+      ]
+    },
+    {
+      "id": "ruleset",
+      "text": { "newcomer": "Where will you play?", "veteran": "Ruleset?" },
+      "hint": { "newcomer": "Each ruleset is one huge realm, and you can only group with players on the same one.", "veteran": "One mega-realm per ruleset; grouping stays within your ruleset." },
+      "options": [
+        { "id": "normal", "label": { "newcomer": "Normal (relaxed)", "veteran": "Normal (PvE)" } },
+        { "id": "pvp", "label": { "newcomer": "PvP (other players can attack you anywhere)", "veteran": "PvP" } },
+        { "id": "rp", "label": { "newcomer": "Roleplay", "veteran": "RP" } },
+        { "id": "hardcore", "label": { "newcomer": "Hardcore: one life (planning ahead, launches this winter)", "veteran": "Hardcore (planning ahead, launches winter 26/27)" } }
+      ]
+    },
+    {
+      "id": "skyborne",
+      "text": { "newcomer": "Do you own the Skyborne pack?", "veteran": "Own the Skyborne pack?" },
+      "hint": { "newcomer": "Skyborne are a new sky-elf race. Playing one needs a paid upgrade pack.", "veteran": "Skyborne needs the Heroic or Epic Pack, or the Forever Collection." },
+      "options": [
+        { "id": "yes", "label": { "newcomer": "Yes", "veteran": "Yes" } },
+        { "id": "no", "label": { "newcomer": "No", "veteran": "No" } },
+        { "id": "unsure", "label": { "newcomer": "Not sure", "veteran": "Not sure" } }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "gnolls", "type": "scenario",
+      "text": { "newcomer": "A pack of gnolls charges at you. What do you do?", "veteran": "Three gnolls aggro at once. Your instinct?" },
+      "options": [
+        { "id": "charge", "label": { "newcomer": "Charge in, weapon swinging", "veteran": "Wade in and cleave" },
+          "effects": { "axes": { "range": { "target": 0, "weight": 1.2 } }, "tags": { "berserker": 2 }, "roles": { "dps": 0.5 } } },
+        { "id": "blast", "label": { "newcomer": "Blast them from a distance", "veteran": "Kite and nuke from range" },
+          "effects": { "axes": { "range": { "target": 5, "weight": 1.2 } }, "tags": { "arcane": 1, "fire": 1, "frost": 1, "sharpshooter": 1 }, "roles": { "dps": 0.5 } } },
+        { "id": "companion", "label": { "newcomer": "Send my animal companion in first", "veteran": "Pet on the pack, DPS from behind" },
+          "effects": { "axes": { "petReliance": { "target": 5, "weight": 1.2 } }, "tags": { "beast": 2 } } },
+        { "id": "vanish", "label": { "newcomer": "Vanish and strike first", "veteran": "Stealth, open on one, sap another" },
+          "effects": { "axes": { "range": { "target": 0, "weight": 0.5 } }, "tags": { "stealth": 2, "trickster": 2 } } },
+        { "id": "shield", "label": { "newcomer": "Raise my shield and hold the line", "veteran": "Pick them all up and tank it" },
+          "effects": { "axes": { "armor": { "target": 4.5, "weight": 0.4 }, "survivability": { "target": 4, "weight": 0.5 } }, "tags": { "protector": 2 }, "roles": { "tank": 1 } } }
+      ]
+    },
+    {
+      "id": "boss-pull", "type": "scenario",
+      "text": { "newcomer": "Your group faces its first big boss. Where do you want to be?", "veteran": "Dungeon boss pull. Your seat?" },
+      "options": [
+        { "id": "front", "label": { "newcomer": "In front, taking the hits", "veteran": "Tank" },
+          "effects": { "roles": { "tank": 2, "healer": -0.5, "dps": -0.5 } } },
+        { "id": "behind", "label": { "newcomer": "Behind everyone, keeping them alive", "veteran": "Healer" },
+          "effects": { "roles": { "healer": 2, "tank": -0.5, "dps": -0.5 }, "tags": { "healer": 2 } } },
+        { "id": "melee", "label": { "newcomer": "Right next to the boss, dealing damage", "veteran": "Melee DPS" },
+          "effects": { "roles": { "dps": 1.5, "tank": -0.5, "healer": -0.5 }, "axes": { "range": { "target": 0, "weight": 1 } } } },
+        { "id": "ranged", "label": { "newcomer": "At a distance, dealing damage", "veteran": "Ranged DPS" },
+          "effects": { "roles": { "dps": 1.5, "tank": -0.5, "healer": -0.5 }, "axes": { "range": { "target": 5, "weight": 1 } } } },
+        { "id": "flex", "label": { "newcomer": "Wherever the group needs me", "veteran": "Whatever's missing; I'll swap" },
+          "effects": { "roleFlex": 1.5, "axes": { "groupUtility": { "target": 4, "weight": 0.8 } } } }
+      ]
+    },
+    {
+      "id": "light-shadow", "type": "thisOrThat",
+      "text": { "newcomer": "Which power calls to you?", "veteran": "Light or Shadow?" },
+      "options": [
+        { "id": "light", "label": { "newcomer": "Light: radiant, righteous, warm", "veteran": "Light" },
+          "effects": { "tags": { "holy": 2, "healer": 0.5, "shadow": -1, "fel": -0.5 } } },
+        { "id": "shadow", "label": { "newcomer": "Shadow: dark, forbidden, cunning", "veteran": "Shadow" },
+          "effects": { "tags": { "shadow": 2, "fel": 1, "trickster": 0.5, "holy": -1 } } }
+      ]
+    },
+    {
+      "id": "nature-arcane", "type": "thisOrThat",
+      "text": { "newcomer": "Which kind of power?", "veteran": "Nature or arcane?" },
+      "options": [
+        { "id": "nature", "label": { "newcomer": "Wild nature: beasts, storms, growing things", "veteran": "Nature and elements" },
+          "effects": { "tags": { "nature": 2, "beast": 1, "elements": 1, "shapeshifter": 1, "arcane": -0.5 } } },
+        { "id": "arcane", "label": { "newcomer": "Raw magic: arcane, fire and frost", "veteran": "Arcane, fire, frost" },
+          "effects": { "tags": { "arcane": 2, "fire": 1, "frost": 1, "nature": -0.5 } } }
+      ]
+    },
+    {
+      "id": "plate-robes", "type": "thisOrThat",
+      "text": { "newcomer": "How do you want to look?", "veteran": "Armor fantasy?" },
+      "options": [
+        { "id": "plate", "label": { "newcomer": "Heavy plate armor", "veteran": "Plate" },
+          "effects": { "axes": { "armor": { "target": 5, "weight": 1.2 } } } },
+        { "id": "robes", "label": { "newcomer": "Flowing robes", "veteran": "Cloth" },
+          "effects": { "axes": { "armor": { "target": 0, "weight": 1.2 } } } }
+      ]
+    },
+    {
+      "id": "pet-solo", "type": "thisOrThat",
+      "text": { "newcomer": "Do you want an animal friend fighting with you?", "veteran": "Pet or solo?" },
+      "options": [
+        { "id": "pet", "label": { "newcomer": "Yes, a loyal companion", "veteran": "Pet class" },
+          "effects": { "axes": { "petReliance": { "target": 5, "weight": 1.5 } }, "tags": { "beast": 1 } } },
+        { "id": "solo", "label": { "newcomer": "No, just me", "veteran": "No pet" },
+          "effects": { "axes": { "petReliance": { "target": 0, "weight": 1.5 } } } }
+      ]
+    },
+    {
+      "id": "simple-complex", "type": "thisOrThat",
+      "text": { "newcomer": "How do you like to play?", "veteran": "Rotation preference?" },
+      "options": [
+        { "id": "simple", "label": { "newcomer": "Simple and steady: a few buttons, solid results", "veteran": "Simple and steady" },
+          "effects": { "axes": { "complexity": { "target": 1, "weight": 1.5 } } } },
+        { "id": "complex", "label": { "newcomer": "Complex and rewarding: lots to master", "veteran": "Complex and rewarding" },
+          "effects": { "axes": { "complexity": { "target": 4.5, "weight": 1.5 } }, "flags": ["wantsComplexity"] } }
+      ]
+    },
+    {
+      "id": "burst-dot", "type": "thisOrThat",
+      "text": { "newcomer": "How do you like to win a fight?", "veteran": "Burst or attrition?" },
+      "options": [
+        { "id": "burst", "label": { "newcomer": "One huge blow", "veteran": "Big hits" },
+          "effects": { "axes": { "burst": { "target": 5, "weight": 1 } } } },
+        { "id": "dot", "label": { "newcomer": "Slow, relentless pressure", "veteran": "Damage (or healing) over time" },
+          "effects": { "axes": { "burst": { "target": 0.5, "weight": 1 } } } }
+      ]
+    },
+    {
+      "id": "downtime", "type": "slider",
+      "text": { "newcomer": "Stopping to eat and drink between fights is…", "veteran": "Downtime between pulls is…" },
+      "minLabel": { "newcomer": "Totally fine, I'll enjoy the view", "veteran": "Fine, I'll drink" },
+      "maxLabel": { "newcomer": "Unbearable, I want to keep moving", "veteran": "Unacceptable" },
+      "options": [
+        { "id": "fine", "label": { "newcomer": "Totally fine", "veteran": "Fine" }, "effects": {} },
+        { "id": "mostly-fine", "label": { "newcomer": "Mostly fine", "veteran": "Mostly fine" },
+          "effects": { "axes": { "sustain": { "target": 3, "weight": 0.5 } } } },
+        { "id": "meh", "label": { "newcomer": "A bit annoying", "veteran": "Meh" },
+          "effects": { "axes": { "sustain": { "target": 3.5, "weight": 1 } } } },
+        { "id": "annoying", "label": { "newcomer": "Annoying", "veteran": "Annoying" },
+          "effects": { "axes": { "sustain": { "target": 4, "weight": 1.8 } } } },
+        { "id": "unbearable", "label": { "newcomer": "Unbearable", "veteran": "Unacceptable" },
+          "effects": { "axes": { "sustain": { "target": 5, "weight": 2.5 } } } }
+      ]
+    },
+    {
+      "id": "bad-pull", "type": "scenario",
+      "text": { "newcomer": "A fight goes wrong: three more enemies join in. You'd rather…", "veteran": "Bad pull, two adds. Your out?" },
+      "options": [
+        { "id": "escape", "label": { "newcomer": "Have an escape button and get out", "veteran": "Blink, Vanish or Feign, then reset" },
+          "effects": { "axes": { "survivability": { "target": 4, "weight": 1.2 } }, "tags": { "trickster": 0.5 } } },
+        { "id": "outlast", "label": { "newcomer": "Outlast them: take a beating and heal myself", "veteran": "Self-heal and facetank it" },
+          "effects": { "axes": { "survivability": { "target": 5, "weight": 1.2 }, "armor": { "target": 4, "weight": 0.3 } } } },
+        { "id": "control", "label": { "newcomer": "Lock one down and handle the rest", "veteran": "CC one, kill the rest" },
+          "effects": { "axes": { "groupUtility": { "target": 3.5, "weight": 0.6 }, "survivability": { "target": 3.5, "weight": 0.8 } } } },
+        { "id": "burn", "label": { "newcomer": "Burn them down before they hurt me", "veteran": "Pop cooldowns and burn" },
+          "effects": { "axes": { "burst": { "target": 4, "weight": 0.6 }, "survivability": { "target": 3, "weight": 0.4 } } } },
+        { "id": "graveyard", "label": { "newcomer": "Eh, I'll run back from the graveyard", "veteran": "Die, run back, try again" },
+          "hardcoreLabel": { "newcomer": "Hope for the best, even with just one life", "veteran": "Send it. One life, no regrets." },
+          "effects": {} }
+      ]
+    },
+    {
+      "id": "priorities", "type": "priorities", "pick": 3, "rankWeights": [3, 2, 1.2],
+      "text": { "newcomer": "What will you spend most of your time doing? Pick your top 3, in order.", "veteran": "Rank your top 3 priorities." },
+      "options": [
+        { "id": "solo", "label": { "newcomer": "Leveling smoothly on my own", "veteran": "Solo leveling" }, "axis": "soloLeveling" },
+        { "id": "dungeons", "label": { "newcomer": "Dungeons with friends", "veteran": "Dungeons" }, "axis": "dungeon" },
+        { "id": "raids", "label": { "newcomer": "Big raids (they open Dec 9)", "veteran": "Raids (Dec 9+)" }, "axis": "raid" },
+        { "id": "world-pvp", "label": { "newcomer": "Fighting other players out in the world", "veteran": "World PvP" }, "axis": "worldPvp" },
+        { "id": "battlegrounds", "label": { "newcomer": "Team PvP battlegrounds", "veteran": "Battlegrounds" }, "axis": "battlegrounds" },
+        { "id": "gold", "label": { "newcomer": "Making gold", "veteran": "Gold farming" }, "axis": "goldFarming" }
+      ]
+    },
+    {
+      "id": "deal-breakers", "type": "multi",
+      "text": { "newcomer": "Anything you definitely don't want? (optional)", "veteran": "Hard no's? (optional)" },
+      "options": [
+        { "id": "no-pets", "label": { "newcomer": "No pets", "veteran": "No pets" }, "effects": { "filters": ["noPets"] } },
+        { "id": "must-heal", "label": { "newcomer": "I must be able to heal", "veteran": "Must be able to heal" }, "effects": { "filters": ["mustHeal"] } },
+        { "id": "must-tank", "label": { "newcomer": "I must be able to tank", "veteran": "Must be able to tank" }, "effects": { "filters": ["mustTank"] } },
+        { "id": "ranged-only", "label": { "newcomer": "Ranged only", "veteran": "Ranged only" }, "effects": { "filters": ["rangedOnly"] } },
+        { "id": "melee-only", "label": { "newcomer": "Melee only", "veteran": "Melee only" }, "effects": { "filters": ["meleeOnly"] } },
+        { "id": "no-stealth", "label": { "newcomer": "No sneaking around in stealth", "veteran": "No stealth gameplay" }, "effects": { "filters": ["noStealth"] } }
+      ],
+      "exclusive": [["ranged-only", "melee-only"]]
+    },
+    {
+      "id": "look", "type": "pickOne",
+      "text": { "newcomer": "Which look feels most like you?", "veteran": "Which look feels most like you?" },
+      "options": [
+        { "id": "noble", "label": { "newcomer": "Noble and shining", "veteran": "Noble" }, "effects": { "aesthetic": { "noble": 3 } } },
+        { "id": "rugged", "label": { "newcomer": "Rugged and bearded", "veteran": "Rugged" }, "effects": { "aesthetic": { "rugged": 3 } } },
+        { "id": "clever", "label": { "newcomer": "Small and clever", "veteran": "Small and clever" }, "effects": { "aesthetic": { "clever": 3 } } },
+        { "id": "elven", "label": { "newcomer": "Graceful and elven", "veteran": "Elven" }, "effects": { "aesthetic": { "elven": 3 } } },
+        { "id": "primal", "label": { "newcomer": "Wild and tribal", "veteran": "Tribal" }, "effects": { "aesthetic": { "primal": 3 } } },
+        { "id": "eerie", "label": { "newcomer": "Eerie and undying", "veteran": "Undead" }, "effects": { "aesthetic": { "eerie": 3 } } }
+      ]
+    },
+    {
+      "id": "new-classic", "type": "thisOrThat",
+      "text": { "newcomer": "Do you want something brand-new?", "veteran": "Classic comfort or Forever novelty?" },
+      "options": [
+        { "id": "classic", "label": { "newcomer": "The tried and true", "veteran": "Classic comfort" }, "effects": { "novelty": -1 } },
+        { "id": "new", "label": { "newcomer": "Something new in Forever", "veteran": "Forever novelty" }, "effects": { "novelty": 2 } }
+      ]
+    }
+  ]
+}
