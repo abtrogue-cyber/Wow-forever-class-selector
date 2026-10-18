@@ -19,9 +19,22 @@ type Common = {
   onNext: () => void
   onBack: () => void
   isLast: boolean
+  /** Pointer or keyboard focus on an option previews its answer (null: nothing previewed). */
+  onPreview?: (preview: { value: Value } | null) => void
 }
 
 const asList = (v: Value) => (v == null ? [] : Array.isArray(v) ? v : [v])
+
+/** Hover and focus handlers that preview an answer before it's picked (the compass shows where it leads). */
+const previewOn = (onPreview: Common['onPreview'], value: () => Value) =>
+  onPreview
+    ? {
+        onMouseEnter: () => onPreview({ value: value() }),
+        onMouseLeave: () => onPreview(null),
+        onFocus: () => onPreview({ value: value() }),
+        onBlur: () => onPreview(null),
+      }
+    : {}
 const AUTO_ADVANCE_MS = 260
 /** How far a this-or-that swipe must travel to count as a pick. */
 const SWIPE_PX = 70
@@ -81,7 +94,7 @@ function Footer({ onBack, onNext, nextLabel }: { onBack: () => void; onNext: () 
 }
 
 /** Scenario and pick-one questions: tap an option and we move on. */
-function ChoiceList({ q, wording: w, hardcore, value, onChange, onNext, onBack }: Common & { q: SingleQ }) {
+function ChoiceList({ q, wording: w, hardcore, value, onChange, onNext, onBack, onPreview }: Common & { q: SingleQ }) {
   const pick = useAutoAdvance(onChange, onNext)
   useHotkeys((key) => {
     const option = q.options[digitIndex(key)]
@@ -93,7 +106,7 @@ function ChoiceList({ q, wording: w, hardcore, value, onChange, onNext, onBack }
     <>
       <div className="flex flex-col gap-2.5">
         {q.options.map((o, i) => (
-          <button key={o.id} type="button" className="choice" aria-pressed={value === o.id} onClick={() => pick(o.id)}>
+          <button key={o.id} type="button" className="choice" aria-pressed={value === o.id} onClick={() => pick(o.id)} {...previewOn(onPreview, () => o.id)}>
             <span className="kbd">{i + 1}</span>
             <span>{(hardcore && o.hardcoreLabel ? o.hardcoreLabel : o.label)[w]}</span>
           </button>
@@ -110,7 +123,7 @@ function ChoiceList({ q, wording: w, hardcore, value, onChange, onNext, onBack }
 }
 
 /** Two big cards plus "no preference". */
-function ThisOrThat({ q, wording: w, value, onChange, onNext, onBack }: Common & { q: SingleQ }) {
+function ThisOrThat({ q, wording: w, value, onChange, onNext, onBack, onPreview }: Common & { q: SingleQ }) {
   const pick = useAutoAdvance(onChange, onNext)
   useHotkeys((key) => {
     if (key === '1') pick(q.options[0]?.id)
@@ -144,6 +157,7 @@ function ThisOrThat({ q, wording: w, value, onChange, onNext, onBack }: Common &
             aria-pressed={value === o.id}
             className="choice relative min-h-36 flex-col items-start justify-between gap-4 p-4 sm:min-h-40 sm:p-5"
             onClick={() => pick(o.id)}
+            {...previewOn(onPreview, () => o.id)}
           >
             <motion.span
               aria-hidden="true"
@@ -212,12 +226,11 @@ function SliderAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast }
   )
 }
 
-function Priorities({ q, wording: w, value, onChange, onNext, onBack, isLast }: Common & { q: PrioritiesQ }) {
+function Priorities({ q, wording: w, value, onChange, onNext, onBack, isLast, onPreview }: Common & { q: PrioritiesQ }) {
   const picked = asList(value)
-  const toggle = (id: string) => {
-    if (picked.includes(id)) onChange(picked.filter((x) => x !== id))
-    else if (picked.length < q.pick) onChange([...picked, id])
-  }
+  const toggled = (id: string) =>
+    picked.includes(id) ? picked.filter((x) => x !== id) : picked.length < q.pick ? [...picked, id] : picked
+  const toggle = (id: string) => onChange(toggled(id))
   useHotkeys((key) => {
     const option = q.options[digitIndex(key)]
     if (option) toggle(option.id)
@@ -233,7 +246,7 @@ function Priorities({ q, wording: w, value, onChange, onNext, onBack, isLast }: 
         {q.options.map((o, i) => {
           const rank = picked.indexOf(o.id)
           return (
-            <button key={o.id} type="button" className="choice" aria-pressed={rank >= 0} onClick={() => toggle(o.id)}>
+            <button key={o.id} type="button" className="choice" aria-pressed={rank >= 0} onClick={() => toggle(o.id)} {...previewOn(onPreview, () => toggled(o.id))}>
               <span className={rank >= 0 ? 'kbd border-gold-400 bg-gold-400 text-night-950' : 'kbd'}>{rank >= 0 ? rank + 1 : i + 1}</span>
               <span>{o.label[w]}</span>
             </button>
@@ -245,13 +258,14 @@ function Priorities({ q, wording: w, value, onChange, onNext, onBack, isLast }: 
   )
 }
 
-function MultiAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast }: Common & { q: MultiQ }) {
+function MultiAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast, onPreview }: Common & { q: MultiQ }) {
   const picked = asList(value)
-  const toggle = (id: string) => {
-    if (picked.includes(id)) return onChange(picked.filter((x) => x !== id))
+  const toggled = (id: string) => {
+    if (picked.includes(id)) return picked.filter((x) => x !== id)
     const clashes = q.exclusive.flatMap(([a, b]) => (a === id ? [b] : b === id ? [a] : []))
-    onChange([...picked.filter((x) => !clashes.includes(x)), id])
+    return [...picked.filter((x) => !clashes.includes(x)), id]
   }
+  const toggle = (id: string) => onChange(toggled(id))
   useHotkeys((key) => {
     const option = q.options[digitIndex(key)]
     if (option) toggle(option.id)
@@ -262,7 +276,7 @@ function MultiAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast }:
     <>
       <div className="grid gap-2 sm:grid-cols-2">
         {q.options.map((o, i) => (
-          <button key={o.id} type="button" role="checkbox" aria-checked={picked.includes(o.id)} className="choice" onClick={() => toggle(o.id)}>
+          <button key={o.id} type="button" role="checkbox" aria-checked={picked.includes(o.id)} className="choice" onClick={() => toggle(o.id)} {...previewOn(onPreview, () => toggled(o.id))}>
             <span className="kbd">{picked.includes(o.id) ? '✓' : i + 1}</span>
             <span>{o.label[w]}</span>
           </button>

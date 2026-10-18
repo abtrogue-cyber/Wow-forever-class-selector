@@ -4,7 +4,7 @@ export const en = {
   tagline: 'Find your Forever Main.',
   landing: {
     eyebrow: 'World of Warcraft: Forever · launches Nov 4',
-    lead: 'Answer 13 quick questions, watch your hero take shape, and get a ranked, explained shortlist of class, spec and race.',
+    lead: 'Answer 13 quick questions, watch your star find its place, and get a ranked, explained shortlist of class, spec and race.',
     cta: 'Find your Forever Main',
     resume: 'Continue where you left off',
     facts: ['About 3 minutes', 'Every pick explained', 'Built for Forever: new combos, Skyborne, dual spec'],
@@ -56,9 +56,29 @@ export const en = {
     exit: 'Leave quiz',
   },
   roles: { tank: 'Tank', healer: 'Healer', dps: 'Damage' },
-  hero: {
-    toSd: 'Switch to the chunky 2004 look',
-    toHd: 'Switch back to the smooth HD look',
+  compass: {
+    hint: 'Every answer moves your star.',
+    skip: 'Tap to skip',
+    /**
+     * Plain words for both ends of each axis [low, high], used to label the compass directions.
+     * A direction's end is named after the axis that grows most toward it.
+     */
+    axisWords: {
+      range: ['Up close', 'From afar'],
+      complexity: ['Simple', 'Intricate'],
+      soloLeveling: ['With company', 'On my own'],
+      sustain: ['Stop and rest', 'Keeps going'],
+      survivability: ['Fragile', 'Hard to kill'],
+      dungeon: ['Few groups', 'Small groups'],
+      raid: ['No big teams', 'Big teams'],
+      worldPvp: ['Peaceful', 'Rivals'],
+      battlegrounds: ['No matches', 'Fair fights'],
+      goldFarming: ['Spending', 'Fortune'],
+      groupUtility: ['Self-reliant', 'Helping others'],
+      petReliance: ['Alone', 'With a companion'],
+      burst: ['Steady', 'Explosive'],
+      armor: ['Light', 'Armored'],
+    },
   },
   result: {
     whatsNew: "What's new in Forever",

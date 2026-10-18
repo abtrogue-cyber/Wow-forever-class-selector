@@ -79,3 +79,24 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Quiz compass (2D): pulse on every answer, spinning novelty ring, orbiting companion. */
+@keyframes compass-pulse {
+  from { transform: scale(1); opacity: 0.85; }
+  to { transform: scale(4); opacity: 0; }
+}
+@keyframes compass-spin {
+  to { transform: rotate(360deg); }
+}
+.compass-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: compass-pulse 1.1s ease-out forwards;
+}
+.compass-spin {
+  transform-box: view-box;
+  animation: compass-spin 6s linear infinite;
+}
+.compass-orbit {
+  animation: compass-spin 3.5s linear infinite;
+}

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { AXIS_IDS, gameData } from '../data'
-import { buildGalaxy } from './pca'
+import { getContext } from '../engine/context'
+import { buildProfile } from '../engine/profile'
+import { buildGalaxy, playerAxes } from './pca'
 
 const galaxy = buildGalaxy(gameData.builds)
 const vec = (c: Record<string, number>) => AXIS_IDS.map((a) => c[a] ?? 0)
@@ -34,5 +36,23 @@ describe('spec galaxy (PCA)', () => {
     expect(galaxy.neighbors('mage-fire', 3)).toContain('mage-arcane')
     expect(galaxy.neighbors('warrior-protection', 3)).toContain('paladin-protection')
     expect(galaxy.neighbors('rogue-combat', 3)).not.toContain('rogue-combat')
+  })
+})
+
+describe('player position', () => {
+  const neutral = buildProfile({ setup: { experience: 'played', faction: 'any', ruleset: 'normal', skyborne: 'no' }, picks: {} }, getContext(gameData))
+  const withRange = (weight: number) => ({ ...neutral, axes: { ...neutral.axes, range: { target: 5, weight } } })
+  const mean = gameData.builds.reduce((s, b) => s + b.axes.range, 0) / gameData.builds.length
+
+  it('sits on the average build where you expressed nothing', () => {
+    expect(playerAxes(neutral, gameData.builds).range).toBeCloseTo(mean, 9)
+  })
+
+  it('is pulled toward your target, further the more your answers weigh', () => {
+    const light = playerAxes(withRange(0.25), gameData.builds).range
+    const heavy = playerAxes(withRange(3), gameData.builds).range
+    expect(light).toBeCloseTo(mean + (5 - mean) / 2, 9) // weight = PULL_HALFWAY → halfway
+    expect(heavy).toBeGreaterThan(light)
+    expect(heavy).toBeLessThan(5)
   })
 })

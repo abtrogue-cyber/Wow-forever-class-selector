@@ -95,10 +95,25 @@ export function buildGalaxy(builds: Build[]): Galaxy {
   }
 }
 
-/** Where a player sits: their target on every axis they care about, the average build elsewhere. */
+/**
+ * How much answer weight it takes to pull you halfway from the average build to your target on an axis.
+ * 0.25: lively moves without first-answer jumps, and your #1 build usually among your 2–5 nearest stars
+ * (1 kept you near the middle; 0 let one answer jump halfway across the map).
+ */
+export const PULL_HALFWAY = 0.25
+
+/**
+ * Where a player sits: on each axis, between the average build and their target, pulled further the more
+ * their answers weigh (w / (w + PULL_HALFWAY)). One light answer nudges you; many strong ones pull you all
+ * the way. Keeps the quiz compass from teleporting on the first answer.
+ */
 export function playerAxes(profile: PlayerProfile, builds: Build[]): Record<AxisId, number> {
   return Object.fromEntries(
-    AXIS_IDS.map((a) => [a, profile.axes[a].weight > 0 ? profile.axes[a].target : builds.reduce((s, b) => s + b.axes[a], 0) / builds.length]),
+    AXIS_IDS.map((a) => {
+      const mean = builds.reduce((s, b) => s + b.axes[a], 0) / builds.length
+      const { target, weight } = profile.axes[a]
+      return [a, mean + (target - mean) * (weight / (weight + PULL_HALFWAY))]
+    }),
   ) as Record<AxisId, number>
 }
 

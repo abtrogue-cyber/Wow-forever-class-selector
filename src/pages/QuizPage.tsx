@@ -1,25 +1,29 @@
-import { AnimatePresence, motion } from 'motion/react'
-import { useEffect, useMemo, useRef } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation } from 'wouter'
 import { gameData } from '../data'
-import { HeroStage } from '../components/hero/HeroStage'
-import { DEFAULT_LOOK, lookFor } from '../components/hero/look'
+import { AXIS_ENDS, lookFor, positionFor, STARS, trailFor } from '../components/compass/compass'
+import { CompassStage } from '../components/compass/CompassStage'
 import { SiteFooter } from '../components/layout/Site'
 import { QuestionScreen } from '../components/quiz/QuestionScreen'
 import { SetupScreen } from '../components/quiz/SetupScreen'
 import { ENGINE_VERSION } from '../engine/config'
-import { getContext } from '../engine/context'
 import { rank } from '../engine/rank'
 import { en } from '../i18n/en'
 import { encodeShareCode } from '../share/codec'
 import { isSetupComplete, useQuizStore, wordingFor } from '../state/quizStore'
 
-const ctx = getContext(gameData)
 const QUESTIONS = gameData.questions.questions
 const TOTAL = QUESTIONS.length
+const versions = { engineVersion: ENGINE_VERSION, dataVersion: gameData.meta.dataVersion }
+/** Longest the reveal may take before the results open anyway (the scene normally says it's done sooner). */
+const REVEAL_MAX_MS = 3400
+
+type Value = string | string[] | undefined
 
 export function QuizPage() {
   const [, navigate] = useLocation()
+  const reducedMotion = useReducedMotion() ?? false
   const { setup, picks, step: storedStep, goTo, setPick } = useQuizStore()
   const complete = isSetupComplete(setup)
   const step = complete ? Math.min(storedStep, TOTAL) : 0
@@ -27,15 +31,43 @@ export function QuizPage() {
   const w = wordingFor(setup)
   const stepRef = useRef<HTMLDivElement>(null)
 
-  // The hero takes on the look of the class currently leading (glow, armor, weapon, particles),
-  // once there is something to go on.
-  const look = useMemo(() => {
-    if (!complete || Object.keys(picks).length === 0) return DEFAULT_LOOK
-    const top = rank({ setup, picks }, gameData).results[0]
-    const build = top && ctx.builds.get(top.buildId)
-    const cls = build && ctx.classes.get(build.classId)
-    return build && cls ? lookFor(build, cls) : DEFAULT_LOOK
-  }, [complete, setup, picks])
+  // Your star: where your answers put you on the compass, and the stops it made on the way.
+  const trail = useMemo(() => trailFor(setup, picks), [setup, picks])
+  const position = trail[trail.length - 1]!
+  const stops = useMemo(() => trail.slice(0, -1), [trail])
+  const pulse = useMemo(() => JSON.stringify([setup, picks]), [setup, picks])
+
+  // Hovering an answer previews where it would take you (and the sky or star color it would give).
+  const [preview, setPreview] = useState<{ value: Value } | null>(null)
+  useEffect(() => setPreview(null), [step])
+  const previewPicks = useMemo(() => (preview && question ? { ...picks, [question.id]: preview.value } : null), [preview, question, picks])
+  const previewPos = useMemo(() => {
+    if (!previewPicks) return null
+    const p = positionFor(setup, previewPicks)
+    return Math.hypot(p[0] - position[0], p[1] - position[1], p[2] - position[2]) > 0.01 ? p : null
+  }, [previewPicks, setup, position])
+  const look = lookFor(previewPicks ?? picks)
+
+  // The reveal: the spec stars appear, your star flies to your #1, then the results open.
+  const [reveal, setReveal] = useState<{ code: string; target: string } | null>(null)
+  const opened = useRef(false)
+  const openResults = (code: string) => {
+    if (opened.current) return
+    opened.current = true
+    navigate(`/result/${code}`)
+  }
+  useEffect(() => {
+    if (!reveal) return
+    const go = () => openResults(reveal.code)
+    const timer = window.setTimeout(go, REVEAL_MAX_MS)
+    window.addEventListener('keydown', go)
+    window.addEventListener('pointerdown', go)
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('keydown', go)
+      window.removeEventListener('pointerdown', go)
+    }
+  }, [reveal])
 
   useEffect(() => {
     window.scrollTo({ top: 0 })
@@ -43,10 +75,16 @@ export function QuizPage() {
   }, [step])
 
   const finish = () => {
+    if (reveal) return
     const s = useQuizStore.getState()
     if (!isSetupComplete(s.setup)) return
-    const code = encodeShareCode({ setup: s.setup, picks: s.picks }, { engineVersion: ENGINE_VERSION, dataVersion: gameData.meta.dataVersion })
-    navigate(`/result/${code}`)
+    const answers = { setup: s.setup, picks: s.picks }
+    const code = encodeShareCode(answers, versions)
+    const target = rank(answers, gameData).results[0]?.buildId
+    if (!target || reducedMotion) return openResults(code)
+    // On phones the reveal button sits below the fold; bring the compass back into view for the show.
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setReveal({ code, target })
   }
   const next = () => (step >= TOTAL ? finish() : goTo(step + 1))
   const back = () => (step === 0 ? navigate('/') : goTo(step - 1))
@@ -55,8 +93,27 @@ export function QuizPage() {
   return (
     <div className="flex min-h-dvh flex-col">
       <div className="mx-auto grid w-full max-w-5xl flex-1 gap-4 px-4 pt-4 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
-        <aside className="flex flex-col items-center gap-3 lg:sticky lg:top-0 lg:h-dvh lg:justify-center">
-          <HeroStage progress={progress} look={look} className="h-28 w-full max-w-md sm:h-40 lg:h-[440px]" />
+        {/* At the reveal the compass glides to the middle of the page while the questions fade out. */}
+        <aside
+          className={`flex flex-col items-center gap-3 transition-transform duration-700 ease-out lg:sticky lg:top-0 lg:h-dvh lg:justify-center ${reveal ? 'lg:translate-x-[70%] lg:scale-[1.15]' : ''}`}
+        >
+          <CompassStage
+            position={position}
+            preview={reveal ? null : previewPos}
+            stops={stops}
+            tint={look.tint}
+            orb={look.orb}
+            novelty={look.novelty}
+            companion={look.companion}
+            pulse={pulse}
+            axisEnds={AXIS_ENDS}
+            stars={STARS}
+            starMode={reveal ? 'full' : 'hidden'}
+            revealTarget={reveal?.target ?? null}
+            onRevealDone={() => reveal && openResults(reveal.code)}
+            wander={false}
+            className={`w-full transition-[height] duration-700 ${reveal ? 'h-[60vh] lg:h-[540px]' : 'h-44 sm:h-52 lg:h-[460px]'}`}
+          />
           <div
             role="progressbar"
             aria-label={step > 0 ? en.quiz.progress(step, TOTAL) : en.quiz.setupTitle}
@@ -67,9 +124,15 @@ export function QuizPage() {
           >
             <div className="h-full rounded-full bg-gold-400 transition-[width] duration-500" style={{ width: `${progress * 100}%` }} />
           </div>
+          <p className="text-center text-xs text-ash-400" aria-live="polite">
+            {reveal ? en.compass.skip : step <= 1 ? en.compass.hint : ' '}
+          </p>
         </aside>
 
-        <section className="flex flex-col gap-4 pb-6 lg:justify-center lg:py-10">
+        <section
+          className={`flex flex-col gap-4 pb-6 transition-opacity duration-500 lg:justify-center lg:py-10 ${reveal ? 'pointer-events-none opacity-0' : ''}`}
+          aria-hidden={reveal ? true : undefined}
+        >
           <div className="flex items-center justify-between text-sm text-ash-400">
             <span>{step > 0 ? en.quiz.progress(step, TOTAL) : ''}</span>
             <Link href="/" className="hover:text-parchment-100">
@@ -97,6 +160,7 @@ export function QuizPage() {
                   onChange={(v) => setPick(question.id, v)}
                   onNext={next}
                   onBack={back}
+                  onPreview={setPreview}
                   isLast={step === TOTAL}
                 />
               ) : (

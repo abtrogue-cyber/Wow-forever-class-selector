@@ -3,7 +3,7 @@
 Fan-made, very visual class / spec / race finder for **World of Warcraft: Forever** (launch Nov 4, 2026).
 Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current plan: [docs/PLAN.md](docs/PLAN.md).
 
-**Status:** Phases 2 and 3 are merged into `main` and live at https://wow-forever-class-selector.vercel.app: the playable MVP with the person-first quiz (M1), plus the 3D hero, card reveal, Spec Galaxy, result image and link previews (M2, ahead of Sun Nov 1). Share layout V1 is now published: question changes need `LAYOUT_V2`. Next: Phase 4 (launch hardening, Nov 2–3).
+**Status:** Phases 2 and 3 are merged into `main` and live at https://wow-forever-class-selector.vercel.app: the playable MVP with the person-first quiz (M1), plus the 3D hero, card reveal, Spec Galaxy, result image and link previews (M2, ahead of Sun Nov 1). Share layout V1 is now published: question changes need `LAYOUT_V2`. Branch `quiz-compass` replaces the 3D hero with the quiz compass (D40), waiting for review. Next: Phase 4 (launch hardening, Nov 2–3).
 
 **Hosting:** GitHub `abtrogue-cyber/Wow-forever-class-selector` (`origin`). Vercel deploys every push to `main` automatically. Commits use the GitHub noreply email (set in this repo's local git config).
 
@@ -44,8 +44,8 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - `src/share/` — share codes (`codec.ts`) with frozen answer layouts per code version (`layout.ts`)
 - `src/data/vocab.ts` — plain id lists (no Zod). App and engine code import ids from here, never runtime values from `schemas.ts`, so Zod stays out of the bundle.
 - `src/pages/` — routes: `/` (eager), `/quiz`, `/result/:code`, `/galaxy`, `/galaxy/:code`, `/about` (lazy), dev-only `/debug`, 404
-- `src/components/` — `quiz/` (setup + question types + hotkeys), `results/` (cards, radar, reveal, tweaks, share), `hero/` (HeroStage picks 3D or 2D, `look.ts` maps a build to its hero look), `galaxy/GalaxyMap2D`, `icons/Glyphs`, `layout/Site`
-- `src/three/` — lazy 3D scenes (R3F): `HeroScene` (forming hero, particles, fog) and `GalaxyScene`. Only these files import three.
+- `src/components/` — `quiz/` (setup + question types + hotkeys), `results/` (cards, radar, reveal, tweaks, share), `compass/` (quiz compass: `compass.ts` math and looks, `CompassStage` picks 3D or the flat `CompassMap2D`), `webgl.tsx` (WebGL checks + 3D error fallback), `galaxy/GalaxyMap2D`, `icons/Glyphs`, `layout/Site`
+- `src/three/` — lazy 3D scenes (R3F): `CompassScene` (quiz compass) and `GalaxyScene`. Only these files import three.
 - `src/galaxy/pca.ts` — Spec Galaxy layout (PCA), nearest builds, player position
 - `src/state/quizStore.ts` — Zustand quiz progress (sessionStorage, falls back to memory)
 - `src/i18n/en.ts` — every UI string

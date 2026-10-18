@@ -1,11 +1,14 @@
 import { motion } from 'motion/react'
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { useLocation } from 'wouter'
 import meta from '../data/meta.json'
-import { HeroStage } from '../components/hero/HeroStage'
 import { Page } from '../components/layout/Site'
 import { en } from '../i18n/en'
 import { useQuizStore } from '../state/quizStore'
+
+// The compass needs the game data, so it loads as its own chunk; the landing page itself stays small.
+const LandingCompass = lazy(() => import('../components/compass/LandingCompass'))
+const COMPASS_SIZE = 'mx-auto h-64 w-full max-w-md sm:h-80 md:h-[460px] md:max-w-none'
 
 export function LandingPage() {
   const [, navigate] = useLocation()
@@ -33,7 +36,9 @@ export function LandingPage() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="order-1 md:order-2"
         >
-          <HeroStage progress={0.18} className="mx-auto h-56 w-full max-w-md sm:h-72 md:h-[440px]" />
+          <Suspense fallback={<div className={COMPASS_SIZE} />}>
+            <LandingCompass className={COMPASS_SIZE} />
+          </Suspense>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 16 }}

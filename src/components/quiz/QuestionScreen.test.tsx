@@ -14,11 +14,13 @@ const question = (id: string) => {
   return q
 }
 
-function Harness({ id, onNext = () => {} }: { id: string; onNext?: () => void }) {
+type Preview = { value: string | string[] | undefined } | null
+
+function Harness({ id, onNext = () => {}, onPreview }: { id: string; onNext?: () => void; onPreview?: (p: Preview) => void }) {
   const [value, setValue] = useState<string | string[] | undefined>()
   return (
     <>
-      <QuestionScreen question={question(id)} wording="newcomer" hardcore={false} value={value} onChange={setValue} onNext={onNext} onBack={() => {}} isLast={false} />
+      <QuestionScreen question={question(id)} wording="newcomer" hardcore={false} value={value} onChange={setValue} onNext={onNext} onBack={() => {}} onPreview={onPreview} isLast={false} />
       <output data-testid="value">{JSON.stringify(value ?? null)}</output>
     </>
   )
@@ -59,5 +61,20 @@ describe('QuestionScreen', () => {
     vi.advanceTimersByTime(400)
     expect(onNext).toHaveBeenCalledTimes(1)
     vi.useRealTimers()
+  })
+
+  it('previews the answer under the pointer, including what a priority pick would make the list', async () => {
+    const user = userEvent.setup()
+    const onPreview = vi.fn()
+    render(<Harness id="group-project" onPreview={onPreview} />)
+    await user.hover(screen.getByRole('button', { name: /nobody falls behind/i }))
+    expect(onPreview).toHaveBeenLastCalledWith({ value: 'nobody-behind' })
+    await user.unhover(screen.getByRole('button', { name: /nobody falls behind/i }))
+    expect(onPreview).toHaveBeenLastCalledWith(null)
+    cleanup()
+    render(<Harness id="two-hours" onPreview={onPreview} />)
+    await user.click(screen.getByRole('button', { name: /fortune/i }))
+    await user.hover(screen.getByRole('button', { name: /few friends/i }))
+    expect(onPreview).toHaveBeenLastCalledWith({ value: ['fortune', 'few-friends'] })
   })
 })

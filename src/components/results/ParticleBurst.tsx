@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { PARTICLE_STYLE, type ParticlePreset } from '../hero/look'
+import { PARTICLE_STYLE, type ParticlePreset } from './particles'
 
 // The card reveal's particles: a burst from the card when it lands, then a gentle drift in the build's
 // fantasy (gold motes, fel embers, frost shards…). Plain 2D canvas, so it needs no WebGL and no 3D chunk.

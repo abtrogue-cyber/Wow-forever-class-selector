@@ -3,7 +3,7 @@ import { lazy, Suspense, useMemo, useState } from 'react'
 import { Link } from 'wouter'
 import { CLASS_IDS, gameData, type AxisId, type Wording } from '../data'
 import { GalaxyMap2D } from '../components/galaxy/GalaxyMap2D'
-import { can3d, Fallback, isLowPower } from '../components/hero/HeroStage'
+import { can3d, isLowPower, WebGLFallback } from '../components/webgl'
 import { ClassGlyph, RoleGlyph } from '../components/icons/Glyphs'
 import { Page } from '../components/layout/Site'
 import { buildInfo, ctx } from '../components/results/shared'
@@ -81,7 +81,7 @@ export function GalaxyPage({ code }: { code?: string }) {
                 <>
                   {/* The flat map stays visible until the 3D view has drawn its first frame. */}
                   {!ready3d && <div className="absolute inset-0">{flat}</div>}
-                  <Fallback fallback={flat}>
+                  <WebGLFallback fallback={flat}>
                     <Suspense fallback={null}>
                       <div className={`absolute inset-0 transition-opacity duration-500 ${ready3d ? 'opacity-100' : 'opacity-0'}`}>
                         <GalaxyScene
@@ -95,7 +95,7 @@ export function GalaxyPage({ code }: { code?: string }) {
                         />
                       </div>
                     </Suspense>
-                  </Fallback>
+                  </WebGLFallback>
                 </>
               ) : (
                 flat
