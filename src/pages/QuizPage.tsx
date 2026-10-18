@@ -90,10 +90,11 @@ export function QuizPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <div className="mx-auto grid w-full max-w-5xl flex-1 gap-4 px-4 pt-4 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
-        {/* At the reveal the compass glides to the middle of the page while the questions fade out. */}
+      <div className="mx-auto grid w-full max-w-5xl flex-1 gap-4 px-4 pt-4 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-10">
+        {/* Phones: the compass sits above the questions. Desktop: questions left, compass right; at the reveal the
+            compass glides to the middle of the page while the questions fade out. */}
         <aside
-          className={`flex flex-col items-center gap-3 transition-transform duration-700 ease-out lg:sticky lg:top-0 lg:h-dvh lg:justify-center ${reveal ? 'lg:translate-x-[70%] lg:scale-[1.15]' : ''}`}
+          className={`flex flex-col items-center gap-3 transition-transform duration-700 ease-out lg:sticky lg:top-0 lg:order-2 lg:h-dvh lg:justify-center ${reveal ? 'lg:-translate-x-[70%] lg:scale-[1.15]' : ''}`}
         >
           <CompassStage
             position={position}
@@ -118,7 +119,7 @@ export function QuizPage() {
         </aside>
 
         <section
-          className={`flex flex-col gap-4 pb-6 transition-opacity duration-500 lg:justify-center lg:py-10 ${reveal ? 'pointer-events-none opacity-0' : ''}`}
+          className={`flex flex-col gap-4 pb-6 transition-opacity duration-500 lg:order-1 lg:justify-center lg:py-10 ${reveal ? 'pointer-events-none opacity-0' : ''}`}
           aria-hidden={reveal ? true : undefined}
         >
           <div className="flex items-center justify-between text-sm text-ash-400">

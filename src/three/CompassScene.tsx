@@ -714,6 +714,9 @@ export default function CompassScene(props: CompassSceneProps) {
     <Canvas
       dpr={lowPower ? 1 : [1, 2]}
       frameloop={active ? 'always' : 'never'}
+      // Measure the layout size, not the on-screen size: the reveal scales the compass up, and a scaled
+      // measurement made the canvas wider than its box (cutting off the right edge and its label).
+      resize={{ offsetSize: true }}
       camera={{ fov: 40, near: 0.1, far: 100, position: [4.4, 2.8, 5.2] }}
       gl={{ antialias: false, powerPreference: lowPower ? 'low-power' : 'high-performance' }}
       aria-hidden="true"
