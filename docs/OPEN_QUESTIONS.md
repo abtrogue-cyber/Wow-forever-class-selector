@@ -28,14 +28,14 @@ Status key: 🔴 blocks a feature · 🟡 affects data quality · 🟢 nice to k
 | A17 | Build 1.60.1.70425 is reported by community sites — is it the build behind the Oct 15 notes? | Data version label | Cite the Blizzard post date, not the build | 🟢 |
 | A18 | Exact launch instant: Blizzard says "3:00 p.m. PDT", but Nov 4 is after US DST ends (PST). 23:00 UTC or 22:00 UTC? | Any launch countdown / copy | Say "Nov 4, 3 pm Pacific" and avoid a live countdown until confirmed | 🟢 |
 
-## B. Product decisions (need a call from you)
+## B. Product decisions — answered 2026-10-18
 
-| # | Question | My recommendation |
+| # | Question | Decision |
 |---|---|---|
-| B1 | Show **Hardcore** in setup before it launches? | Yes, as "Hardcore (planning ahead — launches this winter)". People are picking HC mains now. |
-| B2 | Skyborne "Not sure" handling | Show Skyborne races with a "needs Skyborne pack" badge and a small penalty, so a no-purchase race leads when it's close. |
-| B3 | Should "must be able to heal/tank" accept a class whose **second spec** covers it (e.g. Shadow Priest + Holy dual spec)? | Yes, it's class-level. The dual-spec partner then *must* be the healer/tank build. Very Forever-native (dual spec at 40). |
-| B4 | Add variant builds (Shockadin, Enhancement off-tank, petless MM) as separate stars? | Not for M1. Keep 28 builds, put variants in notes/badges, revisit after launch. |
-| B5 | Old share links after a data update: recompute with new data (and say so), or freeze old data? | Recompute with current data and show "results updated since this link was made". Keep every decoder forever. |
-| B6 | Popular builds for "Why not…?" — community perception is opinion. OK to hand-pick ~10 and label them "popular picks"? | Yes, hand-picked list in data with a `popular` flag, no claims about balance. |
-| B7 | Name: keep "Forever Main"? Domain idea? | Keep. Vercel subdomain first (`forever-main.vercel.app`), custom domain optional. |
+| B1 | Show **Hardcore** in setup before it launches? | ✅ Yes, as "Hardcore (planning ahead — launches this winter)". |
+| B2 | Skyborne "Not sure" handling | ✅ Show Skyborne races with a small penalty, so a no-purchase race leads when it's close. **No "needs pack" badge.** |
+| B3 | Should "must be able to heal/tank" accept a class whose **second spec** covers it (e.g. Shadow Priest + Holy dual spec)? | ✅ Yes, it's class-level. The dual-spec partner then *must* be the healer/tank build. |
+| B4 | Add variant builds (Shockadin, Enhancement off-tank, petless MM) as separate stars? | ✅ No. Keep 28 builds, variants become notes/flags. Revisit after launch. |
+| B5 | Old share links after a data update: recompute with new data (and say so), or freeze old data? | ✅ Recompute with current data and show "results updated since this link was made". Keep every decoder forever. |
+| B6 | Popular builds for "Why not…?" — community perception is opinion. OK to hand-pick ~10 and label them "popular picks"? | ✅ Yes: a hand-picked `popular` flag in the data, no claims about balance. |
+| B7 | Name: keep "Forever Main"? Domain idea? | ✅ Keep it. Vercel subdomain first (`forever-main.vercel.app`), custom domain optional. |

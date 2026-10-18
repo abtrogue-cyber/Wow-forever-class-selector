@@ -3,7 +3,7 @@
 Fan-made, very visual class / spec / race finder for **World of Warcraft: Forever** (launch Nov 4, 2026).
 Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current plan: [docs/PLAN.md](docs/PLAN.md).
 
-**Status:** Phase 0 (research, plan, spikes) done. Waiting for the go for Phase 1 (data + engine).
+**Status:** Phase 0 (research, plan, spikes) done. The plan was accepted on 2026-10-18 (see `docs/DECISIONS.md`). Waiting for the go for Phase 1 (data + engine).
 
 ## Working rules (from the brief §0 — always apply)
 

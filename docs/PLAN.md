@@ -1,7 +1,7 @@
 # Plan — Forever Main (Phase 0 proposal)
 
-> Status: **proposal for review** (2026-10-18). Decisions that need your OK are marked **[OK?]** and are also listed in
-> `OPEN_QUESTIONS.md` §B. Game facts come from `RESEARCH.md`. Nothing here is final until Phase 1 data + persona tests confirm it.
+> Status: **accepted 2026-10-18.** Decisions B1–B7 are answered in `OPEN_QUESTIONS.md` §B (B2 without the pack badge) and logged in
+> `DECISIONS.md`. Game facts come from `RESEARCH.md`. Weights and constants get tuned in Phase 1 against the persona tests.
 
 ---
 
@@ -39,7 +39,7 @@ All scores are on a 0–5 scale. **Mode** controls how a player's target is comp
 
 ## 2. Builds — 28, no new dedicated roles
 
-Research (RESEARCH.md §8) found **no brand-new dedicated role**. I recommend keeping the brief's 28 builds. Forever's role-adjacent options become **flags and notes**, not extra stars **[OK?] (B4)**.
+Research (RESEARCH.md §8) found **no brand-new dedicated role**, so we keep the brief's 28 builds. Forever's role-adjacent options become **flags and notes**, not extra stars (B4).
 
 | id | Role | Armor | Range | Pet | Forever hooks (for explanations) |
 |---|---|---|---|---|---|
@@ -74,7 +74,7 @@ Research (RESEARCH.md §8) found **no brand-new dedicated role**. I recommend ke
 
 \* low confidence → OPEN_QUESTIONS A10/A11. Plate/mail are worn from level 40; the armor axis uses the endgame armor type.
 
-**Build fields** (extends brief §6): `petStyle: none|optional|required`, `stealth: 0–3`, `offTank?: "smallGroup"`, `variants[]` (name + note), `popular` (for "Why not…?", hand-picked, **[OK?] (B6)**), `strengths[]`/`weaknesses[]` each tagged with the axes they explain, and optional per-axis `confidence`.
+**Build fields** (extends brief §6): `petStyle: none|optional|required`, `stealth: 0–3`, `offTank?: "smallGroup"`, `variants[]` (name + note), `popular` (for "Why not…?", hand-picked, B6), `strengths[]`/`weaknesses[]` each tagged with the axes they explain, and optional per-axis `confidence`.
 
 ---
 
@@ -93,8 +93,8 @@ Builds carry strengths 1–3 per tag (e.g. Holy Paladin: holy 3, healer 3, prote
 |---|---|---|
 | experience | "How well do you know World of Warcraft?" | New to WoW · I've played WoW (Classic or retail) · Vanilla veteran |
 | faction | "Pick a side" (+ one-line flavor per faction) | Alliance · Horde · No preference |
-| ruleset | "Where will you play?" | Normal · PvP · Roleplay · Hardcore *(launches this winter)* **[OK?] (B1)** |
-| skyborne | "Do you own the Skyborne pack? (the new sky-elf race needs a paid upgrade)" | Yes · No · Not sure **[OK?] (B2)** |
+| ruleset | "Where will you play?" | Normal · PvP · Roleplay · Hardcore *(planning ahead — launches this winter)* (B1) |
+| skyborne | "Do you own the Skyborne pack? (the new sky-elf race needs a paid upgrade)" | Yes · No · Not sure (B2) |
 
 Veteran wording only changes jargon (e.g. "Ruleset?" instead of "Where will you play?"). Option 1 → newcomer texts, options 2–3 → veteran texts.
 
@@ -149,7 +149,7 @@ Cut candidates if testing shows > 3 min: Q8, then Q4 (their tag signals overlap 
 ### 5.2 Filters
 - A build is dropped if it breaks any hard filter, **or** if it has no allowed race for the chosen faction + Skyborne ownership. Every class has a non-Skyborne race on both sides, so in practice this only matters for race lists.
 - `noPets` drops `petStyle: required`. `rangedOnly` keeps range ≥ 3.5. `meleeOnly` keeps range ≤ 1.5. `noStealth` drops stealth ≥ 2.
-- **`mustHeal` / `mustTank` are class-level:** the class must have a healer/tank build, and that build then becomes the dual-spec partner **[OK?] (B3)**.
+- **`mustHeal` / `mustTank` are class-level:** the class must have a healer/tank build, and that build then becomes the dual-spec partner (B3).
 - If nothing survives, show "No build matches every deal-breaker" and suggest which filter to relax.
 
 ### 5.3 Score
@@ -179,7 +179,7 @@ It's absolute, so a build shows the same % no matter what else is listed. If the
   - from the profile: PvP → stun/fear/root breaks, escape, stealthDetect; Hardcore → escape, defensiveCD, downtime; leveling → downtime, beastDamage, mobility; gold → gold, herbalism
   - from class spells: Priest racial spells, e.g. Human Divine Grace for healers
 - **Aesthetic** comes from Q13 (× 1.5 on RP). **Novelty** adds a bonus to ★ combos only if Q14 = new.
-- **Skyborne:** "No" → excluded; "Yes" → normal; "Not sure" → allowed with a small penalty and a "needs Skyborne pack" badge.
+- **Skyborne:** "No" → excluded; "Yes" → normal; "Not sure" → allowed with a small penalty, no badge (B2).
 - **Output:** the top 3 races, each with 1–2 reasons from its biggest racial contributions, in our own words ("Ruthless — +2% crit chance on everything").
 
 **Skyborne is modelled as two race entries:** `skyborne-high-order` (Alliance) and `skyborne-windshaper` (Horde), grouped as "Skyborne". Their racials and class lists differ.
@@ -211,7 +211,7 @@ It's absolute, so a build shows the same % no matter what else is listed. If the
   | tweak sliders (4 × 3) | 12 |
   | **total** | **≈ 64 bits → ~11 chars** |
 
-- Old codes must always decode (keep every decoder). Results are recomputed with the current data. If `dataVersion` changed, show "Results updated since this link was made" **[OK?] (B5)**.
+- Old codes must always decode (keep every decoder). Results are recomputed with the current data. If `dataVersion` changed, show "Results updated since this link was made" (B5).
 
 ### 5.8 Persona fixtures (Phase 1 snapshot tests)
 | Persona | Expected top picks (sanity, not exact) |
@@ -298,7 +298,7 @@ As in brief §6, plus:
 └─ HeroStage                            WebGL + not low-power → lazy <HeroScene/> (Suspense → Hero2D), else Hero2D
 ```
 
-**Libraries to confirm** (small, inside the brief's stack spirit) **[OK?]**:
+**Libraries and fonts (confirmed, D12):**
 - **wouter** (~2 KB) for routing, instead of React Router.
 - `vercel.json` SPA rewrites.
 - Fonts (Google Fonts): **Cinzel** (engraved display caps, close to the in-game title feel) + **Alegreya Sans** (readable humanist body). Alternatives: Cormorant SC / Marcellus + Source Sans 3.
