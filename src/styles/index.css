@@ -100,8 +100,3 @@
 .compass-orbit {
   animation: compass-spin 3.5s linear infinite;
 }
-/* Feather the 3D compass canvas into the page. Only the canvas: its labels sit on top and must stay crisp. */
-.compass-fade canvas {
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 70%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 70%, transparent 100%);
-}

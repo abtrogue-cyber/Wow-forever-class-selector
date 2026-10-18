@@ -7,6 +7,10 @@ import { CompassMap2D } from './CompassMap2D'
 // The whole 3D stack (three, R3F, drei, postprocessing) lives behind this dynamic import.
 const CompassScene = lazy(() => import('../../three/CompassScene'))
 
+/** Feathers the 3D scene's edges into the page so it has no hard box around it. */
+const EDGE_FADE = 'radial-gradient(ellipse 50% 50% at 50% 50%, #000 70%, transparent 100%)'
+const EDGE_FADE_STYLE = { maskImage: EDGE_FADE, WebkitMaskImage: EDGE_FADE }
+
 /** Below this height the axis labels would crowd the compass, so they're hidden. */
 const LABELS_MIN_HEIGHT = 220
 
@@ -61,18 +65,21 @@ export function CompassStage({ className = '', ...scene }: SceneInput & { classN
       {mounted && (
         <WebGLFallback fallback={flat}>
           <Suspense fallback={null}>
-            {/* compass-fade feathers only the canvas edges into the page; the labels on top stay crisp. */}
-            <div className={`compass-fade absolute inset-0 transition-opacity duration-700 ${ready ? 'opacity-100' : 'opacity-0'}`}>
-              <CompassScene
-                {...scene}
-                labels={labels}
-                labelElements={labelEls}
-                interactive={interactive}
-                reducedMotion={reducedMotion}
-                lowPower={isLowPower()}
-                active={active}
-                onReady={() => setReady(true)}
-              />
+            <div className={`absolute inset-0 transition-opacity duration-700 ${ready ? 'opacity-100' : 'opacity-0'}`}>
+              {/* The edge fade masks a box around the canvas, never the <canvas> itself: some browsers stop
+                  drawing a masked WebGL canvas. The labels sit outside the box, so they stay crisp. */}
+              <div className="absolute inset-0" style={EDGE_FADE_STYLE}>
+                <CompassScene
+                  {...scene}
+                  labels={labels}
+                  labelElements={labelEls}
+                  interactive={interactive}
+                  reducedMotion={reducedMotion}
+                  lowPower={isLowPower()}
+                  active={active}
+                  onReady={() => setReady(true)}
+                />
+              </div>
               {labels && (
                 <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
                   {scene.axisEnds.flatMap((ends, axis) =>

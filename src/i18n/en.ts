@@ -146,6 +146,11 @@ export const en = {
     body: 'This page does not exist.',
     home: 'Back to the start',
   },
+  error: {
+    title: 'Something went wrong',
+    body: 'The page hit a snag, often because the site was just updated. Reloading usually fixes it.',
+    reload: 'Reload',
+  },
   disclaimer:
     'Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft and Warcraft are trademarks or registered trademarks of Blizzard Entertainment, Inc.',
 } as const
