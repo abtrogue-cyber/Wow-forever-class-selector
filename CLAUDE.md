@@ -3,7 +3,7 @@
 Fan-made, very visual class / spec / race finder for **World of Warcraft: Forever** (launch Nov 4, 2026).
 Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current plan: [docs/PLAN.md](docs/PLAN.md).
 
-**Status:** Phase 2 (playable MVP) is done on branch `phase-2`. Waiting for the go to merge and deploy to Vercel (M1, Mon Oct 26), then Phase 3.
+**Status:** Phase 2 (playable MVP, person-first quiz) is merged into `main`. Next: the first push to GitHub and the Vercel deploy (M1, Mon Oct 26), then Phase 3. Commits use the GitHub noreply email (set in this repo's local git config).
 
 ## Working rules (from the brief §0 — always apply)
 
