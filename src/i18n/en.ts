@@ -69,7 +69,7 @@ export const en = {
       soloLeveling: ['With company', 'On my own'],
       sustain: ['Stop and rest', 'Keeps going'],
       survivability: ['Fragile', 'Hard to kill'],
-      dungeon: ['Few groups', 'Small groups'],
+      dungeon: ['Rarely in a group', 'With a group'],
       raid: ['No big teams', 'Big teams'],
       worldPvp: ['Peaceful', 'Rivals'],
       battlegrounds: ['No matches', 'Fair fights'],

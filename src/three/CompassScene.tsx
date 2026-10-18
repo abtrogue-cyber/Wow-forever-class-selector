@@ -1,4 +1,4 @@
-import { Html, Line, OrbitControls } from '@react-three/drei'
+import { Line, OrbitControls } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Bloom, EffectComposer, ToneMapping, Vignette } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
@@ -24,8 +24,10 @@ export type CompassSceneProps = {
   companion: boolean
   /** Changes on every answer: sends a pulse ring out from your star. */
   pulse: string
-  /** Plain-word names for [negative, positive] ends of the three directions. */
+  /** Plain-word names for [negative, positive] ends of the three directions (drawn by the stage). */
   axisEnds: [string, string][]
+  /** The stage's six label elements (axis 0 −/+, axis 1 −/+, axis 2 −/+), positioned by the scene each frame. */
+  labelElements?: React.RefObject<(HTMLElement | null)[]>
   stars: CompassStar[]
   starMode: 'hidden' | 'faint' | 'full'
   /** Build id of your #1: your star flies there, then onRevealDone fires. */
@@ -206,9 +208,16 @@ function Starfield({ count, reducedMotion }: { count: number; reducedMotion: boo
   return <points geometry={geometry} material={material} frustumCulled={false} />
 }
 
-// ——— The armillary: three rings, three axes, plain-word labels ——————————————————————————
+// ——— The armillary: three rings and three axes ——————————————————————————————————————————————
 
-function Armillary({ axisEnds, labels }: { axisEnds: [string, string][]; labels: boolean }) {
+/** A point along one axis, at `scale` × the axis length. */
+const axisPoint = (axis: number, sign: number, scale = 1): [number, number, number] => {
+  const p: [number, number, number] = [0, 0, 0]
+  p[axis] = sign * AXIS_LEN * scale
+  return p
+}
+
+function Armillary() {
   const rings = useMemo(
     () =>
       [0, 1, 2].map((plane) =>
@@ -221,34 +230,7 @@ function Armillary({ axisEnds, labels }: { axisEnds: [string, string][]; labels:
       ),
     [],
   )
-  const end = (axis: number, sign: number, scale = 1): [number, number, number] => {
-    const p: [number, number, number] = [0, 0, 0]
-    p[axis] = sign * AXIS_LEN * scale
-    return p
-  }
   const capColor = useMemo(() => new THREE.Color(GOLD).multiplyScalar(1.6), [])
-
-  // Keep labels readable as the compass turns: near the canvas edge a label grows inward instead of being
-  // cut off, and when an axis points at the camera its two labels (piled up in the middle) fade out.
-  const labelRefs = useRef<(HTMLSpanElement | null)[]>([])
-  const ndc = useMemo(() => [new THREE.Vector3(), new THREE.Vector3()], [])
-  useFrame(({ camera }) => {
-    if (!labels) return
-    for (let axis = 0; axis < 3; axis++) {
-      const [a, b] = ndc as [THREE.Vector3, THREE.Vector3]
-      a.set(...end(axis, -1, 1.09)).project(camera)
-      b.set(...end(axis, 1, 1.09)).project(camera)
-      const seen = smoothstep(0.35, 0.65, Math.hypot(a.x - b.x, a.y - b.y))
-      ;[a, b].forEach((p, i) => {
-        const el = labelRefs.current[axis * 2 + i]
-        if (!el) return
-        const edge = 1 - smoothstep(0.9, 1.02, Math.abs(p.y))
-        el.style.opacity = String(seen * edge)
-        el.style.transform = `translateX(${(-THREE.MathUtils.clamp(p.x, -1, 1) * 50).toFixed(1)}%)`
-      })
-    }
-  })
-
   return (
     <group>
       {rings.map((pts, i) => (
@@ -256,35 +238,63 @@ function Armillary({ axisEnds, labels }: { axisEnds: [string, string][]; labels:
       ))}
       {[0, 1, 2].map((axis) => (
         <group key={axis}>
-          <Line points={[end(axis, -1), end(axis, 1)]} color={GOLD} lineWidth={1.3} transparent opacity={0.42} />
+          <Line points={[axisPoint(axis, -1), axisPoint(axis, 1)]} color={GOLD} lineWidth={1.3} transparent opacity={0.42} />
           {[-1, -0.5, 0.5, 1].map((t) => (
-            <mesh key={t} position={end(axis, t, R / AXIS_LEN)}>
+            <mesh key={t} position={axisPoint(axis, t, R / AXIS_LEN)}>
               <sphereGeometry args={[0.022, 8, 6]} />
               <meshBasicMaterial color={GOLD} transparent opacity={0.6} />
             </mesh>
           ))}
           {[-1, 1].map((sign) => (
-            <mesh key={sign} position={end(axis, sign)}>
+            <mesh key={sign} position={axisPoint(axis, sign)}>
               <sphereGeometry args={[0.035, 10, 8]} />
               <meshBasicMaterial color={capColor} toneMapped={false} />
             </mesh>
           ))}
-          {labels &&
-            [-1, 1].map((sign) => (
-              <Html key={`l${sign}`} center position={end(axis, sign, 1.09)} zIndexRange={[20, 0]} style={{ pointerEvents: 'none' }}>
-                <span
-                  ref={(el) => void (labelRefs.current[axis * 2 + (sign > 0 ? 1 : 0)] = el)}
-                  className="block font-display text-[10px] tracking-[0.18em] whitespace-nowrap text-gold-300 uppercase"
-                  style={{ textShadow: '0 0 6px #04060c, 0 0 2px #04060c', opacity: 0 }}
-                >
-                  {axisEnds[axis]?.[sign < 0 ? 0 : 1]}
-                </span>
-              </Html>
-            ))}
         </group>
       ))}
     </group>
   )
+}
+
+/**
+ * Places the six axis labels — plain DOM spans owned by the stage, laid over the canvas — at the axis tips
+ * every frame. A label grows inward from its tip and is kept inside the canvas, so it is never cut off; when
+ * an axis points at the camera, its two labels (piled up in the middle) fade out until it turns again.
+ * (Plain spans instead of drei's <Html>, which mounts a React root per label and could lose one at startup.)
+ */
+function AxisLabels({ elements }: { elements: React.RefObject<(HTMLElement | null)[]> }) {
+  const tips = useMemo(() => [0, 1, 2].flatMap((axis) => [-1, 1].map((sign) => new THREE.Vector3(...axisPoint(axis, sign, 1.09)))), [])
+  const ndc = useMemo(() => tips.map(() => new THREE.Vector3()), [tips])
+  // Label sizes, re-measured now and then (the display font may arrive after the first frame).
+  const boxes = useRef<{ w: number; h: number }[]>([])
+  const frame = useRef(0)
+  useFrame(({ camera, size }) => {
+    const els = elements.current
+    if (!els) return
+    const measure = frame.current++ % 120 === 0
+    const margin = 6
+    tips.forEach((t, k) => ndc[k]!.copy(t).project(camera))
+    for (let axis = 0; axis < 3; axis++) {
+      const a = ndc[axis * 2]!
+      const b = ndc[axis * 2 + 1]!
+      const seen = smoothstep(0.35, 0.65, Math.hypot(a.x - b.x, a.y - b.y))
+      ;[a, b].forEach((p, i) => {
+        const k = axis * 2 + i
+        const el = els[k]
+        if (!el) return
+        if (measure || !boxes.current[k]?.w) boxes.current[k] = { w: el.offsetWidth, h: el.offsetHeight }
+        const { w, h } = boxes.current[k]!
+        const ax = ((p.x + 1) / 2) * size.width
+        const ay = ((1 - p.y) / 2) * size.height
+        const x = THREE.MathUtils.clamp(ax - w / 2 - THREE.MathUtils.clamp(p.x, -1, 1) * 0.5 * w, margin, size.width - margin - w)
+        const y = THREE.MathUtils.clamp(ay - h / 2, margin, size.height - margin - h)
+        el.style.opacity = String(seen)
+        el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`
+      })
+    }
+  })
+  return null
 }
 
 // ——— Motion: chase the answers, wander on the landing page, fly to your #1 at the reveal ——————
@@ -694,8 +704,8 @@ function FirstFrame({ onReady }: { onReady?: () => void }) {
 }
 
 export default function CompassScene(props: CompassSceneProps) {
-  const { position, preview, stops, tint, orb, novelty, companion, pulse, axisEnds, stars, starMode, revealTarget, onRevealDone } = props
-  const { wander, labels, interactive, reducedMotion, lowPower, active, onReady } = props
+  const { position, preview, stops, tint, orb, novelty, companion, pulse, stars, starMode, revealTarget, onRevealDone } = props
+  const { wander, labels, labelElements, interactive, reducedMotion, lowPower, active, onReady } = props
   const motion = useMemo<Motion>(() => ({ pos: v3(position), arrivedAt: -1 }), [])
   const revealColor = revealTarget ? (stars.find((s) => s.id === revealTarget)?.color ?? null) : null
   const Rig = interactive ? OrbitRig : AutoRig
@@ -711,7 +721,8 @@ export default function CompassScene(props: CompassSceneProps) {
       <color attach="background" args={['#04060c']} />
       <Nebula tint={tint} reducedMotion={reducedMotion} />
       <Starfield count={lowPower ? 700 : 1600} reducedMotion={reducedMotion} />
-      <Armillary axisEnds={axisEnds} labels={labels} />
+      <Armillary />
+      {labels && labelElements && <AxisLabels elements={labelElements} />}
       <SpecStars stars={stars} mode={starMode} revealTarget={revealTarget} motion={motion} />
       <Trail stops={stops} motion={motion} />
       <DropLine motion={motion} />

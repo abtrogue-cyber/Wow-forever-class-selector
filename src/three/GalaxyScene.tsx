@@ -1,4 +1,4 @@
-import { Html, Line, OrbitControls } from '@react-three/drei'
+import { Line, OrbitControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
@@ -83,15 +83,11 @@ function Star({ star, active, onSelect, onHover }: {
       <mesh visible={false} onClick={(e) => (e.stopPropagation(), onSelect(star.id))}>
         <sphereGeometry args={[0.25, 8, 6]} />
       </mesh>
-      {/* Always mounted, faded in and out: mounting Html roots mid-render upsets React. */}
-      <Html center distanceFactor={9} position={[0, 0.28, 0]} style={{ pointerEvents: 'none', opacity: active ? 1 : 0, transition: 'opacity 200ms' }}>
-        <span className="whitespace-nowrap rounded-full bg-night-900/85 px-2.5 py-1 text-xs text-parchment-100">{star.name}</span>
-      </Html>
     </group>
   )
 }
 
-function YouStar({ pos, label, reducedMotion }: { pos: Vec3; label: string; reducedMotion: boolean }) {
+function YouStar({ pos, reducedMotion }: { pos: Vec3; reducedMotion: boolean }) {
   const mesh = useRef<THREE.Mesh>(null)
   useFrame(({ clock }) => {
     const m = mesh.current
@@ -105,11 +101,30 @@ function YouStar({ pos, label, reducedMotion }: { pos: Vec3; label: string; redu
         <octahedronGeometry args={[0.16, 0]} />
         <meshBasicMaterial color={new THREE.Color('#f5c86b').multiplyScalar(3)} toneMapped={false} />
       </mesh>
-      <Html center distanceFactor={9} position={[0, 0.34, 0]} style={{ pointerEvents: 'none' }}>
-        <span className="font-display rounded-full bg-night-900/85 px-2.5 py-1 text-xs tracking-widest text-gold-300 uppercase">{label}</span>
-      </Html>
     </group>
   )
+}
+
+/**
+ * Pins a plain DOM label (laid over the canvas) just above a point in the scene every frame.
+ * (Plain elements instead of drei's <Html>, which mounts a React root per label and could lose one.)
+ */
+function PinLabel({ el, at: pos, lift }: { el: React.RefObject<HTMLElement | null>; at: THREE.Vector3 | null; lift: number }) {
+  const v = useMemo(() => new THREE.Vector3(), [])
+  useFrame(({ camera, size }) => {
+    const node = el.current
+    if (!node) return
+    if (!pos) {
+      node.style.opacity = '0'
+      return
+    }
+    v.copy(pos).project(camera)
+    const x = ((v.x + 1) / 2) * size.width - node.offsetWidth / 2
+    const y = ((1 - v.y) / 2) * size.height - node.offsetHeight - lift
+    node.style.opacity = v.z < 1 ? '1' : '0'
+    node.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`
+  })
+  return null
 }
 
 /** The Spec Galaxy in 3D (lazy chunk). Fills its parent. */
@@ -117,8 +132,14 @@ export default function GalaxyScene({ stars, you, selected, onSelect, reducedMot
   const [hovered, setHovered] = useState<string | null>(null)
   const byId = useMemo(() => new Map(stars.map((s) => [s.id, s])), [stars])
   useEffect(() => () => void (document.body.style.cursor = ''), [])
+  const focus = byId.get(hovered ?? selected ?? '')
+  const focusAt = useMemo(() => (focus ? new THREE.Vector3(...at(focus.pos)) : null), [focus])
+  const youAt = useMemo(() => (you ? new THREE.Vector3(...at(you.pos)) : null), [you])
+  const nameEl = useRef<HTMLSpanElement>(null)
+  const youEl = useRef<HTMLSpanElement>(null)
 
   return (
+    <>
     <Canvas dpr={lowPower ? 1 : [1, 2]} camera={{ fov: 45, position: [0, 1.2, 9.5] }} gl={{ antialias: true }} onCreated={() => onReady?.()} aria-hidden="true">
       <color attach="background" args={['#04060c']} />
       <Backdrop />
@@ -127,7 +148,7 @@ export default function GalaxyScene({ stars, you, selected, onSelect, reducedMot
       ))}
       {you && (
         <>
-          <YouStar pos={you.pos} label={you.label} reducedMotion={reducedMotion} />
+          <YouStar pos={you.pos} reducedMotion={reducedMotion} />
           {you.links.map((id) => {
             const target = byId.get(id)
             return target ? (
@@ -144,10 +165,23 @@ export default function GalaxyScene({ stars, you, selected, onSelect, reducedMot
         autoRotate={!reducedMotion && hovered == null}
         autoRotateSpeed={0.35}
       />
+      <PinLabel el={nameEl} at={focusAt} lift={14} />
+      <PinLabel el={youEl} at={youAt} lift={18} />
       <EffectComposer multisampling={0}>
         <Bloom mipmapBlur intensity={lowPower ? 0.8 : 1.1} luminanceThreshold={1.0} luminanceSmoothing={0.2} />
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       </EffectComposer>
     </Canvas>
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <span ref={nameEl} className="absolute top-0 left-0 rounded-full bg-night-900/85 px-2.5 py-1 text-xs whitespace-nowrap text-parchment-100" style={{ opacity: 0 }}>
+        {focus?.name}
+      </span>
+      {you && (
+        <span ref={youEl} className="absolute top-0 left-0 rounded-full bg-night-900/85 px-2.5 py-1 font-display text-xs tracking-widest text-gold-300 uppercase" style={{ opacity: 0 }}>
+          {you.label}
+        </span>
+      )}
+    </div>
+    </>
   )
 }

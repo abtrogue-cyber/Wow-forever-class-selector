@@ -40,7 +40,8 @@ export function CompassMap2D({ position, preview, stops, tint, orb, novelty, com
     <svg
       viewBox="-60 -54 120 108"
       className="h-full w-full"
-      style={{ background: `radial-gradient(ellipse at 50% 45%, ${tint}38 0%, #070a14 58%, #04060c 100%)`, transition: 'background 800ms' }}
+      // The sky fades out at the edges (no hard box), while the labels drawn on top stay crisp.
+      style={{ background: `radial-gradient(ellipse 50% 50% at 50% 50%, ${tint}38 0%, #070a14 55%, rgba(4, 6, 12, 0) 100%)` }}
       aria-hidden="true"
     >
       <defs>
