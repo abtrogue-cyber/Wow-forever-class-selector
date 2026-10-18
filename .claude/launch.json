@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "spike-a-wow-model-viewer",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["spikes/wow-model-viewer/node_modules/vite/bin/vite.js", "spikes/wow-model-viewer"],
+      "port": 5180
+    },
+    {
+      "name": "spike-b-r3f-hero",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["spikes/r3f-hero/node_modules/vite/bin/vite.js", "spikes/r3f-hero"],
+      "port": 5181
+    }
+  ]
+}
