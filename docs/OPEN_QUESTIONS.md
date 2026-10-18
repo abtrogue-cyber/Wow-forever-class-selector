@@ -27,6 +27,12 @@ Status key: 🔴 blocks a feature · 🟡 affects data quality · 🟢 nice to k
 | A16 | Skyborne pack pricing per region/currency | Only shown as "paid pack" | Don't show prices | 🟢 |
 | A17 | Build 1.60.1.70425 is reported by community sites — is it the build behind the Oct 15 notes? | Data version label | Cite the Blizzard post date, not the build | 🟢 |
 | A18 | Exact launch instant: Blizzard says "3:00 p.m. PDT", but Nov 4 is after US DST ends (PST). 23:00 UTC or 22:00 UTC? | Any launch countdown / copy | Say "Nov 4, 3 pm Pacific" and avoid a live countdown until confirmed | 🟢 |
+| A19 | Which racials matter for which role (the racial need-tags and weights in `src/engine/config.ts`) | Race ranking per build | Editorial judgment; review via /debug "All allowed races" | 🟡 |
+| A20 | Effects of the "unchanged from Classic" priest racial spells (Feedback, Desperate Prayer, Hex of Weakness, Shadowguard, Touch of Weakness) | Priest race reasons | Blizzard only says "unchanged"; we describe them minimally | 🟢 |
+
+## C. Waiting on your review
+
+- **`docs/SCORES_REVIEW.md`**: every build's 14 editorial scores, the extremes per axis and what each test persona gets. Tell me any number that looks wrong (e.g. "Frost Mage gold 4 → 3") or edit `src/data/builds.json`, then `npm run scores:review`.
 
 ## B. Product decisions — answered 2026-10-18
 

@@ -163,7 +163,7 @@ For each component *c* — the 14 axes, plus `tags`, `role` and `novelty` as pse
 
 **S = Σ w_c · f_c / Σ w_c** — weights from the profile; tags default to 1.5 (× 1.3 on RP), role to 2 when expressed.
 
-**Match %:** **match = clamp(round(100 · σ(k · (S − s0))), 5, 98)**, with *k* and *s0* fitted in Phase 1 on the persona fixtures. Targets:
+**Match %:** **match = clamp(round(100 · σ(k · (S − s0))), 5, 97)**. Phase 1 fitted *k* = 14.5 and *s0* = 0.72 on the persona fixtures (D19). Targets:
 - a coherent persona's #1 lands at 85–97
 - the median build lands at 40–65
 - #1 minus #10 is at least 15 points
@@ -188,11 +188,11 @@ It's absolute, so a build shows the same % no matter what else is listed. If the
 - For each component: **rel_c = w_c · (f_c(build) − mean f_c over all eligible builds)**. This measures "what makes *this* build stand out for *you*".
 - **Why it fits** = the top 3 positive rel. Text comes from the build's own `strengths[]` entry tagged with that axis when one exists (specific: "Life Tap + drains = almost no downtime"). Otherwise it comes from a generic axis template (newcomer/veteran).
 - **Watch out** = the 1–2 most negative rel; otherwise the build's top `weaknesses[]` entry, so there's always ≥ 1 caveat.
-- **Why not X?** = 2–3 `popular` builds outside the top 5. Each gives its filter reason ("You said no pets — Beast Mastery is built around one") or its single most negative rel.
+- **Why not X?** = up to 3 `popular` builds outside the top 5. First the #1 class's popular spec, then the nearest misses (one per class), excluded builds last (D20). Each gives its filter reason ("Built around a pet, and you said no pets") or its single most negative rel.
 
 ### 5.6 Dual-spec partner
 - If `mustHeal`/`mustTank` isn't met by the main build, the partner is the best healer/tank build of the class.
-- Otherwise: re-weight the profile so priority #2 becomes #1, then pick the best other build of the same class among its curated `dualSpecPartners` (fallback: any same-class build).
+- Otherwise: among the curated `dualSpecPartners` that pass the hard filters, pick the one with the highest score on priority #2's axis, tie-broken by overall fit with #2 promoted (D21). Without priorities: best overall fit.
 - Text: "Unlock dual spec at 40 (10 g) and keep **Protection** for dungeons — your #2 priority."
 
 ### 5.7 Determinism, versions, share links
