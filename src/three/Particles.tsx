@@ -1,37 +1,34 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
-import type { ParticlePreset } from '../components/hero/look'
+import { PARTICLE_STYLE, type ParticlePreset } from '../components/hero/look'
+
+const SHAPE = { dot: 0, shard: 1, ember: 2 } as const
 
 // GPU particles around the hero, one look per fantasy (brief §8). Switching presets only changes uniforms,
 // so the leading class can change mid-quiz without rebuilding anything.
 
 type Preset = {
-  color: string
   intensity: number
   size: number
   /** Vertical speed range (units/s). */
   speed: [number, number]
-  /** 1 rises, −1 falls, 0 hovers. */
-  dir: number
   /** Sideways wander amplitude. */
   wander: number
   /** Orbit speed around the hero (rad/s). */
   swirl: number
-  /** 0 soft dot, 1 diamond shard, 2 tall ember. */
-  shape: number
   twinkle: number
 }
 
 export const PRESETS: Record<ParticlePreset, Preset> = {
-  holy: { color: '#ffcf6e', intensity: 2.4, size: 70, speed: [0.08, 0.3], dir: 1, wander: 0.08, swirl: 0, shape: 0, twinkle: 3 },
-  shadow: { color: '#7a5cc4', intensity: 1.5, size: 110, speed: [0.04, 0.14], dir: 1, wander: 0.16, swirl: 0.12, shape: 0, twinkle: 1 },
-  fel: { color: '#7dff4a', intensity: 2.6, size: 55, speed: [0.2, 0.5], dir: 1, wander: 0.05, swirl: 0, shape: 2, twinkle: 6 },
-  frost: { color: '#bdeeff', intensity: 2.2, size: 60, speed: [0.06, 0.16], dir: -1, wander: 0.1, swirl: 0.05, shape: 1, twinkle: 2 },
-  fire: { color: '#ff8a3c', intensity: 2.8, size: 55, speed: [0.25, 0.6], dir: 1, wander: 0.06, swirl: 0, shape: 2, twinkle: 8 },
-  nature: { color: '#c8f27a', intensity: 2.2, size: 60, speed: [0, 0.05], dir: 0, wander: 0.35, swirl: 0, shape: 0, twinkle: 1.5 },
-  arcane: { color: '#c48bff', intensity: 2.6, size: 60, speed: [0.05, 0.15], dir: 1, wander: 0.05, swirl: 0.5, shape: 1, twinkle: 5 },
-  elements: { color: '#7cc8ff', intensity: 3, size: 45, speed: [0.1, 0.3], dir: 1, wander: 0.12, swirl: 0.2, shape: 1, twinkle: 12 },
+  holy: { intensity: 2.4, size: 70, speed: [0.08, 0.3], wander: 0.08, swirl: 0, twinkle: 3 },
+  shadow: { intensity: 1.5, size: 110, speed: [0.04, 0.14], wander: 0.16, swirl: 0.12, twinkle: 1 },
+  fel: { intensity: 2.6, size: 55, speed: [0.2, 0.5], wander: 0.05, swirl: 0, twinkle: 6 },
+  frost: { intensity: 2.2, size: 60, speed: [0.06, 0.16], wander: 0.1, swirl: 0.05, twinkle: 2 },
+  fire: { intensity: 2.8, size: 55, speed: [0.25, 0.6], wander: 0.06, swirl: 0, twinkle: 8 },
+  nature: { intensity: 2.2, size: 60, speed: [0, 0.05], wander: 0.35, swirl: 0, twinkle: 1.5 },
+  arcane: { intensity: 2.6, size: 60, speed: [0.05, 0.15], wander: 0.05, swirl: 0.5, twinkle: 5 },
+  elements: { intensity: 3, size: 45, speed: [0.1, 0.3], wander: 0.12, swirl: 0.2, twinkle: 12 },
 }
 
 const vertexShader = /* glsl */ `
@@ -118,6 +115,7 @@ export function Particles({ preset, count, progress, reducedMotion }: Props) {
 
   const material = useMemo(() => {
     const p = PRESETS.holy
+    const style = PARTICLE_STYLE.holy
     return new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
@@ -125,14 +123,14 @@ export function Particles({ preset, count, progress, reducedMotion }: Props) {
         uHeight: { value: height },
         uPixelRatio: { value: 1 },
         uSpeed: { value: new THREE.Vector2(...p.speed) },
-        uDir: { value: p.dir },
+        uDir: { value: style.dir },
         uWander: { value: p.wander },
         uSwirl: { value: p.swirl },
         uTwinkle: { value: p.twinkle },
-        uColor: { value: new THREE.Color(p.color) },
+        uColor: { value: new THREE.Color(style.color) },
         uIntensity: { value: p.intensity },
         uOpacity: { value: 0.5 },
-        uShape: { value: p.shape },
+        uShape: { value: SHAPE[style.shape] },
       },
       vertexShader,
       fragmentShader,
@@ -147,19 +145,20 @@ export function Particles({ preset, count, progress, reducedMotion }: Props) {
   useFrame((_, delta) => {
     const u = material.uniforms
     const p = PRESETS[preset]
+    const style = PARTICLE_STYLE[preset]
     const k = 1 - Math.exp(-delta * 3)
     u.uTime!.value += reducedMotion ? delta * 0.15 : delta
     u.uPixelRatio!.value = dpr
     u.uOpacity!.value = 0.35 + 0.65 * (progress.current ?? 0)
-    ;(u.uColor!.value as THREE.Color).lerp(goal.set(p.color), k)
+    ;(u.uColor!.value as THREE.Color).lerp(goal.set(style.color), k)
     u.uIntensity!.value = THREE.MathUtils.lerp(u.uIntensity!.value, p.intensity, k)
     u.uSize!.value = THREE.MathUtils.lerp(u.uSize!.value, p.size, k)
     ;(u.uSpeed!.value as THREE.Vector2).set(...p.speed)
-    u.uDir!.value = p.dir
+    u.uDir!.value = style.dir
     u.uWander!.value = p.wander
     u.uSwirl!.value = p.swirl
     u.uTwinkle!.value = p.twinkle
-    u.uShape!.value = p.shape
+    u.uShape!.value = SHAPE[style.shape]
   })
 
   return <points geometry={geometry} material={material} frustumCulled={false} />

@@ -14,6 +14,18 @@ export type HeroLook = {
   particles: ParticlePreset
 }
 
+/** Particle color and motion per preset, shared by the 3D motes and the 2D reveal burst. */
+export const PARTICLE_STYLE: Record<ParticlePreset, { color: string; dir: 1 | 0 | -1; shape: 'dot' | 'shard' | 'ember' }> = {
+  holy: { color: '#ffcf6e', dir: 1, shape: 'dot' },
+  shadow: { color: '#7a5cc4', dir: 1, shape: 'dot' },
+  fel: { color: '#7dff4a', dir: 1, shape: 'ember' },
+  frost: { color: '#bdeeff', dir: -1, shape: 'shard' },
+  fire: { color: '#ff8a3c', dir: 1, shape: 'ember' },
+  nature: { color: '#c8f27a', dir: 0, shape: 'dot' },
+  arcane: { color: '#c48bff', dir: 1, shape: 'shard' },
+  elements: { color: '#7cc8ff', dir: 1, shape: 'shard' },
+}
+
 export const GOLD = '#f5c86b'
 export const DEFAULT_LOOK: HeroLook = { color: GOLD, armor: 0.5, weapon: 'blade', particles: 'holy' }
 
