@@ -13,7 +13,7 @@
   },
   "hybrid": { "newcomer": "Can switch between several group roles, perfect for 'wherever I'm needed'.", "veteran": "Hybrid class: flexible roles via dual spec." },
   "novelty": {
-    "fitNew": { "newcomer": "Plays very differently in Forever, with lots of brand-new tools.", "veteran": "Heavily reworked in Forever, fresh territory." },
+    "fitNew": { "newcomer": "Plays differently in Forever, with plenty of new tools.", "veteran": "Notably reworked in Forever: fresh territory." },
     "fitClassic": { "newcomer": "Close to how it played in the original game: familiar and proven.", "veteran": "Close to its Classic roots." },
     "watchNew": { "newcomer": "Plays a lot like the original game, with fewer new tricks.", "veteran": "Few Forever changes; close to Classic." },
     "watchClassic": { "newcomer": "Plays quite differently from the original game.", "veteran": "Heavily reworked vs Classic." }

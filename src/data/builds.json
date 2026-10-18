@@ -151,9 +151,10 @@
     "tags": { "beast": 3, "nature": 1, "sharpshooter": 1 },
     "petStyle": "required", "stealth": 0, "novelty": 1,
     "strengths": [
-      { "axes": ["soloLeveling", "survivability"], "text": { "newcomer": "Your pet takes the hits while you shoot, so leveling is smooth and safe.", "veteran": "Pet tanks solo: top leveling speed and safety." } },
+      { "axes": ["petReliance", "survivability"], "text": { "newcomer": "Your pet takes the hits while you shoot, so you stay safe.", "veteran": "The pet tanks; you shoot. Very safe solo." } },
+      { "axes": ["soloLeveling"], "text": { "newcomer": "Levels faster and more smoothly than almost anyone.", "veteran": "Top-tier leveling speed." } },
       { "axes": ["complexity"], "text": { "newcomer": "Easy to learn and still effective.", "veteran": "Low skill floor, consistent results." } },
-      { "axes": ["goldFarming", "petReliance"], "text": { "newcomer": "Great at farming on your own, even tougher enemies.", "veteran": "Strong solo farmer." } }
+      { "axes": ["goldFarming"], "text": { "newcomer": "Great at farming on your own, even tougher enemies.", "veteran": "Strong solo farmer." } }
     ],
     "weaknesses": [
       { "axes": ["petReliance"], "text": { "newcomer": "Most of your power is in your pet, so you'll care for it a lot.", "veteran": "Heavily pet-dependent." } },
@@ -181,7 +182,8 @@
     ],
     "weaknesses": [
       { "axes": ["range"], "text": { "newcomer": "Can't shoot enemies who get right next to you.", "veteran": "8-yard dead zone; no stuns or interrupts." } },
-      { "axes": ["survivability"], "text": { "newcomer": "Without a pet to tank, bad pulls get dangerous.", "veteran": "Petless builds lose the pet tank." } }
+      { "axes": ["survivability"], "text": { "newcomer": "Without a pet to tank, bad pulls get dangerous.", "veteran": "Petless builds lose the pet tank." } },
+      { "axes": ["petReliance"], "text": { "newcomer": "Uses a pet unless you take Lone Wolf, and never centers on it like Beast Mastery does.", "veteran": "Pet by default unless Lone Wolf; never BM-level pet play." } }
     ],
     "hardcoreNote": { "newcomer": "Keep a pet while leveling for safety; go Lone Wolf when you're ready.", "veteran": "Pet for safety; Lone Wolf is riskier on HC." },
     "newInForever": ["Lone Wolf (11-point): play without a pet.", "Sniper Shot (31-point).", "Aimed Shot baseline at 20.", "Trueshot Aura is raid-wide."],
@@ -205,7 +207,8 @@
     ],
     "weaknesses": [
       { "axes": ["raid", "dungeon"], "text": { "newcomer": "A brand-new style, so how groups value it is still unknown.", "veteran": "Unproven group role (new design)." } },
-      { "axes": ["groupUtility"], "text": { "newcomer": "Brings mostly damage; no stuns or interrupts.", "veteran": "Low utility; no stuns or interrupts." } }
+      { "axes": ["groupUtility"], "text": { "newcomer": "Brings mostly damage; no stuns or interrupts.", "veteran": "Low utility; no stuns or interrupts." } },
+      { "axes": ["petReliance"], "text": { "newcomer": "Fights alongside a pet by default; going without one takes the right talents.", "veteran": "Pet by default; petless needs an MM dip into Lone Wolf." } }
     ],
     "hardcoreNote": { "newcomer": "Traps and a pet give you control, but melee puts you closer to danger.", "veteran": "Good control, but melee exposure; play the pet." },
     "newInForever": ["Survival is now a full melee spec.", "Strider Kick (21-point) and Lacerating Strikes (31-point).", "Predator's Edge rewards dual-wielding.", "Wyvern Sting removed."],
@@ -565,7 +568,8 @@
     ],
     "weaknesses": [
       { "axes": ["survivability"], "text": { "newcomer": "Physically weak: if enemies reach you, you're in trouble.", "veteran": "Fragile without a demon tank." } },
-      { "axes": ["sustain"], "text": { "newcomer": "More downtime than other warlocks.", "veteran": "Higher downtime than Affliction." } }
+      { "axes": ["sustain"], "text": { "newcomer": "More downtime than other warlocks.", "veteran": "Higher downtime than Affliction." } },
+      { "axes": ["petReliance"], "text": { "newcomer": "Has a demon by default; sacrificing it for power is up to you.", "veteran": "Demon optional via Demonic Sacrifice." } }
     ],
     "hardcoreNote": { "newcomer": "Keep a demon out while leveling; going petless is risky.", "veteran": "Pet out on HC; Demonic Sacrifice later." },
     "newInForever": ["Incinerate (31-point).", "Bane of Havoc (21-point).", "Shadow and Flame links Conflagrate and Shadowburn.", "Firestone and Spellstone are now weapon imbues."],
