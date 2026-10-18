@@ -23,7 +23,16 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
     await page.locator('button.choice').first().click() // scenarios and pick-ones, up to the place to live
   }
   await at(11)
-  await page.locator('button.choice').nth(1).click() // 11: try something new
+  // 11: this-or-that, answered by swiping toward the right card ("try something new")
+  const usual = page.getByRole('button', { name: /order your usual/ })
+  await expect(usual).toBeVisible()
+  const card = (await usual.boundingBox())!
+  const [cx, cy] = [card.x + card.width / 2, card.y + card.height / 2]
+  await page.mouse.move(cx, cy)
+  await page.mouse.down()
+  await page.mouse.move(cx + 60, cy, { steps: 5 })
+  await page.mouse.move(cx + 160, cy, { steps: 5 })
+  await page.mouse.up()
   await at(12)
   await page.getByRole('button', { name: 'Next' }).click() // 12: patience slider
   await at(13)
@@ -48,6 +57,18 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   await fresh.goto(url)
   await fresh.getByRole('button', { name: 'See the full ranking' }).click()
   await expect(fresh.getByRole('article').first().getByRole('heading', { level: 2 })).toHaveText(topBuild ?? '')
+
+  // The result image downloads on desktop (phones get the share sheet instead).
+  if (test.info().project.name === 'desktop') {
+    const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Save image' }).click()])
+    expect(download.suggestedFilename()).toMatch(/^forever-main-[a-z-]+\.png$/)
+  }
+
+  // The Spec Galaxy shows the player's star and starts on their #1.
+  await page.getByRole('link', { name: 'Open the Spec Galaxy' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: 'Spec Galaxy' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: topBuild ?? '' })).toBeVisible()
+  await expect(page.getByText(/^#1 for you · \d+% match$/)).toBeVisible()
 })
 
 test('unknown pages show the 404', async ({ page }) => {

@@ -95,7 +95,6 @@ function ResultView({ decoded }: { decoded: DecodedShare }) {
   const top = result.results.slice(0, TOP)
   const rest = result.results.slice(TOP, showAll ? undefined : MORE)
   const first = result.results[0]
-  const firstInfo = first ? buildInfo(first.buildId) : undefined
   const setupLabel = (field: 'faction' | 'ruleset') =>
     gameData.questions.setup.find((s) => s.id === field)?.options.find((o) => o.id === answers.setup[field])?.label[w]
 
@@ -213,7 +212,7 @@ function ResultView({ decoded }: { decoded: DecodedShare }) {
           </Link>
         </section>
 
-        {first && firstInfo && <SharePanel buildName={firstInfo.build.name} match={first.match} />}
+        <SharePanel results={result.results.slice(0, 3)} wording={w} />
 
         <p className="text-sm text-ash-400">{en.result.betaNote}</p>
         <div>

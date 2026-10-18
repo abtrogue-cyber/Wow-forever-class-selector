@@ -1,3 +1,4 @@
+import { motion, useMotionValue, useTransform } from 'motion/react'
 import { useRef, useState } from 'react'
 import type { Question, Wording } from '../../data'
 import { en } from '../../i18n/en'
@@ -22,6 +23,8 @@ type Common = {
 
 const asList = (v: Value) => (v == null ? [] : Array.isArray(v) ? v : [v])
 const AUTO_ADVANCE_MS = 260
+/** How far a this-or-that swipe must travel to count as a pick. */
+const SWIPE_PX = 70
 
 /** Render one question. Mount it with key={question.id} so local state resets per question. */
 export function QuestionScreen({ question: q, ...common }: Common & { question: Question }) {
@@ -116,22 +119,43 @@ function ThisOrThat({ q, wording: w, value, onChange, onNext, onBack }: Common &
     else if (key === 'ArrowLeft') onBack()
     else if (key === 'ArrowRight' || key === 'Enter') onNext()
   })
+  // Swipe toward your pick: dragging left chooses the left card, right the right card.
+  const x = useMotionValue(0)
+  const leftGlow = useTransform(x, [-SWIPE_PX, 0], [1, 0])
+  const rightGlow = useTransform(x, [0, SWIPE_PX], [0, 1])
   return (
     <>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <motion.div
+        className="grid touch-pan-y grid-cols-2 gap-3"
+        style={{ x }}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.5}
+        dragSnapToOrigin
+        onDragEnd={(_, info) => {
+          if (info.offset.x <= -SWIPE_PX) pick(q.options[0]?.id)
+          else if (info.offset.x >= SWIPE_PX) pick(q.options[1]?.id)
+        }}
+      >
         {q.options.map((o, i) => (
           <button
             key={o.id}
             type="button"
             aria-pressed={value === o.id}
-            className="choice min-h-28 flex-col items-start justify-between gap-4 p-5 sm:min-h-40"
+            className="choice relative min-h-36 flex-col items-start justify-between gap-4 p-4 sm:min-h-40 sm:p-5"
             onClick={() => pick(o.id)}
           >
+            <motion.span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 rounded-[inherit] border-2 border-gold-400"
+              style={{ opacity: i === 0 ? leftGlow : rightGlow }}
+            />
             <span className="kbd">{i + 1}</span>
-            <span className="font-display text-xl leading-snug">{o.label[w]}</span>
+            <span className="font-display text-lg leading-snug sm:text-xl">{o.label[w]}</span>
           </button>
         ))}
-      </div>
+      </motion.div>
+      <p className="text-center text-xs text-ash-400 sm:hidden">{en.quiz.swipeHint}</p>
       <div className="mt-2 flex items-center justify-between">
         <BackButton onBack={onBack} />
         <button type="button" className="flex items-center text-ash-400 underline-offset-4 hover:text-parchment-100 hover:underline" onClick={() => pick(undefined)}>

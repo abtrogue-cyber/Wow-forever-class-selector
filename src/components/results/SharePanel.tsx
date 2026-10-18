@@ -1,10 +1,17 @@
 import { useState } from 'react'
+import type { Wording } from '../../data'
+import type { BuildResult } from '../../engine/types'
 import { en } from '../../i18n/en'
+import { buildInfo, ctx } from './shared'
 
-export function SharePanel({ buildName, match }: { buildName: string; match: number }) {
+export function SharePanel({ results, wording: w }: { results: BuildResult[]; wording: keyof Wording }) {
   const [copied, setCopied] = useState(false)
+  const [saving, setSaving] = useState(false)
   const url = window.location.href
-  const text = en.result.shareText(buildName, match)
+  const first = results[0]
+  if (!first) return null
+  const top = buildInfo(first.buildId)
+  const text = en.result.shareText(top.build.name, first.match)
 
   const copy = async () => {
     try {
@@ -17,6 +24,44 @@ export function SharePanel({ buildName, match }: { buildName: string; match: num
     }
     setCopied(true)
     window.setTimeout(() => setCopied(false), 2000)
+  }
+
+  const saveImage = async () => {
+    setSaving(true)
+    try {
+      const { renderResultCard, downloadBlob } = await import('./resultImage')
+      const race = first.races[0]
+      const blob = await renderResultCard({
+        heading: en.result.title,
+        build: top.build.name,
+        className: top.cls.name,
+        classId: top.cls.id,
+        color: top.cls.colorHex,
+        race: race ? (ctx.races.get(race.raceId)?.name ?? null) : null,
+        raceNote: race?.newInForever ? en.result.newCombo : null,
+        match: first.match,
+        matchLabel: en.result.match,
+        reasons: first.reasons.map((r) => r.text[w]),
+        alsoLabel: en.result.moreTitle,
+        runnersUp: results.slice(1, 3).map((r) => {
+          const info = buildInfo(r.buildId)
+          return { name: info.build.name, color: info.cls.colorHex, match: r.match }
+        }),
+        site: window.location.host,
+        disclaimer: en.result.imageDisclaimer,
+      })
+      const filename = `forever-main-${top.build.id}.png`
+      const file = new File([blob], filename, { type: 'image/png' })
+      // Phones: hand the image to the share sheet (Discord, Messages…). Desktop: download it.
+      const touch = window.matchMedia('(pointer: coarse)').matches
+      if (touch && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: en.appName, text: `${text} ${url}` }).catch(() => {})
+      } else {
+        downloadBlob(blob, filename)
+      }
+    } finally {
+      setSaving(false)
+    }
   }
 
   const canShare = typeof navigator.share === 'function'
@@ -43,6 +88,9 @@ export function SharePanel({ buildName, match }: { buildName: string; match: num
             {en.result.share}
           </button>
         )}
+        <button type="button" className="btn-ghost" onClick={saveImage} disabled={saving} aria-busy={saving}>
+          {saving ? en.result.savingImage : en.result.saveImage}
+        </button>
       </div>
       <p className="sr-only" aria-live="polite">
         {copied ? en.result.copied : ''}

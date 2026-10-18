@@ -1,7 +1,8 @@
 // Our own simple line glyphs (no game icons). 24×24, drawn with currentColor.
 import type { ClassId, Role } from '../../data/schemas'
 
-const CLASS_PATHS: Record<ClassId, string> = {
+/** SVG path data, also drawn onto the shareable result image. */
+export const CLASS_PATHS: Record<ClassId, string> = {
   // crossed swords
   warrior: 'M4 4l10 10M14 14l2 2M6.5 15.5l-2 2M4 20l2-2M20 4L10 14M10 14l-2 2M17.5 15.5l2 2M20 20l-2-2M4 4h3M4 4v3M20 4h-3M20 4v3',
   // hammer with a ray
