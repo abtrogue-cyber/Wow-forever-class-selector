@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spike B — R3F hero</title>
+    <style>
+      :root { color-scheme: dark; }
+      html, body, #root { margin: 0; height: 100%; }
+      body { background: #05070d; color: #e8e2d0; font-family: system-ui, sans-serif; }
+      .app { position: relative; height: 100%; overflow: hidden; }
+      .stage { position: absolute; inset: 0; }
+      .hud { position: absolute; left: 16px; right: 16px; bottom: 16px; display: grid; gap: 8px;
+        max-width: 560px; padding: 12px; border-radius: 10px; background: rgba(8, 11, 20, 0.72);
+        border: 1px solid rgba(245, 200, 107, 0.25); font-size: 13px; }
+      .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+      button { background: #141b2d; color: inherit; border: 1px solid #2a3350; border-radius: 6px; padding: 4px 8px; cursor: pointer; }
+      button[aria-pressed='true'] { border-color: #f5c86b; }
+      input[type='range'] { flex: 1; min-width: 160px; }
+      code { color: #f5c86b; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
