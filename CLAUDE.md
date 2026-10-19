@@ -44,9 +44,9 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - `src/share/` — share codes (`codec.ts`) with frozen answer layouts per code version (`layout.ts`)
 - `src/data/vocab.ts` — plain id lists (no Zod). App and engine code import ids from here, never runtime values from `schemas.ts`, so Zod stays out of the bundle.
 - `src/pages/` — routes: `/` (eager), `/quiz`, `/result/:code`, `/galaxy`, `/galaxy/:code`, `/about` (lazy), dev-only `/debug`, 404
-- `src/components/` — `quiz/` (setup + question types + hotkeys), `results/` (cards, radar, reveal, tweaks, share), `compass/` (quiz compass: `compass.ts` math and looks, `CompassStage` picks 3D or the flat `CompassMap2D`), `webgl.tsx` (WebGL checks + 3D error fallback), `galaxy/GalaxyMap2D`, `icons/Glyphs`, `layout/Site`
-- `src/three/` — lazy 3D scenes (R3F): `CompassScene` (quiz compass) and `GalaxyScene`. Only these files import three.
-- `src/galaxy/pca.ts` — Spec Galaxy layout (PCA), nearest builds, player position
+- `src/components/` — `quiz/` (setup + question types + hotkeys), `results/` (cards, radar, reveal, tweaks, share), `compass/` (quiz compass: `compass.ts` math and looks, `CompassStage` picks 3D or the flat `CompassMap2D`), `webgl.tsx` (WebGL checks + 3D error fallback), `galaxy/GalaxyMap2D` (flat Spec Galaxy), `icons/Glyphs` (our SVG glyphs) and `icons/GameIcons` (Blizzard icons, D43/D44), `layout/Site`
+- `src/three/` — lazy 3D scenes (R3F): `CompassScene` (quiz compass) and `GalaxyScene`, sharing the sky, textures and gold armillary in `shared.tsx`. Only these files import three.
+- `src/galaxy/` — Spec Galaxy math: `pca.ts` (layout, nearest builds, player position), `constellations.ts` (class lines), `declutter.ts` (nudges overlapping flat-map icons apart)
 - `src/state/quizStore.ts` — Zustand quiz progress (sessionStorage, falls back to memory)
 - `src/i18n/en.ts` — every UI string
 - `tests/e2e/` — Playwright smoke test; `vercel.json` — SPA rewrites + asset caching
@@ -68,5 +68,5 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 ## IP / legal hygiene
 
 - The notice "Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft and Warcraft are trademarks or registered trademarks of Blizzard Entertainment, Inc." lives on the About page (Legal). No site-wide footer (user's call, D42). The shareable result image keeps its short "Fan-made. Not affiliated…" line.
-- No Blizzard assets (models, textures, icons, art, music, logos) in the repo, and none proxied through our domain. Our own SVG glyphs and our own 3D designs, with one owner-approved exception (D43): on the results pages, each class's Hearthstone icon and each spec's WoW Classic talent-tree icon, loaded from Blizzard's and Wowhead's image servers (links in `src/data/icons.json`), without a referrer, falling back to our glyphs, credited on the About page. Don't extend this to other Blizzard art without asking.
+- No Blizzard assets (models, textures, icons, art, music, logos) in the repo, and none proxied through our domain. Our own SVG glyphs and our own 3D designs, with one owner-approved exception (D43, extended to the Spec Galaxy by D44): on the results pages and the Spec Galaxy, each class's Hearthstone icon and each spec's WoW Classic talent-tree icon, loaded from Blizzard's and Wowhead's image servers (links in `src/data/icons.json`), without a referrer, falling back to our glyphs, credited on the About page. Don't extend this to other Blizzard art without asking.
 - Write descriptions in our own words and link the sources. Never copy wiki or guide text.
