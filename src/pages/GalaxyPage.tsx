@@ -94,7 +94,18 @@ export function GalaxyPage({ code }: { code?: string }) {
             <div className="panel relative h-[56vh] min-h-[340px] overflow-hidden lg:h-[580px]">
               {view === '3d' ? (
                 <>
-                  {!ready3d && <div className="absolute inset-0">{placeholder}</div>}
+                  {!ready3d && (
+                    <>
+                      <div className="absolute inset-0">{placeholder}</div>
+                      <span
+                        role="status"
+                        className="pointer-events-none absolute top-3 left-3 z-[300] flex items-center gap-2 rounded-full bg-night-900/85 px-3 py-1 text-xs text-ash-300"
+                      >
+                        <span aria-hidden="true" className="size-3 rounded-full border-2 border-gold-400/30 border-t-gold-400 motion-safe:animate-spin" />
+                        {en.galaxy.loading3d}
+                      </span>
+                    </>
+                  )}
                   <WebGLFallback fallback={<SwitchToFlat setView={setView} />}>
                     <Suspense fallback={null}>
                       <div className={`absolute inset-0 transition-opacity duration-500 ${ready3d ? 'opacity-100' : 'opacity-0'}`}>

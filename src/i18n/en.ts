@@ -27,6 +27,7 @@ export const en = {
     viewFlat: 'Flat map',
     viewLabel: 'Galaxy view',
     mapLabel: 'Spec Galaxy map',
+    loading3d: 'Loading the 3D view…',
     directions: 'How the map is laid out',
     closest: 'Plays most like',
     yourRank: (rank: number, match: number) => `#${rank} for you · ${match}% match`,
