@@ -1,31 +1,31 @@
 import { useReducedMotion } from 'motion/react'
-import { lazy, Suspense, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { Link } from 'wouter'
-import { CLASS_IDS, gameData, type AxisId, type Wording } from '../data'
+import { CLASS_IDS, gameData, type AxisId, type ClassId, type Wording } from '../data'
+import { AXIS_ENDS, galaxy } from '../components/compass/compass'
 import { GalaxyMap2D } from '../components/galaxy/GalaxyMap2D'
-import { can3d, isLowPower, WebGLFallback } from '../components/webgl'
-import { ClassGlyph, RoleGlyph } from '../components/icons/Glyphs'
+import { ClassIcon, SpecIcon } from '../components/icons/GameIcons'
+import { RoleGlyph } from '../components/icons/Glyphs'
 import { Page } from '../components/layout/Site'
 import { buildInfo, ctx } from '../components/results/shared'
+import { can3d, isLowPower, WebGLFallback } from '../components/webgl'
 import { rank } from '../engine/rank'
-import { buildGalaxy, playerAxes, topAxes } from '../galaxy/pca'
+import { playerAxes, topAxes } from '../galaxy/pca'
 import { en } from '../i18n/en'
 import { decodeShareCode } from '../share/codec'
 import { wordingFor } from '../state/quizStore'
 import type { GalaxyStar } from '../three/GalaxyScene'
 
 const GalaxyScene = lazy(() => import('../three/GalaxyScene'))
-const galaxy = buildGalaxy(gameData.builds)
 
 const short = (a: AxisId) => ctx.axes.get(a)?.short ?? a
-/** "Dungeon ↔ Solo & Gold": which axes grow toward each end of a direction. */
-function directionText(c: number, flip: boolean): string {
+/** The stats behind a direction, e.g. "Dungeon ↔ Solo & Gold" (shown under its plain-word name). */
+function directionDetail(c: number): string {
   const top = topAxes(galaxy.components[c]!, 3)
   const pos = top.filter((t) => t.sign > 0).map((t) => short(t.axis))
   const neg = top.filter((t) => t.sign < 0).map((t) => short(t.axis))
   const side = (names: string[], other: string[]) => (names.length > 0 ? names.join(' & ') : `less ${other.join(' & ')}`)
-  const [a, b] = [side(neg, pos), side(pos, neg)]
-  return flip ? `${b} ↔ ${a}` : `${a} ↔ ${b}`
+  return `${side(neg, pos)} ↔ ${side(pos, neg)}`
 }
 
 export function GalaxyPage({ code }: { code?: string }) {
@@ -46,9 +46,11 @@ export function GalaxyPage({ code }: { code?: string }) {
     return gameData.builds.map((b) => ({
       id: b.id,
       name: b.name,
+      classId: b.classId,
       color: ctx.classes.get(b.classId)!.colorHex,
       pos: galaxy.stars.get(b.id)!,
       dim: excluded.has(b.id),
+      build: b,
     }))
   }, [result])
   const you = useMemo(
@@ -60,9 +62,22 @@ export function GalaxyPage({ code }: { code?: string }) {
   )
 
   const [selected, setSelected] = useState<string | null>(() => result?.results[0]?.buildId ?? null)
+  const neighbors = useMemo(() => (selected ? galaxy.neighbors(selected, 3) : []), [selected])
+  // A class lights up while the mouse is on it (under the map or in the list); a click keeps it lit until clicked again.
+  const [hoverClass, setHoverClass] = useState<ClassId | null>(null)
+  const [pinnedClass, setPinnedClass] = useState<ClassId | null>(null)
+  const focusClass = hoverClass ?? pinnedClass
+  const hoverProps = (classId: ClassId) => ({
+    onPointerEnter: (e: React.PointerEvent) => e.pointerType === 'mouse' && setHoverClass(classId),
+    onPointerLeave: (e: React.PointerEvent) => e.pointerType === 'mouse' && setHoverClass(null),
+  })
+
   const [view, setView] = useState<'3d' | 'flat'>(() => (can3d() ? '3d' : 'flat'))
   const [ready3d, setReady3d] = useState(false)
-  const flat = <GalaxyMap2D stars={stars} you={you} selected={selected} onSelect={setSelected} />
+  const mapProps = { stars, you, selected, neighbors, focusClass, axisEnds: AXIS_ENDS, onSelect: setSelected }
+  const flat = <GalaxyMap2D {...mapProps} />
+  // Stands in (without its own intro) until the 3D view has drawn its first frame.
+  const placeholder = <GalaxyMap2D {...mapProps} intro={false} />
 
   return (
     <Page>
@@ -76,18 +91,20 @@ export function GalaxyPage({ code }: { code?: string }) {
 
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
           <div className="flex flex-col gap-2">
-            <div className="panel relative h-[52vh] min-h-[320px] overflow-hidden lg:h-[540px]">
+            <div className="panel relative h-[56vh] min-h-[340px] overflow-hidden lg:h-[580px]">
               {view === '3d' ? (
                 <>
-                  {/* The flat map stays visible until the 3D view has drawn its first frame. */}
-                  {!ready3d && <div className="absolute inset-0">{flat}</div>}
-                  <WebGLFallback fallback={flat}>
+                  {!ready3d && <div className="absolute inset-0">{placeholder}</div>}
+                  <WebGLFallback fallback={<SwitchToFlat setView={setView} />}>
                     <Suspense fallback={null}>
                       <div className={`absolute inset-0 transition-opacity duration-500 ${ready3d ? 'opacity-100' : 'opacity-0'}`}>
                         <GalaxyScene
                           stars={stars}
                           you={you}
                           selected={selected}
+                          neighbors={neighbors}
+                          focusClass={focusClass}
+                          axisEnds={AXIS_ENDS}
                           onSelect={setSelected}
                           reducedMotion={reducedMotion}
                           lowPower={isLowPower()}
@@ -100,6 +117,31 @@ export function GalaxyPage({ code }: { code?: string }) {
               ) : (
                 flat
               )}
+            </div>
+            <div role="group" aria-label={en.galaxy.classFilter} className="flex flex-wrap items-center gap-1 sm:gap-1.5">
+              <span className="w-full text-xs text-ash-400 sm:mr-1 sm:w-auto">{en.galaxy.classFilter}</span>
+              {CLASS_IDS.map((classId) => {
+                const cls = ctx.classes.get(classId)!
+                const lit = focusClass === classId
+                return (
+                  <button
+                    key={classId}
+                    type="button"
+                    aria-pressed={pinnedClass === classId}
+                    aria-label={en.galaxy.focusClass(cls.name)}
+                    title={cls.name}
+                    onClick={() => setPinnedClass((c) => (c === classId ? null : classId))}
+                    {...hoverProps(classId)}
+                    className="rounded-full transition hover:scale-110"
+                    style={{
+                      opacity: focusClass && !lit ? 0.45 : 1,
+                      boxShadow: lit ? `0 0 0 2px ${cls.colorHex}, 0 0 14px ${cls.colorHex}` : undefined,
+                    }}
+                  >
+                    <ClassIcon classId={classId} className="block size-8" />
+                  </button>
+                )
+              })}
             </div>
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ash-400">
               <span>{view === '3d' ? en.galaxy.hint3d : en.galaxy.hint}</span>
@@ -130,11 +172,13 @@ export function GalaxyPage({ code }: { code?: string }) {
               <h2 id="directions-title" className="text-base">
                 {en.galaxy.directions}
               </h2>
-              <dl className="mt-2 flex flex-col gap-1.5 text-ash-300">
-                {[0, 1, 2].map((c) => (
+              <dl className="mt-2 flex flex-col gap-2 text-ash-300">
+                {AXIS_ENDS.map(([neg, pos], c) => (
                   <div key={c}>
-                    <dt className="text-xs text-ash-400">{en.galaxy.direction[c]}</dt>
-                    <dd>{directionText(c, c === 2)}</dd>
+                    <dt className="font-display text-xs tracking-wider text-gold-300 uppercase">
+                      {neg} ↔ {pos}
+                    </dt>
+                    <dd className="text-xs text-ash-400">{directionDetail(c)}</dd>
                   </div>
                 ))}
               </dl>
@@ -152,18 +196,21 @@ export function GalaxyPage({ code }: { code?: string }) {
         </div>
 
         <section aria-labelledby="all-builds" className="flex flex-col gap-3">
-          <h2 id="all-builds" className="text-xl">
-            {en.galaxy.listTitle}
-          </h2>
-          <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div>
+            <h2 id="all-builds" className="text-xl">
+              {en.galaxy.listTitle}
+            </h2>
+            <p className="text-xs text-ash-400">{en.galaxy.listHint}</p>
+          </div>
+          <ul className="grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
             {CLASS_IDS.map((classId) => {
               const cls = ctx.classes.get(classId)!
               return (
-                <li key={classId} className="flex flex-col gap-1">
-                  <span className="flex items-center gap-2 font-display text-sm tracking-wider uppercase" style={{ color: cls.colorHex }}>
-                    <ClassGlyph classId={classId} className="size-4" />
+                <li key={classId} className="flex flex-col gap-1.5" {...hoverProps(classId)}>
+                  <h3 className="flex items-center gap-2 font-display text-sm tracking-wider uppercase" style={{ color: cls.colorHex }}>
+                    <ClassIcon classId={classId} className="size-7" />
                     {cls.name}
-                  </span>
+                  </h3>
                   <span className="flex flex-wrap gap-1.5">
                     {gameData.builds
                       .filter((b) => b.classId === classId)
@@ -174,9 +221,10 @@ export function GalaxyPage({ code }: { code?: string }) {
                           aria-pressed={selected === b.id}
                           aria-label={b.name}
                           onClick={() => setSelected(b.id)}
-                          className="rounded-full border border-night-600 px-2.5 py-0.5 text-xs text-ash-300 hover:text-parchment-100 aria-pressed:border-gold-400 aria-pressed:text-parchment-100"
+                          className="flex items-center gap-1.5 rounded-lg border border-night-600 py-0.5 pr-2.5 pl-0.5 text-xs text-ash-300 hover:text-parchment-100 aria-pressed:border-gold-400 aria-pressed:text-parchment-100"
                         >
-                          {b.tree}
+                          <SpecIcon build={b} className="size-5" />
+                          {b.name.replace(` ${cls.name}`, '')}
                         </button>
                       ))}
                   </span>
@@ -188,6 +236,12 @@ export function GalaxyPage({ code }: { code?: string }) {
       </div>
     </Page>
   )
+}
+
+/** Shown if the 3D view crashes: switches the page to the flat map, so there's only ever one map. */
+function SwitchToFlat({ setView }: { setView: (v: '3d' | 'flat') => void }) {
+  useEffect(() => setView('flat'), [setView])
+  return null
 }
 
 function StarDetails({ id, result, w, onSelect }: {
@@ -203,7 +257,10 @@ function StarDetails({ id, result, w, onSelect }: {
   return (
     <section className="panel flex flex-col gap-3 p-4" aria-live="polite" aria-labelledby="star-title">
       <div className="flex items-center gap-3">
-        <ClassGlyph classId={cls.id} className="size-8 shrink-0" />
+        <span className="relative size-12 shrink-0" style={{ color: cls.colorHex }}>
+          <ClassIcon classId={cls.id} className="size-12" />
+          <SpecIcon build={build} className="absolute -right-1 -bottom-1 size-6" />
+        </span>
         <div>
           <h2 id="star-title" className="text-xl leading-tight" style={{ color: cls.colorHex }}>
             {build.name}
@@ -227,9 +284,10 @@ function StarDetails({ id, result, w, onSelect }: {
                 <button
                   type="button"
                   onClick={() => onSelect(n)}
-                  className="rounded-full border border-night-600 px-2.5 py-0.5 text-xs hover:border-parchment-200"
+                  className="flex items-center gap-1.5 rounded-lg border border-night-600 py-0.5 pr-2.5 pl-0.5 text-xs hover:border-parchment-200"
                   style={{ color: info.cls.colorHex }}
                 >
+                  <SpecIcon build={info.build} className="size-5" />
                   {info.build.name}
                 </button>
               </li>

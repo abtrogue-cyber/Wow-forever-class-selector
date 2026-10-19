@@ -100,3 +100,37 @@
 .compass-orbit {
   animation: compass-spin 3.5s linear infinite;
 }
+
+/* Spec Galaxy flat map: stars burst out from the middle, axes draw out, lines fade in, dashes flow. */
+@keyframes galaxy-burst {
+  from { translate: var(--from-x) var(--from-y); scale: 0.2; opacity: 0; }
+}
+@keyframes galaxy-fade-in {
+  from { opacity: 0; }
+}
+@keyframes galaxy-draw {
+  from { stroke-dashoffset: 1; }
+}
+@keyframes galaxy-flow {
+  to { stroke-dashoffset: -9; }
+}
+@keyframes galaxy-twinkle {
+  50% { opacity: 0.08; }
+}
+@keyframes galaxy-ping {
+  from { transform: scale(1); opacity: 0.8; }
+  to { transform: scale(1.9); opacity: 0; }
+}
+.galaxy-burst { animation: galaxy-burst 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.galaxy-fade-in { animation: galaxy-fade-in 0.8s ease-out both; }
+.galaxy-draw { stroke-dasharray: 1; animation: galaxy-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.galaxy-flow { animation: galaxy-flow 1s linear infinite; }
+.galaxy-twinkle { animation: galaxy-twinkle 3s ease-in-out infinite; }
+.galaxy-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: galaxy-ping 2.2s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .galaxy-burst, .galaxy-fade-in, .galaxy-draw, .galaxy-flow, .galaxy-twinkle, .galaxy-ping { animation: none; }
+}
