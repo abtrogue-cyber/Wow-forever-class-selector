@@ -1,14 +1,14 @@
 {
   "role": {
     "fit": {
-      "tank": { "newcomer": "You'll be the one in front, holding the enemies' attention.", "veteran": "Tank role, as requested." },
-      "healer": { "newcomer": "You'll keep your friends alive, exactly the role you picked.", "veteran": "Healer role, as requested." },
-      "dps": { "newcomer": "Your job is dealing damage, exactly the role you picked.", "veteran": "Damage role, as requested." }
+      "tank": { "newcomer": "You'll be the one in front, holding the enemies' attention.", "veteran": "Tank role, in line with your answers." },
+      "healer": { "newcomer": "You'll keep your friends alive, a role that suits your answers.", "veteran": "Healer role, in line with your answers." },
+      "dps": { "newcomer": "Your job is dealing damage, a role that suits your answers.", "veteran": "Damage role, in line with your answers." }
     },
     "watch": {
-      "tank": { "newcomer": "This is a tank, not the role you picked. Dual spec can change that at 40.", "veteran": "Tank spec, not your preferred role (dual spec at 40)." },
-      "healer": { "newcomer": "This is a healer, not the role you picked. Dual spec can change that at 40.", "veteran": "Healer spec, not your preferred role (dual spec at 40)." },
-      "dps": { "newcomer": "This deals damage rather than the role you picked. Dual spec can change that at 40.", "veteran": "Damage spec, not your preferred role (dual spec at 40)." }
+      "tank": { "newcomer": "This is a tank, not the role your answers point to. Dual spec can change that at 40.", "veteran": "Tank spec, not the role your answers point to (dual spec at 40)." },
+      "healer": { "newcomer": "This is a healer, not the role your answers point to. Dual spec can change that at 40.", "veteran": "Healer spec, not the role your answers point to (dual spec at 40)." },
+      "dps": { "newcomer": "This deals damage, not the role your answers point to. Dual spec can change that at 40.", "veteran": "Damage spec, not the role your answers point to (dual spec at 40)." }
     }
   },
   "hybrid": { "newcomer": "Can switch between several group roles, perfect for 'wherever I'm needed'.", "veteran": "Hybrid class: flexible roles via dual spec." },

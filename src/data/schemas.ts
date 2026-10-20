@@ -73,11 +73,15 @@ export const Axis = z.strictObject({
   mode: z.enum(['closeness', 'atLeast']),
   /** Scales every weight on this axis (e.g. raid is speculative until raids open). */
   weightMultiplier: z.number().positive().optional(),
-  /** Explanation templates, chosen by which side of the scale the build sits on. */
+  /**
+   * Explanation templates, chosen by where the build sits on the scale (CONFIG.explain.fitBands), never by the
+   * player's answer. A build in the middle band uses `midFit`, or gets no axis reason if there is none.
+   */
   texts: z.strictObject({
     highFit: Wording,
     lowWatch: Wording,
     lowFit: Wording.optional(),
+    midFit: Wording.optional(),
     highWatch: Wording.optional(),
   }),
 })

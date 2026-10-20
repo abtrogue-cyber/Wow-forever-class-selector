@@ -9,20 +9,20 @@
     "mode": "closeness",
     "texts": {
       "highFit": {
-        "newcomer": "Fights from a safe distance, just like you wanted.",
-        "veteran": "Ranged playstyle, as requested."
+        "newcomer": "Fights from a safe distance, which suits your answers.",
+        "veteran": "Ranged playstyle, in line with your answers."
       },
       "lowFit": {
         "newcomer": "Right in the thick of the fight, up close and personal.",
-        "veteran": "Melee playstyle, as requested."
+        "veteran": "Melee playstyle, in line with your answers."
       },
       "highWatch": {
-        "newcomer": "Fights from a distance, not up close like you wanted.",
-        "veteran": "Ranged, not the melee you asked for."
+        "newcomer": "Fights from a distance more than your answers suggest.",
+        "veteran": "More ranged than your answers suggest."
       },
       "lowWatch": {
-        "newcomer": "Has to fight up close, not from a distance like you wanted.",
-        "veteran": "Melee, not the ranged playstyle you asked for."
+        "newcomer": "Has to fight up close more than your answers suggest.",
+        "veteran": "More melee than your answers suggest."
       }
     }
   },
@@ -43,9 +43,13 @@
         "newcomer": "Easy to pick up: a few buttons go a long way.",
         "veteran": "Simple, forgiving rotation."
       },
+      "midFit": {
+        "newcomer": "A manageable number of buttons: quick to learn, with room to get better.",
+        "veteran": "Moderate rotation, neither simple nor busy."
+      },
       "highWatch": {
         "newcomer": "Has a lot of buttons and timing to learn.",
-        "veteran": "Busy rotation, more than you asked for."
+        "veteran": "Busy rotation, more than your answers suggest."
       },
       "lowWatch": {
         "newcomer": "Fairly simple, so it may feel samey after a while.",
@@ -242,6 +246,10 @@
         "newcomer": "No pet to manage: it's all you.",
         "veteran": "No pet to babysit."
       },
+      "midFit": {
+        "newcomer": "A companion helps out, but most of the power is yours.",
+        "veteran": "Has a pet, but it isn't the core of the spec."
+      },
       "highWatch": {
         "newcomer": "Relies on a pet more than you'd like.",
         "veteran": "More pet reliance than you want."
@@ -269,6 +277,10 @@
         "newcomer": "Wears enemies down with steady pressure over time.",
         "veteran": "Attrition and over-time effects."
       },
+      "midFit": {
+        "newcomer": "Mixes big hits with steady pressure.",
+        "veteran": "Balanced burst and sustained damage."
+      },
       "highWatch": {
         "newcomer": "Plays around big hits rather than steady pressure.",
         "veteran": "Bursty rather than slow-burn."
@@ -289,20 +301,24 @@
     "mode": "closeness",
     "texts": {
       "highFit": {
-        "newcomer": "Clad in heavy armor, just the look you picked.",
-        "veteran": "Heavy armor, as requested."
+        "newcomer": "Clad in heavy armor, a look that suits your answers.",
+        "veteran": "Heavy armor, in line with your answers."
+      },
+      "midFit": {
+        "newcomer": "Wears practical medium armor, a look that suits your answers.",
+        "veteran": "Medium armor, in line with your answers."
       },
       "lowFit": {
-        "newcomer": "Wears flowing robes, just the look you picked.",
-        "veteran": "Cloth caster look, as requested."
+        "newcomer": "Wears flowing robes, a look that suits your answers.",
+        "veteran": "Cloth caster look, in line with your answers."
       },
       "highWatch": {
-        "newcomer": "Wears heavier armor than the robes you pictured.",
-        "veteran": "Heavier armor than you wanted."
+        "newcomer": "Wears heavier armor than your answers suggest.",
+        "veteran": "Heavier armor than your answers suggest."
       },
       "lowWatch": {
-        "newcomer": "Wears lighter armor than the heavy plate you pictured.",
-        "veteran": "Lighter armor than you wanted."
+        "newcomer": "Wears lighter armor than your answers suggest.",
+        "veteran": "Lighter armor than your answers suggest."
       }
     }
   }

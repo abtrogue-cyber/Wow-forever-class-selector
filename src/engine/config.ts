@@ -67,6 +67,8 @@ export const CONFIG = {
     minRel: 0.004,
     maxReasons: 3,
     maxWatchOuts: 2,
+    /** "Closeness" axis reasons describe the build: at or below `low` reads as the low end, at or above `high` as the high end. */
+    fitBands: { low: 1.5, high: 4 },
     whyNotCount: 3,
     whyNotSkipTop: 5,
     /** Below this top match % we say the answers pull in different directions. */

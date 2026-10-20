@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { rawData } from '../data/raw'
+import type { AxisId } from '../data/schemas'
 import { parseGameData } from '../data/validate'
 import { CONFIG } from './config'
 import { getContext } from './context'
@@ -55,6 +56,16 @@ describe(`engine invariants over ${RUNS} random players`, () => {
         // Explainable: 3 reasons and at least one caveat.
         expect(r.reasons).toHaveLength(3)
         expect(r.watchOuts.length).toBeGreaterThanOrEqual(1)
+
+        // Axis reasons describe the build, not just the answer: no "heavy armor" on a leather wearer.
+        const { low, high } = CONFIG.explain.fitBands
+        for (const reason of r.reasons) {
+          const axis = ctx.axes.get(reason.source as AxisId)
+          if (axis?.mode !== 'closeness') continue
+          if (reason.text === axis.texts.highFit) expect(b.axes[axis.id]).toBeGreaterThanOrEqual(high)
+          if (reason.text === axis.texts.lowFit) expect(b.axes[axis.id]).toBeLessThanOrEqual(low)
+          if (reason.text === axis.texts.midFit) expect(b.axes[axis.id]).toBeGreaterThan(low)
+        }
 
         // Dual spec stays in the class and covers must-heal/must-tank.
         if (r.dualSpec) {

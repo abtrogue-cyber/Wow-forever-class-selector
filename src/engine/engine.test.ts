@@ -159,6 +159,26 @@ describe('races', () => {
   })
 })
 
+describe('explanations', () => {
+  const armorText = (buildId: string, packing: string) =>
+    rank(answers({ packing }), data).results.find((r) => r.buildId === buildId)?.reasons.find((x) => x.source === 'armor')?.text
+  const armor = ctx.axes.get('armor')!
+
+  // Reported on Reddit: a "practical" packer got Restoration Druid with "Heavy armor, as requested."
+  it('armor reasons follow the build, not the answer', () => {
+    expect(armorText('druid-restoration', 'practical')).toEqual(armor.texts.midFit)
+    expect(armorText('warrior-arms', 'sturdy')).toEqual(armor.texts.highFit)
+    expect(armorText('mage-frost', 'light')).toEqual(armor.texts.lowFit)
+  })
+
+  it('never claims the player asked for something the quiz only inferred', () => {
+    const res = rank(answers({ 'group-project': 'nobody-behind', festival: 'front-row', packing: 'sturdy' }), data)
+    const texts = res.results.flatMap((r) => [...r.reasons, ...r.watchOuts]).map((x) => x.text.veteran + x.text.newcomer)
+    expect(texts.length).toBeGreaterThan(0)
+    for (const t of texts) expect(t).not.toMatch(/as requested|you picked|asked for/i)
+  })
+})
+
 describe('rank', () => {
   it('forces a healing dual spec when the main build cannot heal', () => {
     const res = rank(answers({ festival: 'overview', feeling: 'edge', preferences: ['must-heal'] }), data)

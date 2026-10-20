@@ -55,8 +55,11 @@ function fitReason(c: Component, build: Build, profile: PlayerProfile, ctx: Engi
     }
     const axis = ctx.axes.get(c.id)
     if (!axis) return null
-    const target = profile.axes[c.id].target
-    const text = axis.mode === 'atLeast' || target >= 2.5 ? axis.texts.highFit : axis.texts.lowFit
+    // Describe the build, not the answer: a "practical" packer matched with leather gets "medium armor", not "heavy".
+    const value = build.axes[c.id]
+    const { low, high } = CONFIG.explain.fitBands
+    const text =
+      axis.mode === 'atLeast' || value >= high ? axis.texts.highFit : value <= low ? axis.texts.lowFit : axis.texts.midFit
     return text ? { source: c.id, text } : null
   }
   if (c.id === 'tags') {
@@ -112,7 +115,7 @@ export function explainBuild(
   }
 
   const reasons: Reason[] = []
-  // "Damage role, as requested" says little on a DPS card, so it only fills a gap at the end.
+  // "Damage role fits your answers" says little on a DPS card, so it only fills a gap at the end.
   const lowValue = (c: Component) => c.id === 'role' && build.role === 'dps' && profile.roleFlex <= 0
   const positives = components
     .filter((c) => c.rel > minRel)
