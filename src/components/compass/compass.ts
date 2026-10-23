@@ -23,30 +23,28 @@ export const STARS: CompassStar[] = gameData.builds.map((b) => ({
 export const DEFAULT_TINT = '#3b4f9a'
 export const DEFAULT_ORB = '#f5c86b'
 
-/** The place you'd love to live tints the sky. Keys are `home` option ids. */
-export const HOME_TINT: Record<string, string> = {
-  'stone-city': '#5878e8', // royal banners
-  'mountain-hall': '#e0603a', // roaring hearth
-  workshop: '#33c3b4', // humming machines
-  'moon-forest': '#9a7cf2', // silver moonlight
-  'open-plains': '#e2a64a', // fire under the stars
-  'misty-ruins': '#4fb38a', // whispering mist
-  'sky-island': '#8fd3ff', // open sky
-}
-
 /** The feeling you want more of colors your star. Keys are `feeling` option ids. */
 export const FEELING_COLOR: Record<string, string> = {
-  calm: '#a8d8ff',
-  'close-call': '#ff7a45',
-  wonder: '#c9a2ff',
-  'counted-on': '#ffd36b',
-  edge: '#ff5c9a',
-  freedom: '#7ee0a1',
+  calm: '#a8d8ff', // a quiet morning
+  'close-call': '#ff7a45', // the first drop
+  wonder: '#c9a2ff', // a museum of odd things
+  'counted-on': '#ffd36b', // a friend who needs you
+  edge: '#ff5c9a', // a late-night thriller
+  freedom: '#7ee0a1', // an open road
+}
+
+/** ...and tints the sky around it with a deeper shade of the same color, so the whole compass shares one mood. */
+export const FEELING_TINT: Record<string, string> = {
+  calm: '#4f7fd0',
+  'close-call': '#d9572f',
+  wonder: '#8a62e0',
+  'counted-on': '#d6a23a',
+  edge: '#c23c78',
+  freedom: '#3fa86a',
 }
 
 /** Question and option ids the compass reacts to beyond the axes (checked by tests against the data). */
 export const LOOK_IDS = {
-  home: 'home',
   feeling: 'feeling',
   novelty: { question: 'restaurant', option: 'something-new' },
   companion: { question: 'preferences', option: 'want-companion' },
@@ -72,7 +70,7 @@ const dist = (a: Vec3, b: Vec3) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b
 
 /**
  * Where your star stopped after each answer, in question order, starting from the setup.
- * Answers that don't move it (e.g. the place you'd love to live) don't add a stop.
+ * Answers that don't move it (e.g. "try something new") don't add a stop.
  */
 export function trailFor(setup: Partial<Setup>, picks: Picks): Vec3[] {
   const path: Vec3[] = [positionFor(setup, {})]
@@ -90,11 +88,10 @@ export type CompassLook = { tint: string; orb: string; novelty: boolean; compani
 
 /** Everything about your star that isn't its position. */
 export function lookFor(picks: Picks): CompassLook {
-  const home = picks[LOOK_IDS.home]
   const feeling = picks[LOOK_IDS.feeling]
   const prefs = picks[LOOK_IDS.companion.question]
   return {
-    tint: (typeof home === 'string' && HOME_TINT[home]) || DEFAULT_TINT,
+    tint: (typeof feeling === 'string' && FEELING_TINT[feeling]) || DEFAULT_TINT,
     orb: (typeof feeling === 'string' && FEELING_COLOR[feeling]) || DEFAULT_ORB,
     novelty: picks[LOOK_IDS.novelty.question] === LOOK_IDS.novelty.option,
     companion: Array.isArray(prefs) && prefs.includes(LOOK_IDS.companion.option),

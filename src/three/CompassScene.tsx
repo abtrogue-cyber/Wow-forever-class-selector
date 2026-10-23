@@ -9,7 +9,7 @@ import type { Vec3 } from '../galaxy/pca'
 import { Armillary, AxisLabels, glowTexture, GOLD, Nebula, ringTexture, Starfield } from './shared'
 
 // The quiz compass in 3D (lazy chunk): a gold armillary of the Spec Galaxy's three directions, a nebula
-// tinted by where you'd love to live, and your star moving with every answer, leaving a constellation.
+// tinted by the feeling you want more of, and your star moving with every answer, leaving a constellation.
 // At the reveal the spec stars fade in and your star flies to your #1.
 
 export type CompassSceneProps = {
