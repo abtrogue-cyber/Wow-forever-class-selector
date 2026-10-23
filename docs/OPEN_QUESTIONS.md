@@ -29,6 +29,7 @@ Status key: 🔴 blocks a feature · 🟡 affects data quality · 🟢 nice to k
 | A18 | Exact launch instant: Blizzard says "3:00 p.m. PDT", but Nov 4 is after US DST ends (PST). 23:00 UTC or 22:00 UTC? | Any launch countdown / copy | Say "Nov 4, 3 pm Pacific" and avoid a live countdown until confirmed | 🟢 |
 | A19 | Which racials matter for which role (the racial need-tags and weights in `src/engine/config.ts`) | Race ranking per build | Editorial judgment; review via /debug "All allowed races" | 🟡 |
 | A20 | Effects of the "unchanged from Classic" priest racial spells (Feedback, Desperate Prayer, Hex of Weakness, Shadowguard, Touch of Weakness) | Priest race reasons | Blizzard only says "unchanged"; we describe them minimally | 🟢 |
+| A21 | Does Holy Paladin solo and level well in Forever? A Reddit player (Oct 2026) says yes: Holy Strike is baseline at 6, Holy Shock comes at 21 and Light's Vigil at 31, and some players debate deep Holy against deep Ret for damage. | Holy Paladin's `soloLeveling` (2.5) and `goldFarming` (2), so how often it ranks for solo-minded players | Keep 2.5, the Classic-era healer baseline (an assumption). BLZ-PAL confirms the tools, but no source rates Holy's solo speed. Re-check with launch-week leveling reports; change the score only with a source in `sources.json` | 🟡 |
 
 ## C. Waiting on your review
 
