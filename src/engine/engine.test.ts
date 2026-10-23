@@ -173,10 +173,12 @@ describe('explanations', () => {
   })
 
   it('never claims the player asked for something the quiz only inferred', () => {
-    const res = rank(answers({ 'group-project': 'nobody-behind', festival: 'front-row', packing: 'sturdy' }), data)
-    const texts = res.results.flatMap((r) => [...r.reasons, ...r.watchOuts]).map((x) => x.text.veteran + x.text.newcomer)
-    expect(texts.length).toBeGreaterThan(0)
-    for (const t of texts) expect(t).not.toMatch(/as requested|you picked|asked for/i)
+    const roles = rank(answers({ 'group-project': 'nobody-behind', festival: 'front-row', packing: 'sturdy' }), data)
+    // Themes come from moods and scenarios, never from a fantasy pick (D30).
+    const themes = rank(answers({ feeling: 'calm', wins: 'outsmart', stuck: 'look-it-up' }), data)
+    expect(themes.results.some((r) => r.reasons.some((x) => x.source === 'tags'))).toBe(true)
+    const texts = [roles, themes].flatMap((res) => res.results.flatMap((r) => [...r.reasons, ...r.watchOuts]))
+    for (const { text } of texts) expect(text.veteran + text.newcomer).not.toMatch(/as requested|you picked|asked for|your pick/i)
   })
 
   // Reported on Reddit: "Excellent BG healer with forms" for a player whose last priority is PvP.
