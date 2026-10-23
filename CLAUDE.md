@@ -28,6 +28,7 @@ npm run test:e2e       # Playwright smoke test of the full quiz flow on the prod
 npm run typecheck      # tsc for the app (src) and the node scripts
 npm run build          # production build
 npm run scores:review  # regenerate docs/SCORES_REVIEW.md after editing builds.json
+npm run balance        # regenerate docs/BALANCE.md: #1 role/class shares, per-answer flips, why classes win (2,000 players)
 npm run og:image       # regenerate public/og-image.png (link-preview image) with the app's drawing code
 npx vitest run -u      # update persona snapshots — only after reviewing the diff
 ```
@@ -51,7 +52,7 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - `src/i18n/en.ts` — every UI string
 - `tests/e2e/` — Playwright smoke test; `vercel.json` — SPA rewrites + asset caching
 - `scripts/` — node scripts run with `tsx`
-- `docs/` — RESEARCH, OPEN_QUESTIONS, PLAN, DECISIONS, SCORES_REVIEW (generated)
+- `docs/` — RESEARCH, OPEN_QUESTIONS, PLAN, DECISIONS, SCORES_REVIEW and BALANCE (both generated)
 
 ## Conventions
 
@@ -61,7 +62,7 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - **Quiz questions are about the person, not WoW** (D30): no class words, every option must boost builds from ≥3 classes. Only setup and the final hard-preferences screen ask directly.
 - Game data in `src/data/*.json`, validated by Zod in tests and dev. Production trusts the JSON to keep Zod out of the bundle. Answer effects live in data, not code. Sources are ids into `sources.json` (ids match `docs/RESEARCH.md` §1).
 - Ids are kebab-case (`warrior-protection`, `skyborne-high-order`). Every player-facing sentence has `newcomer` and `veteran` wording.
-- After changing scores or weights: `npm run scores:review`, `npm test`, review the snapshot diff, then `npx vitest run -u`.
+- After changing scores or weights: `npm run scores:review`, `npm run balance`, `npm test`, review the snapshot diff, then `npx vitest run -u`.
 - 3D only in `src/three/` (lazy chunk). Everything must work without WebGL. Respect `prefers-reduced-motion`.
 - Line endings: LF (`.gitattributes`).
 

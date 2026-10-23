@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json",
     "scores:review": "tsx scripts/scores-review.ts",
+    "balance": "tsx scripts/balance.ts",
     "test:e2e": "playwright test",
     "og:image": "tsx scripts/og-image.ts"
   },

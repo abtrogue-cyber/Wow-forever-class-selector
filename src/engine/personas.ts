@@ -1,3 +1,4 @@
+import type { ClassId } from '../data/schemas'
 import type { Answers } from './types'
 
 /**
@@ -159,5 +160,93 @@ export const PERSONAS: Persona[] = [
       { inTop: 1, anyOf: ['druid-feral-bear', 'warrior-protection', 'paladin-protection'] },
       { inTop: 3, anyOf: ['druid-feral-bear'] },
     ],
+  },
+]
+
+/**
+ * One fan per class, answering the person-first quiz the way a typical player of that class would (no hard
+ * filters, no race, no skipped classes; the companion tick only where the class lives with a pet or demon).
+ * D30's check, rebuilt for the balance report (the original players weren't saved): each fan should find a
+ * build of their class in the top 3.
+ */
+export type ClassFan = { classId: ClassId; label: string; answers: Answers }
+
+const fan = (picks: Answers['picks']): Answers => ({
+  setup: { experience: 'played', faction: 'any', ruleset: 'normal', skyborne: 'no' },
+  picks,
+})
+
+export const CLASS_FANS: ClassFan[] = [
+  {
+    classId: 'warrior', label: 'Charges in, hits hard, wears plate',
+    answers: fan({
+      'two-hours': ['few-friends', 'big-team', 'fair-match'], 'group-project': 'hardest-part', 'team-sport': 'scorer',
+      annoyance: 'not-mattering', wins: 'big-moment', stuck: 'try-harder', festival: 'front-row', packing: 'sturdy',
+      feeling: 'close-call', restaurant: 'usual', patience: 'agony',
+    }),
+  },
+  {
+    classId: 'paladin', label: 'Holy knight who protects the group',
+    answers: fan({
+      'two-hours': ['few-friends', 'big-team', 'own-pace'], 'group-project': 'takes-charge', 'team-sport': 'last-line',
+      annoyance: 'sudden-death', wins: 'slow-certain', stuck: 'ask-friends', festival: 'front-row', packing: 'sturdy',
+      feeling: 'counted-on', restaurant: 'something-new', patience: 'kind-of-nice',
+    }),
+  },
+  {
+    classId: 'hunter', label: 'Roams alone with a pet, shoots from afar',
+    answers: fan({
+      'two-hours': ['own-pace', 'fortune', 'rivals'], 'group-project': 'own-part', 'team-sport': 'solo-sport',
+      annoyance: 'depending', wins: 'outsmart', stuck: 'come-back', festival: 'overview', packing: 'practical',
+      feeling: 'freedom', restaurant: 'usual', patience: 'annoying', preferences: ['want-companion'],
+    }),
+  },
+  {
+    classId: 'rogue', label: 'Sneaky opportunist who hunts other players',
+    answers: fan({
+      'two-hours': ['rivals', 'fortune', 'few-friends'], 'group-project': 'own-part', 'team-sport': 'scorer',
+      annoyance: 'depending', wins: 'outsmart', stuck: 'look-it-up', festival: 'roaming', packing: 'light',
+      feeling: 'edge', restaurant: 'usual', patience: 'agony',
+    }),
+  },
+  {
+    classId: 'priest', label: 'Calm healer behind the group',
+    answers: fan({
+      'two-hours': ['few-friends', 'big-team', 'own-pace'], 'group-project': 'nobody-behind', 'team-sport': 'playmaker',
+      annoyance: 'not-mattering', wins: 'unnoticed', stuck: 'ask-friends', festival: 'backstage', packing: 'light',
+      feeling: 'calm', restaurant: 'usual', patience: 'half-the-fun',
+    }),
+  },
+  {
+    classId: 'shaman', label: 'Elemental all-rounder who fills any gap',
+    answers: fan({
+      'two-hours': ['fair-match', 'few-friends', 'own-pace'], 'group-project': 'fills-gaps', 'team-sport': 'playmaker',
+      annoyance: 'not-mattering', wins: 'big-moment', stuck: 'try-harder', festival: 'roaming', packing: 'practical',
+      feeling: 'wonder', restaurant: 'something-new', patience: 'agony',
+    }),
+  },
+  {
+    classId: 'mage', label: 'Clever caster who loves big numbers',
+    answers: fan({
+      'two-hours': ['big-team', 'fortune', 'fair-match'], 'group-project': 'hardest-part', 'team-sport': 'scorer',
+      annoyance: 'not-mattering', wins: 'big-moment', stuck: 'look-it-up', festival: 'overview', packing: 'light',
+      feeling: 'wonder', restaurant: 'usual', patience: 'agony',
+    }),
+  },
+  {
+    classId: 'warlock', label: 'Patient dark caster with a demon',
+    answers: fan({
+      'two-hours': ['own-pace', 'rivals', 'fortune'], 'group-project': 'own-part', 'team-sport': 'solo-sport',
+      annoyance: 'waiting', wins: 'slow-certain', stuck: 'come-back', festival: 'overview', packing: 'light',
+      feeling: 'edge', restaurant: 'usual', patience: 'half-the-fun', preferences: ['want-companion'],
+    }),
+  },
+  {
+    classId: 'druid', label: 'Shapeshifter who loves nature and freedom',
+    answers: fan({
+      'two-hours': ['own-pace', 'few-friends', 'fortune'], 'group-project': 'fills-gaps', 'team-sport': 'playmaker',
+      annoyance: 'depending', wins: 'outsmart', stuck: 'come-back', festival: 'roaming', packing: 'practical',
+      feeling: 'freedom', restaurant: 'something-new', patience: 'fine',
+    }),
   },
 ]
