@@ -335,3 +335,7 @@ As in brief §6, plus:
 - Connect it to Vercel (Hobby plan, no env vars needed).
 - Review SCORES_REVIEW.md.
 - Answer OPEN_QUESTIONS §B.
+
+## 11. Backlog
+
+- **Race look, inert since D47.** With the place-to-live question gone, `profile.aesthetic` is always empty, so the look part of race ranking does nothing: the `aesthetic` answer effect, each race's `aesthetic` scores, `CONFIG.races.aestheticWeight` / `rpAestheticMultiplier` and `explanations.race.aesthetic`. It stays in place this close to launch (an engine test keeps it working with a made-up question). After launch: feed it from a new question or remove it.

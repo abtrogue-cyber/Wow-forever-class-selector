@@ -3,7 +3,7 @@
 Fan-made, very visual class / spec / race finder for **World of Warcraft: Forever** (launch Nov 4, 2026).
 Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current plan: [docs/PLAN.md](docs/PLAN.md).
 
-**Status:** Phases 2 and 3 are merged into `main` and live at https://wow-forever-class-selector.vercel.app: the playable MVP with the person-first quiz (M1), plus the quiz compass (D40, replaced the 3D hero), card reveal, Spec Galaxy, result image and link previews (M2, ahead of Sun Nov 1). Share layout V1 is now published: question changes need `LAYOUT_V2`. Now: the Reddit feedback round ([docs/prompts/reddit-feedback-v2.md](docs/prompts/reddit-feedback-v2.md)): A quick fixes (D46) → B quiz V2 → C balance, all merged by Oct 31. Next: Phase 4 (launch hardening, Nov 2–3).
+**Status:** Phases 2 and 3 are merged into `main` and live at https://wow-forever-class-selector.vercel.app: the playable MVP with the person-first quiz (M1), plus the quiz compass (D40, replaced the 3D hero), card reveal, Spec Galaxy, result image and link previews (M2, ahead of Sun Nov 1). Share layouts V1 and V2 are published: question changes need `LAYOUT_V3`. Now: the Reddit feedback round ([docs/prompts/reddit-feedback-v2.md](docs/prompts/reddit-feedback-v2.md)): A quick fixes (D46) → B quiz V2 (D47: 12 screens, no healing / no tanking, race in mind, classes to skip) → C balance, all merged by Oct 31. Next: Phase 4 (launch hardening, Nov 2–3).
 
 **Hosting:** GitHub `abtrogue-cyber/Wow-forever-class-selector` (`origin`). Vercel deploys every push to `main` automatically. Commits use the GitHub noreply email (set in this repo's local git config).
 
@@ -44,7 +44,7 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - `src/share/` — share codes (`codec.ts`) with frozen answer layouts per code version (`layout.ts`)
 - `src/data/vocab.ts` — plain id lists (no Zod). App and engine code import ids from here, never runtime values from `schemas.ts`, so Zod stays out of the bundle.
 - `src/pages/` — routes: `/` (eager), `/quiz`, `/result/:code`, `/galaxy`, `/galaxy/:code`, `/about` (lazy), dev-only `/debug`, 404
-- `src/components/` — `quiz/` (setup + question types + hotkeys), `results/` (cards, radar, reveal, tweaks, share), `compass/` (quiz compass: `compass.ts` math and looks, `CompassStage` picks 3D or the flat `CompassMap2D`), `webgl.tsx` (WebGL checks + 3D error fallback), `galaxy/GalaxyMap2D` (flat Spec Galaxy), `icons/Glyphs` (our SVG glyphs) and `icons/GameIcons` (Blizzard icons, D43/D44), `layout/Site`
+- `src/components/` — `quiz/` (setup, question types, the grouped last screen, `screens.ts` grouping + allowed races, hotkeys), `results/` (cards, radar, reveal, tweaks, share), `compass/` (quiz compass: `compass.ts` math and looks, `CompassStage` picks 3D or the flat `CompassMap2D`), `webgl.tsx` (WebGL checks + 3D error fallback), `galaxy/GalaxyMap2D` (flat Spec Galaxy), `icons/Glyphs` (our SVG glyphs) and `icons/GameIcons` (Blizzard icons, D43/D44), `layout/Site`
 - `src/three/` — lazy 3D scenes (R3F): `CompassScene` (quiz compass) and `GalaxyScene`, sharing the sky, textures and gold armillary in `shared.tsx`. Only these files import three.
 - `src/galaxy/` — Spec Galaxy math: `pca.ts` (layout, nearest builds, player position), `constellations.ts` (class lines), `declutter.ts` (nudges overlapping flat-map icons apart)
 - `src/state/quizStore.ts` — Zustand quiz progress (sessionStorage, falls back to memory)
@@ -57,7 +57,7 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 
 - TypeScript strict (+ `noUncheckedIndexedAccess`). The engine is pure: no React, no clock, no randomness, stable tie-breaks.
 - **Versioning:** bump `ENGINE_VERSION` (`src/engine/config.ts`) when engine logic or constants change results; bump `meta.dataVersion` when data changes results. Share links carry both.
-- **Never edit a published share layout.** If `questions.json` changes, add `LAYOUT_V2` + decoder and keep V1 (a test enforces this). V1 was rewritten once, before the first deploy (D32).
+- **Never edit a published share layout.** If `questions.json` changes, add the next `LAYOUT_Vn`, register it in `codec.ts` and keep the older ones (a test pins the newest layout to the data; older ones keep decode tests). V1 was rewritten once, before the first deploy (D32); V2 came with quiz V2 (D47).
 - **Quiz questions are about the person, not WoW** (D30): no class words, every option must boost builds from ≥3 classes. Only setup and the final hard-preferences screen ask directly.
 - Game data in `src/data/*.json`, validated by Zod in tests and dev. Production trusts the JSON to keep Zod out of the bundle. Answer effects live in data, not code. Sources are ids into `sources.json` (ids match `docs/RESEARCH.md` §1).
 - Ids are kebab-case (`warrior-protection`, `skyborne-high-order`). Every player-facing sentence has `newcomer` and `veteran` wording.
