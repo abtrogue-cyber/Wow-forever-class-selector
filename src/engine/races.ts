@@ -71,6 +71,7 @@ export function rankRaces(build: Build, profile: PlayerProfile, ctx: EngineConte
     return {
       raceId: race.id,
       score: contributions.reduce((sum, c) => sum + c.value, 0),
+      chosen: race.id === profile.race,
       newInForever,
       needsPack,
       contributions,
@@ -78,7 +79,11 @@ export function rankRaces(build: Build, profile: PlayerProfile, ctx: EngineConte
     }
   })
 
+  // The race the player has in mind leads; the rest follow by how much their racials help.
   return results.sort(
-    (a, b) => b.score - a.score || (ctx.raceOrder.get(a.raceId) ?? 0) - (ctx.raceOrder.get(b.raceId) ?? 0),
+    (a, b) =>
+      Number(b.chosen) - Number(a.chosen) ||
+      b.score - a.score ||
+      (ctx.raceOrder.get(a.raceId) ?? 0) - (ctx.raceOrder.get(b.raceId) ?? 0),
   )
 }

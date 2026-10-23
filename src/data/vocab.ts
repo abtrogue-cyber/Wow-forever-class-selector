@@ -28,7 +28,7 @@ export const RACIAL_TAGS = [
 
 export const AESTHETICS = ['noble', 'rugged', 'clever', 'elven', 'primal', 'eerie'] as const
 
-export const HARD_FILTERS = ['noPets', 'mustHeal', 'mustTank', 'rangedOnly', 'meleeOnly', 'noStealth'] as const
+export const HARD_FILTERS = ['noPets', 'mustHeal', 'mustTank', 'noHeal', 'noTank', 'rangedOnly', 'meleeOnly', 'noStealth'] as const
 
 export const FLAGS = ['wantsComplexity'] as const
 

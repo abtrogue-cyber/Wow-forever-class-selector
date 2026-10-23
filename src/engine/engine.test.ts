@@ -131,6 +131,30 @@ describe('hard filters', () => {
     expect(exclusionReason(build('rogue-combat'), p, ctx)).toBe('noStealth')
     expect(exclusionReason(build('druid-feral-cat'), p, ctx)).toBeNull()
   })
+
+  it('"no healing" and "no tanking" are build-level: the class stays, its healer or tank specs go', () => {
+    const noHeal = profile(['no-healing'])
+    expect(exclusionReason(build('priest-holy'), noHeal, ctx)).toBe('noHeal')
+    expect(exclusionReason(build('priest-shadow'), noHeal, ctx)).toBeNull()
+    const noTank = profile(['no-tanking'])
+    expect(exclusionReason(build('warrior-protection'), noTank, ctx)).toBe('noTank')
+    expect(exclusionReason(build('warrior-arms'), noTank, ctx)).toBeNull()
+    // Enhancement can off-tank small groups, but it's a damage spec.
+    expect(exclusionReason(build('shaman-enhancement'), noTank, ctx)).toBeNull()
+  })
+
+  it('"no healing" beats "must heal" (only a hand-made link can send both)', () => {
+    expect(profile(['must-heal', 'no-healing']).filters).toEqual(['noHeal'])
+    expect(profile(['must-tank', 'no-tanking']).filters).toEqual(['noTank'])
+  })
+
+  it('skipped classes are ruled out, with a reason', () => {
+    const res = rank(answers({ 'skip-classes': ['paladin', 'druid'] }), data)
+    expect(res.results.some((r) => ['paladin', 'druid'].includes(build(r.buildId).classId))).toBe(false)
+    expect(res.excluded.map((e) => e.reason)).toEqual(Array(7).fill('skippedClass'))
+    const skippedPopular = res.whyNot.filter((w) => w.rank === null)
+    for (const w of skippedPopular) expect(w.reason).toEqual(data.explanations.skippedClass)
+  })
 })
 
 describe('races', () => {
@@ -152,11 +176,34 @@ describe('races', () => {
     expect((yes?.score ?? 0) - (unsure?.score ?? 0)).toBeCloseTo(1)
   })
 
-  it('the place question moves races', () => {
-    const elven = rankRaces(build('priest-holy'), buildProfile(answers({ home: 'moon-forest' }), ctx), ctx)
-    expect(elven[0]?.raceId).toBe('night-elf')
-    const eerie = rankRaces(build('priest-holy'), buildProfile(answers({ home: 'misty-ruins' }), ctx), ctx)
-    expect(eerie[0]?.raceId).toBe('undead')
+  it('a look answer still moves races (no question feeds it since the place to live left the quiz, D47)', () => {
+    const wording = { newcomer: 'x', veteran: 'x' }
+    const place: Question = {
+      id: 'place', type: 'pickOne', text: wording,
+      options: [
+        { id: 'forest', label: wording, effects: { aesthetic: { elven: 3 } } },
+        { id: 'ruins', label: wording, effects: { aesthetic: { eerie: 3 } } },
+      ],
+    }
+    const placeCtx = getContext({ ...data, questions: { ...data.questions, questions: [...data.questions.questions, place] } })
+    const racesBy = (pick: string) => rankRaces(build('priest-holy'), buildProfile(answers({ place: pick }), placeCtx), placeCtx)
+    expect(racesBy('forest')[0]?.raceId).toBe('night-elf')
+    expect(racesBy('ruins')[0]?.raceId).toBe('undead')
+  })
+
+  it('a race in mind leads every card it can play, and is flagged as the pick', () => {
+    const res = rank(answers({ race: 'tauren' }), data)
+    expect(res.profile.race).toBe('tauren')
+    expect(new Set(res.results.map((r) => build(r.buildId).classId))).toEqual(new Set(['druid', 'hunter', 'shaman', 'warrior']))
+    for (const r of res.results) expect(r.races[0]).toMatchObject({ raceId: 'tauren', chosen: true })
+    expect(res.excluded.every((e) => e.reason === 'wrongRace')).toBe(true)
+  })
+
+  it('ignores a race the setup cannot make, so the racials decide', () => {
+    expect(rank(answers({ race: 'tauren' }, { faction: 'alliance' }), data).profile.race).toBeNull()
+    expect(rank(answers({ race: 'skyborne-windshaper' }, { skyborne: 'no' }), data).profile.race).toBeNull()
+    const unsure = rank(answers({ race: 'skyborne-windshaper' }, { skyborne: 'unsure' }), data)
+    expect(unsure.results[0]?.races[0]).toMatchObject({ raceId: 'skyborne-windshaper', chosen: true, needsPack: true })
   })
 })
 
@@ -231,5 +278,22 @@ describe('rank', () => {
     const none = rank(answers({ preferences: ['ranged-only', 'melee-only'] }), data)
     expect(none.results).toHaveLength(0)
     expect(none.notes).toEqual([data.explanations.notes.nothingLeft])
+    // A race in mind plus skipping every class it can play leaves nothing either.
+    const skipAll = rank(answers({ race: 'tauren', 'skip-classes': ['druid', 'hunter', 'shaman', 'warrior'] }), data)
+    expect(skipAll.results).toHaveLength(0)
+    expect(skipAll.notes).toEqual([data.explanations.notes.nothingLeft])
+  })
+
+  it('never offers a ruled-out role, not even as the dual spec', () => {
+    const res = rank(answers({ 'team-sport': 'playmaker', festival: 'backstage', preferences: ['no-healing', 'no-tanking'] }), data)
+    expect(res.results.length).toBeGreaterThan(0)
+    for (const r of res.results) {
+      expect(build(r.buildId).role).toBe('dps')
+      if (r.dualSpec) expect(build(r.dualSpec.buildId).role).toBe('dps')
+      // "Hybrid class, flexible roles" would sell the roles they ruled out.
+      expect(r.reasons.map((x) => x.text)).not.toContainEqual(data.explanations.hybrid)
+    }
+    // Shadow's only partners are healers, so it has no second spec to suggest.
+    expect(res.results.find((r) => r.buildId === 'priest-shadow')?.dualSpec).toBeNull()
   })
 })

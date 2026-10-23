@@ -208,7 +208,16 @@ const Option = z.strictObject({
 })
 export type Option = z.infer<typeof Option>
 
-const questionBase = { id: Id, text: Wording, hint: Wording.optional() }
+const questionBase = {
+  id: Id,
+  text: Wording,
+  hint: Wording.optional(),
+  /** Shown on the same screen as the question before it (the last screen groups the direct questions). */
+  withPrevious: z.boolean().optional(),
+}
+
+/** An option that is simply a race or class id, named by its label. */
+const NamedOption = z.strictObject({ id: Id, label: Wording })
 
 const SingleQuestion = z.strictObject({
   ...questionBase,
@@ -246,7 +255,11 @@ const MultiQuestion = z.strictObject({
   /** Pairs that can't both be picked. */
   exclusive: z.array(z.tuple([Id, Id])),
 })
-export const Question = z.union([SingleQuestion, SliderQuestion, PrioritiesQuestion, MultiQuestion])
+/** "Got a race in mind?": one race id, or none (= let the racials decide). Classes it can't be are ruled out. */
+const RaceQuestion = z.strictObject({ ...questionBase, type: z.literal('race'), options: z.array(NamedOption).min(2) })
+/** Classes the player never wants to play: any number of class ids, all ruled out. */
+const SkipClassesQuestion = z.strictObject({ ...questionBase, type: z.literal('skipClasses'), options: z.array(NamedOption).min(2) })
+export const Question = z.union([SingleQuestion, SliderQuestion, PrioritiesQuestion, MultiQuestion, RaceQuestion, SkipClassesQuestion])
 export type Question = z.infer<typeof Question>
 
 const SetupField = z.strictObject({
@@ -271,6 +284,10 @@ export const ExplanationsFile = z.strictObject({
   novelty: z.strictObject({ fitNew: Wording, fitClassic: Wording, watchNew: Wording, watchClassic: Wording }),
   filters: z.record(HardFilter, Wording),
   noRace: Wording,
+  /** The race the player has in mind can't be this class. */
+  wrongRace: Wording,
+  /** The player said they'd skip this class. */
+  skippedClass: Wording,
   dualSpec: z.strictObject({
     heal: Wording,
     tank: Wording,

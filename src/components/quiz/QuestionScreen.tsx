@@ -1,14 +1,19 @@
 import { motion, useMotionValue, useTransform } from 'motion/react'
-import { useRef, useState } from 'react'
-import type { Question, Wording } from '../../data'
+import { useEffect, useRef, useState } from 'react'
+import { gameData, type ClassId, type Question, type Wording } from '../../data'
+import type { Setup } from '../../engine/types'
 import { en } from '../../i18n/en'
+import { ClassGlyph } from '../icons/Glyphs'
+import { racesFor } from './screens'
 import { digitIndex, useHotkeys } from './useHotkeys'
 
 type Value = string | string[] | undefined
 type SliderQ = Extract<Question, { type: 'slider' }>
 type PrioritiesQ = Extract<Question, { type: 'priorities' }>
 type MultiQ = Extract<Question, { type: 'multi' }>
-type SingleQ = Exclude<Question, SliderQ | PrioritiesQ | MultiQ>
+type RaceQ = Extract<Question, { type: 'race' }>
+type SkipClassesQ = Extract<Question, { type: 'skipClasses' }>
+type SingleQ = Extract<Question, { type: 'scenario' | 'thisOrThat' | 'pickOne' }>
 
 type Common = {
   wording: keyof Wording
@@ -21,7 +26,11 @@ type Common = {
   isLast: boolean
   /** Pointer or keyboard focus on an option previews its answer (null: nothing previewed). */
   onPreview?: (preview: { value: Value } | null) => void
+  /** The setup decides which races can be picked. Without one, every race can. */
+  setup?: Setup
 }
+
+const ANY_SETUP: Setup = { experience: 'played', faction: 'any', ruleset: 'normal', skyborne: 'yes' }
 
 const asList = (v: Value) => (v == null ? [] : Array.isArray(v) ? v : [v])
 
@@ -54,6 +63,11 @@ export function QuestionScreen({ question: q, ...common }: Common & { question: 
         <Priorities q={q} {...common} />
       ) : q.type === 'multi' ? (
         <MultiAnswer q={q} {...common} />
+      ) : q.type === 'race' || q.type === 'skipClasses' ? (
+        <>
+          <DirectAnswer q={q} {...common} />
+          <Footer onBack={common.onBack} onNext={common.onNext} nextLabel={common.isLast ? en.quiz.seeResults : en.quiz.next} stacked={common.isLast} />
+        </>
       ) : q.type === 'thisOrThat' ? (
         <ThisOrThat q={q} {...common} />
       ) : (
@@ -61,6 +75,65 @@ export function QuestionScreen({ question: q, ...common }: Common & { question: 
       )}
     </div>
   )
+}
+
+type GroupProps = Omit<Common, 'value' | 'onChange' | 'onPreview'> & {
+  questions: Question[]
+  values: Record<string, Value | null>
+  onChange: (questionId: string, value: Value) => void
+  onPreview?: (preview: { questionId: string; value: Value } | null) => void
+}
+
+/**
+ * Several questions on one screen: the last one asks the direct questions (hard preferences, a race in mind,
+ * classes to skip). The first question titles the screen; each other one gets its own section.
+ */
+export function QuestionGroup({ questions, values, onChange, onPreview, ...common }: GroupProps) {
+  const { wording: w, onNext, onBack, isLast } = common
+  const [first, ...rest] = questions
+  const answer = (q: Question) => ({
+    ...common,
+    value: values[q.id] ?? undefined,
+    onChange: (v: Value) => onChange(q.id, v),
+    onPreview: onPreview && ((p: { value: Value } | null) => onPreview(p && { questionId: q.id, value: p.value })),
+  })
+  const ticks = first?.type === 'multi' ? first : undefined
+  useHotkeys((key) => {
+    const option = ticks?.options[digitIndex(key)]
+    if (ticks && option) answer(ticks).onChange(toggledTick(ticks, asList(values[ticks.id] ?? undefined), option.id))
+    else if (key === 'ArrowLeft') onBack()
+    else if (key === 'Enter' || key === 'ArrowRight') onNext()
+  })
+  if (!first) return null
+  return (
+    <div className="flex flex-col gap-5">
+      <div>
+        <h1 className="text-2xl leading-snug sm:text-3xl">{first.text[w]}</h1>
+        {first.hint && <p className="mt-1 text-ash-300">{first.hint[w]}</p>}
+      </div>
+      <DirectAnswer q={first} {...answer(first)} />
+      {rest.map((q) => (
+        <section key={q.id} aria-labelledby={`q-${q.id}`} className="flex flex-col gap-2.5">
+          <div>
+            <h2 id={`q-${q.id}`} className="text-lg leading-snug sm:text-xl">
+              {q.text[w]}
+            </h2>
+            {q.hint && <p className="text-sm text-ash-400">{q.hint[w]}</p>}
+          </div>
+          <DirectAnswer q={q} {...answer(q)} />
+        </section>
+      ))}
+      <Footer onBack={onBack} onNext={onNext} nextLabel={isLast ? en.quiz.seeResults : en.quiz.next} stacked={isLast} />
+    </div>
+  )
+}
+
+/** The answer area of a question that can share a screen: tick boxes, race chips or class chips. */
+function DirectAnswer({ q, ...common }: Common & { q: Question }) {
+  if (q.type === 'multi') return <TickGrid q={q} {...common} />
+  if (q.type === 'race') return <RaceChips q={q} {...common} />
+  if (q.type === 'skipClasses') return <ClassChips q={q} {...common} />
+  return null
 }
 
 /** Pick, then move on after a short beat, once. */
@@ -74,18 +147,19 @@ function useAutoAdvance(onChange: (v: Value) => void, onNext: () => void) {
   }
 }
 
-function BackButton({ onBack }: { onBack: () => void }) {
+function BackButton({ onBack, className = '' }: { onBack: () => void; className?: string }) {
   return (
-    <button type="button" className="btn-ghost" onClick={onBack}>
+    <button type="button" className={`btn-ghost ${className}`} onClick={onBack}>
       ← {en.quiz.back}
     </button>
   )
 }
 
-function Footer({ onBack, onNext, nextLabel }: { onBack: () => void; onNext: () => void; nextLabel: string }) {
+/** Back and next. `stacked`: the long reveal button gets the full width on phones instead of wrapping. */
+function Footer({ onBack, onNext, nextLabel, stacked = false }: { onBack: () => void; onNext: () => void; nextLabel: string; stacked?: boolean }) {
   return (
-    <div className="mt-2 flex items-center justify-between gap-3">
-      <BackButton onBack={onBack} />
+    <div className={`mt-2 flex gap-3 ${stacked ? 'flex-col-reverse sm:flex-row sm:items-center sm:justify-between' : 'items-center justify-between'}`}>
+      <BackButton onBack={onBack} className={stacked ? 'self-start sm:self-auto' : ''} />
       <button type="button" className="btn-primary" onClick={onNext}>
         {nextLabel}
       </button>
@@ -258,35 +332,100 @@ function Priorities({ q, wording: w, value, onChange, onNext, onBack, isLast, on
   )
 }
 
-function MultiAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast, onPreview }: Common & { q: MultiQ }) {
+/** The ticked options after toggling one; ticking an option unticks the one it can't go with. */
+function toggledTick(q: MultiQ, picked: string[], id: string): string[] {
+  if (picked.includes(id)) return picked.filter((x) => x !== id)
+  const clashes = q.exclusive.flatMap(([a, b]) => (a === id ? [b] : b === id ? [a] : []))
+  return [...picked.filter((x) => !clashes.includes(x)), id]
+}
+
+function MultiAnswer({ q, value, onChange, onNext, onBack, isLast, ...common }: Common & { q: MultiQ }) {
   const picked = asList(value)
-  const toggled = (id: string) => {
-    if (picked.includes(id)) return picked.filter((x) => x !== id)
-    const clashes = q.exclusive.flatMap(([a, b]) => (a === id ? [b] : b === id ? [a] : []))
-    return [...picked.filter((x) => !clashes.includes(x)), id]
-  }
-  const toggle = (id: string) => onChange(toggled(id))
   useHotkeys((key) => {
     const option = q.options[digitIndex(key)]
-    if (option) toggle(option.id)
+    if (option) onChange(toggledTick(q, picked, option.id))
     else if (key === 'ArrowLeft') onBack()
     else if (key === 'Enter' || key === 'ArrowRight') onNext()
   })
   return (
     <>
-      <div className="grid gap-2 sm:grid-cols-2">
-        {q.options.map((o) => (
-          <button key={o.id} type="button" role="checkbox" aria-checked={picked.includes(o.id)} className="choice" onClick={() => toggle(o.id)} {...previewOn(onPreview, () => toggled(o.id))}>
-            <span className="checkbox" aria-hidden="true">
-              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12.5l4.5 4.5L19 7.5" />
-              </svg>
-            </span>
-            <span>{o.label[w]}</span>
+      <TickGrid q={q} value={value} onChange={onChange} onNext={onNext} onBack={onBack} isLast={isLast} {...common} />
+      <Footer onBack={onBack} onNext={onNext} nextLabel={isLast ? en.quiz.seeResults : picked.length === 0 ? en.quiz.none : en.quiz.next} stacked={isLast} />
+    </>
+  )
+}
+
+/** Tick boxes, two per row. Options are ordered in either-or pairs, so each row is one choice. */
+function TickGrid({ q, wording: w, value, onChange, onPreview }: Common & { q: MultiQ }) {
+  const picked = asList(value)
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      {q.options.map((o) => (
+        <button
+          key={o.id}
+          type="button"
+          role="checkbox"
+          aria-checked={picked.includes(o.id)}
+          className="choice gap-2.5 px-3 py-2.5 text-[15px] leading-snug sm:px-4 sm:text-base"
+          onClick={() => onChange(toggledTick(q, picked, o.id))}
+          {...previewOn(onPreview, () => toggledTick(q, picked, o.id))}
+        >
+          <span className="checkbox" aria-hidden="true">
+            <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12.5l4.5 4.5L19 7.5" />
+            </svg>
+          </span>
+          <span>{o.label[w]}</span>
+        </button>
+      ))}
+    </div>
+  )
+}
+
+/** "Got a race in mind?": "Surprise me" (the racials decide) or one race the player's faction and pack allow. */
+function RaceChips({ q, wording: w, value, onChange, setup = ANY_SETUP }: Common & { q: RaceQ }) {
+  const allowed = racesFor(setup)
+  const picked = typeof value === 'string' && allowed.includes(value) ? value : undefined
+  // A race picked before the faction or pack changed may no longer be possible: drop it.
+  useEffect(() => {
+    if (value != null && !picked) onChange(undefined)
+  }, [value, picked, onChange])
+  const needsPack = (id: string) => setup.skyborne === 'unsure' && !!gameData.races.find((r) => r.id === id)?.requiresPurchase
+  return (
+    <div role="radiogroup" aria-label={q.text[w]} className="flex flex-wrap gap-2">
+      <button type="button" role="radio" aria-checked={!picked} className="chip" onClick={() => onChange(undefined)}>
+        {en.quiz.surpriseMe}
+      </button>
+      {q.options
+        .filter((o) => allowed.includes(o.id))
+        .map((o) => (
+          <button key={o.id} type="button" role="radio" aria-checked={picked === o.id} className="chip" onClick={() => onChange(o.id)}>
+            {o.label[w]}
+            {needsPack(o.id) && <span className="text-xs text-ash-400">· {en.quiz.needsPack}</span>}
           </button>
         ))}
-      </div>
-      <Footer onBack={onBack} onNext={onNext} nextLabel={isLast ? en.quiz.seeResults : picked.length === 0 ? en.quiz.none : en.quiz.next} />
-    </>
+    </div>
+  )
+}
+
+/** Classes to skip: tap to strike one out, tap again to bring it back. Our own class glyphs (no game icons in the quiz). */
+function ClassChips({ q, wording: w, value, onChange }: Common & { q: SkipClassesQ }) {
+  const skipped = asList(value)
+  return (
+    <div role="group" aria-label={q.text[w]} className="flex flex-wrap gap-2">
+      {q.options.map((o) => (
+        <button
+          key={o.id}
+          type="button"
+          role="checkbox"
+          aria-checked={skipped.includes(o.id)}
+          className="chip"
+          onClick={() => onChange(skipped.includes(o.id) ? skipped.filter((x) => x !== o.id) : [...skipped, o.id])}
+        >
+          <ClassGlyph classId={o.id as ClassId} className="size-4 shrink-0" />
+          {o.label[w]}
+        </button>
+      ))}
+    </div>
   )
 }

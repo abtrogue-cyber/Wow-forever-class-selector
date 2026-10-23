@@ -41,6 +41,18 @@ describe(`engine invariants over ${RUNS} random players`, () => {
         if (filters.has('noStealth')) expect(b.stealth).toBeLessThan(2)
         if (filters.has('mustHeal')) expect(cls.roles).toContain('healer')
         if (filters.has('mustTank')) expect(cls.roles).toContain('tank')
+        expect(res.profile.skippedClasses).not.toContain(b.classId)
+        // "No healing" / "no tanking": no such spec anywhere, not even as the dual spec.
+        const partner = ctx.builds.get(r.dualSpec?.buildId ?? '')
+        if (filters.has('noHeal')) expect([b.role, partner?.role]).not.toContain('healer')
+        if (filters.has('noTank')) expect([b.role, partner?.role]).not.toContain('tank')
+        // A race in mind: only classes it can be, and it leads the list.
+        if (res.profile.race) {
+          expect(r.races[0]).toMatchObject({ raceId: res.profile.race, chosen: true })
+          expect(r.races.filter((x) => x.chosen)).toHaveLength(1)
+        } else {
+          expect(r.races.some((x) => x.chosen)).toBe(false)
+        }
 
         // Never an impossible race/class/faction combo; Skyborne only with the pack (or flagged as unsure).
         expect(r.races.length).toBeGreaterThanOrEqual(1)
@@ -93,6 +105,11 @@ describe(`engine invariants over ${RUNS} random players`, () => {
           expect(ctx.builds.get(r.dualSpec?.buildId ?? '')?.role).toBe('healer')
         }
       })
+
+      // A race the faction or pack can't make is ignored rather than ruling everything out.
+      const race = ctx.races.get(String(answers.picks.race ?? ''))
+      const allowed = race && (faction === 'any' || race.factions.includes(faction)) && (!race.requiresPurchase || skyborne !== 'no')
+      expect(res.profile.race).toBe(allowed ? race.id : null)
 
       // "Why not" only lists popular builds outside the top 5.
       expect(res.whyNot.length).toBeLessThanOrEqual(CONFIG.explain.whyNotCount)

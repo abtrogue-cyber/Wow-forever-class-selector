@@ -4,7 +4,8 @@ import { Link, useLocation } from 'wouter'
 import { gameData } from '../data'
 import { AXIS_ENDS, lookFor, positionFor, STARS, trailFor } from '../components/compass/compass'
 import { CompassStage } from '../components/compass/CompassStage'
-import { QuestionScreen } from '../components/quiz/QuestionScreen'
+import { QuestionGroup, QuestionScreen } from '../components/quiz/QuestionScreen'
+import { quizScreens } from '../components/quiz/screens'
 import { SetupScreen } from '../components/quiz/SetupScreen'
 import { ENGINE_VERSION } from '../engine/config'
 import { rank } from '../engine/rank'
@@ -12,8 +13,9 @@ import { en } from '../i18n/en'
 import { encodeShareCode } from '../share/codec'
 import { isSetupComplete, useQuizStore, wordingFor } from '../state/quizStore'
 
-const QUESTIONS = gameData.questions.questions
-const TOTAL = QUESTIONS.length
+/** One screen per question, except the last, which asks the direct questions together. */
+const SCREENS = quizScreens(gameData.questions.questions)
+const TOTAL = SCREENS.length
 const versions = { engineVersion: ENGINE_VERSION, dataVersion: gameData.meta.dataVersion }
 /** Longest the reveal may take before the results open anyway (the scene normally says it's done sooner). */
 const REVEAL_MAX_MS = 3400
@@ -26,7 +28,8 @@ export function QuizPage() {
   const { setup, picks, step: storedStep, goTo, setPick } = useQuizStore()
   const complete = isSetupComplete(setup)
   const step = complete ? Math.min(storedStep, TOTAL) : 0
-  const question = step > 0 ? QUESTIONS[step - 1] : undefined
+  const screen = step > 0 ? SCREENS[step - 1] : undefined
+  const question = screen?.[0]
   const w = wordingFor(setup)
   const stepRef = useRef<HTMLDivElement>(null)
 
@@ -37,9 +40,9 @@ export function QuizPage() {
   const pulse = useMemo(() => JSON.stringify([setup, picks]), [setup, picks])
 
   // Hovering an answer previews where it would take you (and the sky or star color it would give).
-  const [preview, setPreview] = useState<{ value: Value } | null>(null)
+  const [preview, setPreview] = useState<{ questionId: string; value: Value } | null>(null)
   useEffect(() => setPreview(null), [step])
-  const previewPicks = useMemo(() => (preview && question ? { ...picks, [question.id]: preview.value } : null), [preview, question, picks])
+  const previewPicks = useMemo(() => (preview ? { ...picks, [preview.questionId]: preview.value } : null), [preview, picks])
   const previewPos = useMemo(() => {
     if (!previewPicks) return null
     const p = positionFor(setup, previewPicks)
@@ -139,17 +142,32 @@ export function QuizPage() {
               exit={{ opacity: 0, x: -24 }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
-              {question ? (
+              {screen && question && screen.length > 1 ? (
+                <QuestionGroup
+                  key={question.id}
+                  questions={screen}
+                  wording={w}
+                  hardcore={setup.ruleset === 'hardcore'}
+                  setup={complete ? setup : undefined}
+                  values={picks}
+                  onChange={setPick}
+                  onNext={next}
+                  onBack={back}
+                  onPreview={setPreview}
+                  isLast={step === TOTAL}
+                />
+              ) : question ? (
                 <QuestionScreen
                   key={question.id}
                   question={question}
                   wording={w}
                   hardcore={setup.ruleset === 'hardcore'}
+                  setup={complete ? setup : undefined}
                   value={picks[question.id] ?? undefined}
                   onChange={(v) => setPick(question.id, v)}
                   onNext={next}
                   onBack={back}
-                  onPreview={setPreview}
+                  onPreview={(p) => setPreview(p && { questionId: question.id, value: p.value })}
                   isLast={step === TOTAL}
                 />
               ) : (

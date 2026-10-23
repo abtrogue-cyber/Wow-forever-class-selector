@@ -2,8 +2,9 @@ import { AXIS_IDS } from '../data/vocab'
 import type { AxisId, Build, TagId, Wording } from '../data/schemas'
 import { CONFIG } from './config'
 import { entries, type EngineContext } from './context'
+import { openRoles } from './filters'
 import type { RawComponent } from './score'
-import type { Component, ComponentId, PlayerProfile, Reason } from './types'
+import type { Component, ComponentId, ExclusionReason, PlayerProfile, Reason } from './types'
 
 const isAxis = (id: ComponentId): id is AxisId => (AXIS_IDS as readonly string[]).includes(id)
 
@@ -87,8 +88,8 @@ function fitReason(c: Component, build: Build, profile: PlayerProfile, ctx: Engi
     return text ? { source: 'tags', text } : null
   }
   if (c.id === 'role') {
-    const classRoles = ctx.classes.get(build.classId)?.roles.length ?? 1
-    const text = profile.roleFlex > 0 && classRoles > 1 && profile.roles[build.role] <= 0 ? ex.hybrid : ex.role.fit[build.role]
+    const hybrid = profile.roleFlex > 0 && openRoles(build.classId, profile, ctx).length > 1
+    const text = hybrid && profile.roles[build.role] <= 0 ? ex.hybrid : ex.role.fit[build.role]
     return { source: 'role', text }
   }
   return { source: 'novelty', text: profile.novelty > 0 ? ex.novelty.fitNew : ex.novelty.fitClassic }
@@ -124,12 +125,15 @@ export function watchReason(c: Component, build: Build, profile: PlayerProfile, 
  */
 function describes(c: Component, build: Build, profile: PlayerProfile, ctx: EngineContext): boolean {
   if (isAxis(c.id)) return ctx.axes.get(c.id)?.mode !== 'atLeast' || build.axes[c.id] >= CONFIG.explain.fitBands.high
-  if (c.id === 'role') {
-    const classRoles = ctx.classes.get(build.classId)?.roles.length ?? 1
-    return profile.roles[build.role] > 0 || (profile.roleFlex > 0 && classRoles > 1)
-  }
+  if (c.id === 'role') return profile.roles[build.role] > 0 || (profile.roleFlex > 0 && openRoles(build.classId, profile, ctx).length > 1)
   if (c.id === 'novelty') return profile.novelty > 0 ? build.novelty >= 2 : build.novelty <= 1
   return true
+}
+
+/** Why a build was ruled out, in words. */
+export function exclusionText(reason: ExclusionReason, ctx: EngineContext): Wording {
+  const ex = ctx.data.explanations
+  return reason === 'noRace' || reason === 'wrongRace' || reason === 'skippedClass' ? ex[reason] : ex.filters[reason]
 }
 
 const sameText = (a: Wording, b: Wording) => a.newcomer === b.newcomer

@@ -4,7 +4,7 @@ export const en = {
   tagline: 'Find your Forever Main.',
   landing: {
     eyebrow: 'World of Warcraft: Forever · launches Nov 4',
-    lead: 'Answer 13 quick questions, watch your star find its place, and get a ranked, explained shortlist of class, spec and race.',
+    lead: 'Answer 12 quick questions, watch your star find its place, and get a ranked, explained shortlist of class, spec and race.',
     cta: 'Find your Forever Main',
     resume: 'Continue where you left off',
     facts: ['About 3 minutes', 'Every pick explained', 'Built for Forever: new combos, Skyborne, dual spec'],
@@ -57,6 +57,8 @@ export const en = {
     sliderValue: (label: string) => `Your answer: ${label}`,
     swipeHint: 'Tap a card, or swipe toward your pick.',
     exit: 'Leave quiz',
+    surpriseMe: 'Surprise me',
+    needsPack: 'needs pack',
   },
   roles: { tank: 'Tank', healer: 'Healer', dps: 'Damage' },
   compass: {
@@ -96,6 +98,7 @@ export const en = {
     dualSpec: 'Dual spec partner',
     newCombo: 'New in Forever',
     needsPack: 'Needs Skyborne pack',
+    yourRace: 'Your pick',
     youVsBuild: 'You vs. this build',
     you: 'You',
     build: 'Build',
@@ -132,7 +135,7 @@ export const en = {
       'Every build (class + talent tree + role) has scores on 14 axes such as solo leveling, downtime, survival, raid demand and complexity.',
       'Your answers set targets and weights on those axes, plus a fantasy profile (Light, shadow, nature…) and hard deal-breakers.',
       'Each build gets a weighted fit score, turned into a match percentage. The biggest differences become the reasons you see.',
-      'Races are ranked by how useful their racial traits are for that build, by the look you picked, and by what is new in Forever.',
+      'Races are ranked by how useful their racial traits are for that build and by what is new in Forever. A race you have in mind always comes first.',
     ],
     honestyTitle: 'Honest data',
     honesty: [

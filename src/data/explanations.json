@@ -22,11 +22,15 @@
     "noPets": { "newcomer": "Built around a pet, and you said no pets.", "veteran": "Pet-dependent; ruled out by 'no pets'." },
     "mustHeal": { "newcomer": "This class can't heal, and you said you must be able to.", "veteran": "Class has no healing spec; ruled out by 'must heal'." },
     "mustTank": { "newcomer": "This class can't tank, and you said you must be able to.", "veteran": "Class has no tank spec; ruled out by 'must tank'." },
+    "noHeal": { "newcomer": "A healing spec, and you said you don't want to heal.", "veteran": "Healer; ruled out by 'no healing'." },
+    "noTank": { "newcomer": "A tank spec, and you said you don't want to tank.", "veteran": "Tank; ruled out by 'no tanking'." },
     "rangedOnly": { "newcomer": "Fights in melee, and you wanted ranged only.", "veteran": "Melee; ruled out by 'ranged only'." },
     "meleeOnly": { "newcomer": "Fights from range, and you wanted melee only.", "veteran": "Ranged; ruled out by 'melee only'." },
     "noStealth": { "newcomer": "Built around stealth, and you said no stealth.", "veteran": "Stealth-based; ruled out by 'no stealth'." }
   },
   "noRace": { "newcomer": "No race you can play (with your faction and pack choices) can be this class.", "veteran": "No eligible race for your faction/pack choices." },
+  "wrongRace": { "newcomer": "The race you have in mind can't be this class.", "veteran": "Not open to your chosen race." },
+  "skippedClass": { "newcomer": "You said you'd skip this class.", "veteran": "Class skipped." },
   "dualSpec": {
     "heal": { "newcomer": "Unlock dual spec at level 40 (10 gold) and keep this as your healing spec.", "veteran": "Dual spec (40, 10 g): your healing spec." },
     "tank": { "newcomer": "Unlock dual spec at level 40 (10 gold) and keep this as your tank spec.", "veteran": "Dual spec (40, 10 g): your tanking spec." },

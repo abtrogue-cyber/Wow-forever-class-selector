@@ -154,7 +154,7 @@ export default function DebugPage() {
                         </select>
                       ))}
                     </div>
-                  ) : q.type === 'multi' ? (
+                  ) : q.type === 'multi' || q.type === 'skipClasses' ? (
                     <div className="flex flex-wrap gap-x-3">
                       {q.options.map((o) => (
                         <label key={o.id} className="flex items-center gap-1">
@@ -178,7 +178,7 @@ export default function DebugPage() {
                       <option value="">— skip —</option>
                       {q.options.map((o) => (
                         <option key={o.id} value={o.id}>
-                          {t(answers.setup.ruleset === 'hardcore' && o.hardcoreLabel ? o.hardcoreLabel : o.label)}
+                          {t(answers.setup.ruleset === 'hardcore' && 'hardcoreLabel' in o && o.hardcoreLabel ? o.hardcoreLabel : o.label)}
                         </option>
                       ))}
                     </select>
@@ -390,6 +390,9 @@ export default function DebugPage() {
                     aesthetic: result.profile.aesthetic,
                     novelty: result.profile.novelty,
                     priorities: result.profile.priorities,
+                    turnedDown: result.profile.turnedDown,
+                    race: result.profile.race,
+                    skippedClasses: result.profile.skippedClasses,
                   },
                   null,
                   1,

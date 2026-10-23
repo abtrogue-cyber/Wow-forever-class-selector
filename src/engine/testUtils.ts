@@ -34,6 +34,11 @@ export function randomAnswers(seed: number, data: GameData): Answers {
     } else if (q.type === 'multi') {
       const ids = q.options.filter(() => rnd() < 0.15).map((o) => o.id)
       answers.picks[q.id] = ids.filter((id) => !q.exclusive.some(([a, b]) => id === b && ids.includes(a)))
+    } else if (q.type === 'skipClasses') {
+      answers.picks[q.id] = q.options.filter(() => rnd() < 0.1).map((o) => o.id)
+    } else if (q.type === 'race') {
+      // Most players let the racials decide; some name a race, which may not fit their faction (then it's ignored).
+      if (rnd() < 0.4) answers.picks[q.id] = one(q.options).id
     } else {
       answers.picks[q.id] = one(q.options).id
     }

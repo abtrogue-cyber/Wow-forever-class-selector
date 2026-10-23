@@ -1,5 +1,5 @@
 import {
-  AXIS_IDS, CLASS_IDS, FACTIONS, GameDataSchema, SETUP_FIELDS, SETUP_OPTIONS, TAG_IDS,
+  AXIS_IDS, CLASS_IDS, FACTIONS, GameDataSchema, HARD_FILTERS, SETUP_FIELDS, SETUP_OPTIONS, TAG_IDS,
   type GameData,
 } from './schemas'
 
@@ -125,7 +125,14 @@ export function findDataProblems(d: GameData): string[] {
     sameSet(`setup ${field.id} options`, field.options.map((o) => o.id), SETUP_OPTIONS[field.id])
   }
   duplicates('questions', d.questions.questions.map((q) => q.id))
+  if (d.questions.questions[0]?.withPrevious) fail('questions: the first question has no screen to share')
+  // Only the direct questions (tick boxes, a race, classes to skip) can share a screen.
+  d.questions.questions.forEach((q, i) => {
+    const shared = q.withPrevious || d.questions.questions[i + 1]?.withPrevious
+    if (shared && q.type !== 'multi' && q.type !== 'race' && q.type !== 'skipClasses') fail(`question ${q.id}: a ${q.type} question can't share a screen`)
+  })
   const fedAxes = new Set<string>()
+  const setFilters = new Set<string>()
   for (const q of d.questions.questions) {
     duplicates(`question ${q.id} options`, q.options.map((o) => o.id))
     if (q.type === 'thisOrThat' && q.options.length !== 2) fail(`question ${q.id}: this-or-that needs exactly 2 options`)
@@ -135,8 +142,18 @@ export function findDataProblems(d: GameData): string[] {
         fedAxes.add(o.axis)
         if (!d.explanations.dualSpec.priority[o.axis]) fail(`explanations.dualSpec.priority: missing ${o.axis}`)
       }
+    } else if (q.type === 'race' || q.type === 'skipClasses') {
+      // Options are the races or classes themselves, named as in their own files.
+      const names = new Map<string, string>(q.type === 'race' ? d.races.map((r) => [r.id, r.name]) : d.classes.map((c) => [c.id, c.name]))
+      sameSet(`question ${q.id} options`, q.options.map((o) => o.id), [...names.keys()])
+      for (const o of q.options) {
+        if (names.has(o.id) && o.label.newcomer !== names.get(o.id)) fail(`question ${q.id}: ${o.id} should be labelled ${names.get(o.id)}`)
+      }
     } else {
-      for (const o of q.options) for (const axis of Object.keys(o.effects.axes ?? {})) fedAxes.add(axis)
+      for (const o of q.options) {
+        for (const axis of Object.keys(o.effects.axes ?? {})) fedAxes.add(axis)
+        o.effects.filters?.forEach((f) => setFilters.add(f))
+      }
     }
     if (q.type === 'multi') {
       for (const pair of q.exclusive) {
@@ -144,8 +161,9 @@ export function findDataProblems(d: GameData): string[] {
       }
     }
   }
-  // Every axis must be reachable from at least one answer (otherwise it can never matter).
+  // Every axis must be reachable from at least one answer (otherwise it can never matter), and so must every filter.
   for (const axis of AXIS_IDS) if (!fedAxes.has(axis)) fail(`axis ${axis}: no question feeds it`)
+  for (const filter of HARD_FILTERS) if (!setFilters.has(filter)) fail(`filter ${filter}: no answer sets it`)
 
   return problems
 }

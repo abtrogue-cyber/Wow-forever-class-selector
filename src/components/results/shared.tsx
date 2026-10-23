@@ -27,6 +27,9 @@ export function RaceList({ races, wording }: { races: RaceResult[]; wording: key
         <li key={race.raceId} className="flex flex-col gap-0.5">
           <div className="flex flex-wrap items-center gap-2">
             <span className={i === 0 ? 'font-semibold text-parchment-100' : 'text-parchment-200'}>{ctx.races.get(race.raceId)?.name}</span>
+            {race.chosen && (
+              <span className="rounded-full border border-gold-400/70 bg-gold-400/10 px-2 py-0.5 text-[11px] text-gold-200">{en.result.yourRace}</span>
+            )}
             {race.newInForever && (
               <span className="rounded-full border border-gold-500/60 px-2 py-0.5 text-[11px] text-gold-300">★ {en.result.newCombo}</span>
             )}

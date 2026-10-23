@@ -20,7 +20,7 @@ export const PERSONAS: Persona[] = [
       picks: {
         'two-hours': ['few-friends', 'own-pace', 'big-team'], 'group-project': 'nobody-behind', 'team-sport': 'playmaker',
         annoyance: 'too-much', wins: 'slow-certain', stuck: 'ask-friends', festival: 'backstage', packing: 'light',
-        feeling: 'calm', home: 'moon-forest', restaurant: 'usual', patience: 'kind-of-nice', preferences: ['must-heal'],
+        feeling: 'calm', restaurant: 'usual', patience: 'kind-of-nice', preferences: ['must-heal'],
       },
     },
     expect: [
@@ -35,7 +35,7 @@ export const PERSONAS: Persona[] = [
       setup: { experience: 'played', faction: 'any', ruleset: 'hardcore', skyborne: 'no' },
       picks: {
         'two-hours': ['own-pace', 'fortune', 'few-friends'], 'group-project': 'own-part', 'team-sport': 'solo-sport',
-        annoyance: 'sudden-death', stuck: 'come-back', festival: 'overview', feeling: 'freedom', home: 'mountain-hall',
+        annoyance: 'sudden-death', stuck: 'come-back', festival: 'overview', feeling: 'freedom',
         restaurant: 'usual', patience: 'annoying', preferences: ['want-companion'],
       },
     },
@@ -52,7 +52,7 @@ export const PERSONAS: Persona[] = [
       picks: {
         'two-hours': ['rivals', 'fair-match', 'fortune'], 'group-project': 'own-part', 'team-sport': 'scorer',
         annoyance: 'sudden-death', wins: 'big-moment', stuck: 'look-it-up', festival: 'front-row', feeling: 'edge',
-        home: 'misty-ruins', patience: 'annoying', preferences: [],
+        patience: 'annoying', preferences: [],
       },
     },
     expect: [
@@ -97,7 +97,7 @@ export const PERSONAS: Persona[] = [
       picks: {
         'two-hours': ['own-pace', 'few-friends', 'rivals'], 'group-project': 'hardest-part', 'team-sport': 'scorer',
         annoyance: 'too-much', wins: 'big-moment', stuck: 'try-harder', festival: 'front-row', packing: 'sturdy',
-        feeling: 'counted-on', home: 'stone-city', restaurant: 'something-new', patience: 'annoying', preferences: [],
+        feeling: 'counted-on', restaurant: 'something-new', patience: 'annoying', preferences: [],
       },
     },
     expect: [
@@ -112,7 +112,7 @@ export const PERSONAS: Persona[] = [
       setup: { experience: 'played', faction: 'alliance', ruleset: 'normal', skyborne: 'no' },
       picks: {
         'two-hours': ['own-pace', 'big-team', 'rivals'], 'group-project': 'own-part', 'team-sport': 'scorer',
-        annoyance: 'sudden-death', wins: 'big-moment', festival: 'overview', feeling: 'freedom', home: 'moon-forest',
+        annoyance: 'sudden-death', wins: 'big-moment', festival: 'overview', feeling: 'freedom',
         restaurant: 'something-new', patience: 'annoying', preferences: ['no-pets', 'ranged-only'],
       },
     },
@@ -126,7 +126,7 @@ export const PERSONAS: Persona[] = [
       picks: {
         'two-hours': ['few-friends', 'big-team', 'fair-match'], 'group-project': 'nobody-behind', 'team-sport': 'last-line',
         annoyance: 'sudden-death', wins: 'big-moment', festival: 'backstage', packing: 'sturdy', feeling: 'counted-on',
-        home: 'misty-ruins', restaurant: 'something-new', patience: 'annoying', preferences: ['must-heal'],
+        restaurant: 'something-new', patience: 'annoying', preferences: ['must-heal'],
       },
     },
     expect: [{ inTop: 1, anyOf: ['paladin-holy'] }],
@@ -138,7 +138,7 @@ export const PERSONAS: Persona[] = [
       setup: { experience: 'veteran', faction: 'alliance', ruleset: 'normal', skyborne: 'yes' },
       picks: {
         'two-hours': ['fair-match', 'rivals', 'few-friends'], 'group-project': 'hardest-part', 'team-sport': 'scorer',
-        annoyance: 'not-mattering', wins: 'big-moment', festival: 'overview', feeling: 'freedom', home: 'mountain-hall',
+        annoyance: 'not-mattering', wins: 'big-moment', festival: 'overview', feeling: 'freedom',
         restaurant: 'something-new', patience: 'annoying', preferences: [],
       },
     },
@@ -151,7 +151,7 @@ export const PERSONAS: Persona[] = [
       setup: { experience: 'played', faction: 'any', ruleset: 'normal', skyborne: 'no' },
       picks: {
         'two-hours': ['few-friends', 'big-team', 'own-pace'], 'group-project': 'takes-charge', 'team-sport': 'last-line',
-        annoyance: 'sudden-death', festival: 'front-row', feeling: 'freedom', home: 'open-plains', patience: 'annoying',
+        annoyance: 'sudden-death', festival: 'front-row', feeling: 'freedom', patience: 'annoying',
         preferences: ['must-tank'],
       },
     },

@@ -1,12 +1,13 @@
 import type { AxisId } from '../data/schemas'
 import type { Answers, Setup, TweakLevel } from '../engine/types'
-import { LAYOUT_V1, type Layout } from './layout'
+import { LAYOUT_V1, LAYOUT_V2, type Layout } from './layout'
 
-// Share code: "v1." + base64url(bit-packed answers). The payload also carries the engine and data
+// Share code: "v2." + base64url(bit-packed answers). The payload also carries the engine and data
 // versions (mod 16 / mod 64) so the result page can say "results updated since this link was made".
+// New codes use the newest layout; every older layout stays here so old links keep decoding.
 
-export const CODE_VERSION = 1
-const LAYOUTS: Record<number, Layout> = { 1: LAYOUT_V1 }
+export const CODE_VERSION = 2
+const LAYOUTS: Record<number, Layout> = { 1: LAYOUT_V1, 2: LAYOUT_V2 }
 const NEUTRAL_TWEAK = 4
 
 export class ShareCodeError extends Error {}

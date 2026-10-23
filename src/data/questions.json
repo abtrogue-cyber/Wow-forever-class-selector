@@ -177,26 +177,6 @@
       ]
     },
     {
-      "id": "home", "type": "pickOne",
-      "text": { "newcomer": "Pick a place you'd love to live.", "veteran": "Pick a place you'd love to live." },
-      "options": [
-        { "id": "stone-city", "label": { "newcomer": "A proud stone city of banners and bells", "veteran": "A proud stone city of banners and bells" },
-          "effects": { "aesthetic": { "noble": 3 } } },
-        { "id": "mountain-hall", "label": { "newcomer": "A mountain hall with a roaring hearth", "veteran": "A mountain hall with a roaring hearth" },
-          "effects": { "aesthetic": { "rugged": 3 } } },
-        { "id": "workshop", "label": { "newcomer": "A workshop town full of clever machines", "veteran": "A workshop town full of clever machines" },
-          "effects": { "aesthetic": { "clever": 3 } } },
-        { "id": "moon-forest", "label": { "newcomer": "An ancient forest under silver moonlight", "veteran": "An ancient forest under silver moonlight" },
-          "effects": { "aesthetic": { "elven": 3 } } },
-        { "id": "open-plains", "label": { "newcomer": "Open plains, drums and a fire under the stars", "veteran": "Open plains, drums and a fire under the stars" },
-          "effects": { "aesthetic": { "primal": 3 } } },
-        { "id": "misty-ruins", "label": { "newcomer": "A misty ruin where the past still whispers", "veteran": "A misty ruin where the past still whispers" },
-          "effects": { "aesthetic": { "eerie": 3 } } },
-        { "id": "sky-island", "label": { "newcomer": "An island floating high above the clouds", "veteran": "An island floating above the clouds" },
-          "effects": { "aesthetic": { "elven": 2, "noble": 1, "primal": 1 } } }
-      ]
-    },
-    {
       "id": "restaurant", "type": "thisOrThat",
       "text": { "newcomer": "At a restaurant you love, you…", "veteran": "At a restaurant you love, you…" },
       "options": [
@@ -226,21 +206,58 @@
     {
       "id": "preferences", "type": "multi",
       "text": { "newcomer": "Last one: any hard preferences? Tick as many as you like, or none.", "veteran": "Hard preferences? Tick any number, or none." },
-      "hint": { "newcomer": "Every box you tick is taken literally. Boxes you leave empty change nothing.", "veteran": "Ticked boxes are taken literally. Empty ones change nothing." },
+      "hint": { "newcomer": "Everything on this screen is optional and taken literally. Whatever you leave empty changes nothing.", "veteran": "All optional, all taken literally. Empty changes nothing." },
       "options": [
-        { "id": "want-companion", "label": { "newcomer": "I'd love an animal or creature companion fighting with me", "veteran": "I want a pet or demon companion" },
-          "effects": { "axes": { "petReliance": { "target": 5, "weight": 1.5 } } } },
-        { "id": "no-pets", "label": { "newcomer": "No pets or companions", "veteran": "No pets" }, "effects": { "filters": ["noPets"] } },
         { "id": "must-heal", "label": { "newcomer": "I must be able to heal", "veteran": "Must be able to heal" },
           "effects": { "filters": ["mustHeal"] } },
-        { "id": "must-tank", "label": { "newcomer": "I must be able to tank (be the one enemies attack)", "veteran": "Must be able to tank" },
+        { "id": "no-healing", "label": { "newcomer": "I don't want to heal", "veteran": "No healing" },
+          "effects": { "filters": ["noHeal"] } },
+        { "id": "must-tank", "label": { "newcomer": "I must be able to tank (take the hits)", "veteran": "Must be able to tank" },
           "effects": { "filters": ["mustTank"] } },
+        { "id": "no-tanking", "label": { "newcomer": "I don't want to tank", "veteran": "No tanking" },
+          "effects": { "filters": ["noTank"] } },
         { "id": "ranged-only", "label": { "newcomer": "Ranged only", "veteran": "Ranged only" }, "effects": { "filters": ["rangedOnly"] } },
         { "id": "melee-only", "label": { "newcomer": "Melee only", "veteran": "Melee only" }, "effects": { "filters": ["meleeOnly"] } },
+        { "id": "want-companion", "label": { "newcomer": "I'd love a pet or companion at my side", "veteran": "I want a pet or demon companion" },
+          "effects": { "axes": { "petReliance": { "target": 5, "weight": 1.5 } } } },
+        { "id": "no-pets", "label": { "newcomer": "No pets or companions", "veteran": "No pets" }, "effects": { "filters": ["noPets"] } },
         { "id": "no-stealth", "label": { "newcomer": "No sneaking around in stealth", "veteran": "No stealth gameplay" },
           "effects": { "filters": ["noStealth"] } }
       ],
-      "exclusive": [["want-companion", "no-pets"], ["ranged-only", "melee-only"]]
+      "exclusive": [["must-heal", "no-healing"], ["must-tank", "no-tanking"], ["ranged-only", "melee-only"], ["want-companion", "no-pets"]]
+    },
+    {
+      "id": "race", "type": "race", "withPrevious": true,
+      "text": { "newcomer": "Got a race in mind?", "veteran": "Race in mind?" },
+      "hint": { "newcomer": "Pick one and you'll only see classes it can play, with that race first.", "veteran": "Rules out classes it can't play; listed first on every card." },
+      "options": [
+        { "id": "human", "label": { "newcomer": "Human", "veteran": "Human" } },
+        { "id": "dwarf", "label": { "newcomer": "Dwarf", "veteran": "Dwarf" } },
+        { "id": "gnome", "label": { "newcomer": "Gnome", "veteran": "Gnome" } },
+        { "id": "night-elf", "label": { "newcomer": "Night Elf", "veteran": "Night Elf" } },
+        { "id": "orc", "label": { "newcomer": "Orc", "veteran": "Orc" } },
+        { "id": "undead", "label": { "newcomer": "Undead", "veteran": "Undead" } },
+        { "id": "tauren", "label": { "newcomer": "Tauren", "veteran": "Tauren" } },
+        { "id": "troll", "label": { "newcomer": "Troll", "veteran": "Troll" } },
+        { "id": "skyborne-high-order", "label": { "newcomer": "Skyborne (High Order)", "veteran": "Skyborne (High Order)" } },
+        { "id": "skyborne-windshaper", "label": { "newcomer": "Skyborne (Windshaper)", "veteran": "Skyborne (Windshaper)" } }
+      ]
+    },
+    {
+      "id": "skip-classes", "type": "skipClasses", "withPrevious": true,
+      "text": { "newcomer": "Any classes you never want to play?", "veteran": "Classes to skip?" },
+      "hint": { "newcomer": "Tap any you want left out of your results.", "veteran": "Skipped classes are ruled out." },
+      "options": [
+        { "id": "warrior", "label": { "newcomer": "Warrior", "veteran": "Warrior" } },
+        { "id": "paladin", "label": { "newcomer": "Paladin", "veteran": "Paladin" } },
+        { "id": "hunter", "label": { "newcomer": "Hunter", "veteran": "Hunter" } },
+        { "id": "rogue", "label": { "newcomer": "Rogue", "veteran": "Rogue" } },
+        { "id": "priest", "label": { "newcomer": "Priest", "veteran": "Priest" } },
+        { "id": "shaman", "label": { "newcomer": "Shaman", "veteran": "Shaman" } },
+        { "id": "mage", "label": { "newcomer": "Mage", "veteran": "Mage" } },
+        { "id": "warlock", "label": { "newcomer": "Warlock", "veteran": "Warlock" } },
+        { "id": "druid", "label": { "newcomer": "Druid", "veteran": "Druid" } }
+      ]
     }
   ]
 }

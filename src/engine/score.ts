@@ -2,6 +2,7 @@ import { AXIS_IDS } from '../data/vocab'
 import type { Build, TagId } from '../data/schemas'
 import { CONFIG } from './config'
 import { entries, type EngineContext } from './context'
+import { openRoles } from './filters'
 import type { ComponentId, PlayerProfile } from './types'
 
 export type RawComponent = { id: ComponentId; weight: number; fit: number }
@@ -27,11 +28,12 @@ export function tagFit(build: Build, profile: PlayerProfile): number {
 }
 
 export function roleFit(build: Build, profile: PlayerProfile, ctx: EngineContext): number {
-  const classRoles = ctx.classes.get(build.classId)?.roles.length ?? 1
+  // Flexibility only counts roles the player is open to: "no healing" makes a druid a two-role class.
+  const roles = Math.max(1, openRoles(build.classId, profile, ctx).length)
   const fit =
     0.5 +
     CONFIG.role.perPoint * profile.roles[build.role] +
-    CONFIG.role.hybridBonus * profile.roleFlex * (classRoles - 1)
+    CONFIG.role.hybridBonus * profile.roleFlex * (roles - 1)
   return Math.min(1, Math.max(0, fit))
 }
 

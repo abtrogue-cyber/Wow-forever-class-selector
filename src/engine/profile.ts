@@ -1,7 +1,8 @@
-import { AXIS_IDS } from '../data/vocab'
-import type { Aesthetic, AxisId, Effect, Flag, HardFilter, Role, TagId } from '../data/schemas'
+import { AXIS_IDS, CLASS_IDS } from '../data/vocab'
+import type { Aesthetic, AxisId, ClassId, Effect, Flag, HardFilter, Role, TagId } from '../data/schemas'
 import { CONFIG } from './config'
 import { entries, type EngineContext } from './context'
+import { raceAllowed } from './filters'
 import type { Answers, AxisPreference, PlayerProfile } from './types'
 
 const clamp = (x: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, x))
@@ -18,6 +19,8 @@ export function buildProfile(answers: Answers, ctx: EngineContext): PlayerProfil
   const flags = new Set<Flag>()
   const aesthetic: Partial<Record<Aesthetic, number>> = {}
   const priorities: AxisId[] = []
+  const skippedClasses = new Set<ClassId>()
+  let race: string | null = null
   let roleFlex = 0
   let novelty = 0
 
@@ -52,6 +55,10 @@ export function buildProfile(answers: Answers, ctx: EngineContext): PlayerProfil
         const option = q.options.find((o) => o.id === id)
         if (option) apply(option.effects)
       }
+    } else if (q.type === 'race') {
+      race = q.options.find((o) => o.id === ids[0])?.id ?? null
+    } else if (q.type === 'skipClasses') {
+      for (const id of ids) if (q.options.some((o) => o.id === id)) skippedClasses.add(id as ClassId)
     } else {
       const option = q.options.find((o) => o.id === ids[0])
       if (option) apply(option.effects)
@@ -116,6 +123,12 @@ export function buildProfile(answers: Answers, ctx: EngineContext): PlayerProfil
   for (const r of Object.keys(roles) as Role[]) roles[r] = clamp(roles[r], -2, 2)
   const roleWeight = Object.values(roles).some((v) => v !== 0) || roleFlex > 0 ? CONFIG.role.weight : 0
 
+  // "No healing" beats "must be able to heal" (the quiz never sends both): never force a role the player ruled out.
+  if (filters.has('noHeal')) filters.delete('mustHeal')
+  if (filters.has('noTank')) filters.delete('mustTank')
+  // A race the setup can't make (e.g. Tauren on Alliance) is ignored, so the racials decide as usual.
+  const chosenRace = race ? ctx.races.get(race) : undefined
+
   return {
     setup,
     axes,
@@ -130,6 +143,8 @@ export function buildProfile(answers: Answers, ctx: EngineContext): PlayerProfil
     novelty: clamp(novelty, -2, 2),
     priorities,
     turnedDown,
+    race: chosenRace && raceAllowed(chosenRace, setup) ? chosenRace.id : null,
+    skippedClasses: CLASS_IDS.filter((c) => skippedClasses.has(c)),
   }
 }
 

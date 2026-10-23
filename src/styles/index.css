@@ -78,6 +78,17 @@
   .choice[aria-checked="true"] .checkbox {
     @apply border-gold-400 bg-gold-400 text-night-950;
   }
+  /* Compact pill answers on the last screen: a race in mind, classes to skip. */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-night-600 bg-night-800/70 px-3.5 py-1.5 text-[15px] text-parchment-100 transition hover:border-gold-500/70 hover:bg-night-700/80;
+  }
+  .chip[role="radio"][aria-checked="true"] {
+    @apply border-gold-400 bg-night-700 shadow-[0_0_18px_-6px_rgb(245_200_107/0.7)];
+  }
+  /* A skipped class: struck through in ember, so it reads as "out". */
+  .chip[role="checkbox"][aria-checked="true"] {
+    @apply border-ember-400/70 bg-night-900 text-ash-400 line-through decoration-ember-400/80;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

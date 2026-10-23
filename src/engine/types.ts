@@ -1,4 +1,4 @@
-import type { Aesthetic, AxisId, Faction, Flag, HardFilter, Role, TagId, Wording } from '../data/schemas'
+import type { Aesthetic, AxisId, ClassId, Faction, Flag, HardFilter, Role, TagId, Wording } from '../data/schemas'
 
 export type Experience = 'new' | 'played' | 'veteran'
 export type FactionChoice = Faction | 'any'
@@ -40,6 +40,10 @@ export type PlayerProfile = {
   priorities: AxisId[]
   /** Axes the player turned below "as answered" on the tweak sliders. */
   turnedDown: AxisId[]
+  /** The race the player has in mind, if their faction and pack allow it (null: the racials decide). */
+  race: string | null
+  /** Classes the player never wants to play. */
+  skippedClasses: ClassId[]
 }
 
 export type ComponentId = AxisId | 'tags' | 'role' | 'novelty'
@@ -65,6 +69,8 @@ export type RaceContribution = {
 export type RaceResult = {
   raceId: string
   score: number
+  /** The race the player has in mind; always listed first. */
+  chosen: boolean
   newInForever: boolean
   /** Skyborne while the player isn't sure they own the pack. */
   needsPack: boolean
@@ -89,7 +95,9 @@ export type BuildResult = {
   newCombo: boolean
 }
 
-export type ExcludedBuild = { buildId: string; reason: HardFilter | 'noRace' }
+export type ExclusionReason = HardFilter | 'noRace' | 'wrongRace' | 'skippedClass'
+
+export type ExcludedBuild = { buildId: string; reason: ExclusionReason }
 
 export type WhyNot = { buildId: string; rank: number | null; match: number | null; reason: Wording }
 

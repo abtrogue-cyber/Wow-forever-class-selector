@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { quizScreens } from '../components/quiz/screens'
 import { rawData } from './raw'
 import { GameDataSchema } from './schemas'
 import { findDataProblems, parseGameData } from './validate'
@@ -19,7 +20,14 @@ describe('game data', () => {
     expect(data.classes).toHaveLength(9)
     expect(data.builds).toHaveLength(28)
     expect(data.races).toHaveLength(10)
-    expect(data.questions.questions).toHaveLength(13)
+    expect(data.questions.questions).toHaveLength(14)
+  })
+
+  it('makes 12 quiz screens: the last one asks the direct questions together', () => {
+    const screens = quizScreens(parseGameData(rawData).questions.questions)
+    expect(screens).toHaveLength(12)
+    expect(screens.at(-1)?.map((q) => q.type)).toEqual(['multi', 'race', 'skipClasses'])
+    expect(screens.slice(0, -1).every((s) => s.length === 1)).toBe(true)
   })
 
   it('matches the race/class matrix in docs/RESEARCH.md §4', () => {

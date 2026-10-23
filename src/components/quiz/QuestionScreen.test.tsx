@@ -4,7 +4,9 @@ import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { gameData } from '../../data'
-import { QuestionScreen } from './QuestionScreen'
+import type { Setup } from '../../engine/types'
+import { QuestionGroup, QuestionScreen } from './QuestionScreen'
+import { quizScreens } from './screens'
 
 afterEach(cleanup)
 
@@ -43,7 +45,7 @@ describe('QuestionScreen', () => {
     const user = userEvent.setup()
     render(<Harness id="preferences" />)
     expect(screen.getByRole('heading', { name: /as many as you like, or none/i })).toBeTruthy()
-    expect(screen.getByText(/leave empty change nothing/i)).toBeTruthy()
+    expect(screen.getByText(/leave empty changes nothing/i)).toBeTruthy()
     await user.click(screen.getByRole('checkbox', { name: /no pets/i }))
     await user.click(screen.getByRole('checkbox', { name: /must be able to heal/i }))
     await user.click(screen.getByRole('checkbox', { name: /stealth/i }))
@@ -87,5 +89,58 @@ describe('QuestionScreen', () => {
     await user.click(screen.getByRole('button', { name: /fortune/i }))
     await user.hover(screen.getByRole('button', { name: /few friends/i }))
     expect(onPreview).toHaveBeenLastCalledWith({ value: ['fortune', 'few-friends'] })
+  })
+})
+
+const LAST = quizScreens(gameData.questions.questions).at(-1)!
+
+function LastScreen({ setup, initial = {} }: { setup: Setup; initial?: Values }) {
+  const [values, setValues] = useState<Values>(initial)
+  return (
+    <>
+      <QuestionGroup
+        questions={LAST}
+        wording="newcomer"
+        hardcore={false}
+        setup={setup}
+        values={values}
+        onChange={(id, v) => setValues((s) => ({ ...s, [id]: v }))}
+        onNext={() => {}}
+        onBack={() => {}}
+        isLast
+      />
+      <output data-testid="values">{JSON.stringify(values)}</output>
+    </>
+  )
+}
+type Values = Record<string, string | string[] | undefined>
+const values = () => JSON.parse(screen.getByTestId('values').textContent ?? '{}') as Values
+const horde: Setup = { experience: 'new', faction: 'horde', ruleset: 'normal', skyborne: 'no' }
+
+describe('the last screen', () => {
+  it('asks hard preferences, a race in mind and classes to skip together', async () => {
+    const user = userEvent.setup()
+    render(<LastScreen setup={horde} />)
+    // Only races this player can make (Horde, no Skyborne pack); "Surprise me" until they pick one.
+    expect(screen.getAllByRole('radio').map((r) => r.textContent)).toEqual(['Surprise me', 'Orc', 'Undead', 'Tauren', 'Troll'])
+    expect(screen.getByRole('radio', { name: 'Surprise me' }).getAttribute('aria-checked')).toBe('true')
+    await user.click(screen.getByRole('radio', { name: 'Tauren' }))
+    await user.click(screen.getByRole('checkbox', { name: 'Mage' }))
+    await user.click(screen.getByRole('checkbox', { name: /must be able to heal/i }))
+    await user.click(screen.getByRole('checkbox', { name: /don't want to heal/i }))
+    expect(values()).toEqual({ race: 'tauren', 'skip-classes': ['mage'], preferences: ['no-healing'] })
+    expect(screen.getByRole('checkbox', { name: 'Mage' }).getAttribute('aria-checked')).toBe('true')
+    await user.click(screen.getByRole('radio', { name: 'Surprise me' }))
+    expect(values().race).toBeUndefined()
+    expect(screen.getByRole('button', { name: 'Reveal my Forever Main' })).toBeTruthy()
+  })
+
+  it('marks Skyborne when the pack is unsure, and drops a race the setup no longer allows', () => {
+    render(<LastScreen setup={{ ...horde, faction: 'alliance', skyborne: 'unsure' }} />)
+    expect(screen.getByRole('radio', { name: /skyborne \(high order\).*needs pack/i })).toBeTruthy()
+    cleanup()
+    render(<LastScreen setup={horde} initial={{ race: 'human' }} />)
+    expect(values().race).toBeUndefined()
+    expect(screen.getByRole('radio', { name: 'Surprise me' }).getAttribute('aria-checked')).toBe('true')
   })
 })

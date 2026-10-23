@@ -2,7 +2,7 @@ import type { Build, GameData } from '../data/schemas'
 import { CONFIG, ENGINE_VERSION } from './config'
 import { getContext } from './context'
 import { pickDualSpec } from './dualSpec'
-import { explainBuild, watchReason, withRelativeContributions } from './explain'
+import { exclusionText, explainBuild, watchReason, withRelativeContributions } from './explain'
 import { exclusionReason } from './filters'
 import { buildProfile } from './profile'
 import { rankRaces } from './races'
@@ -70,7 +70,7 @@ export function rank(answers: Answers, data: GameData): RankResult {
   }
   const whyNot: WhyNot[] = chosen.map((b) => {
     const out = excluded.find((e) => e.buildId === b.id)
-    if (out) return { buildId: b.id, rank: null, match: null, reason: out.reason === 'noRace' ? ex.noRace : ex.filters[out.reason] }
+    if (out) return { buildId: b.id, rank: null, match: null, reason: exclusionText(out.reason, ctx) }
     const result = results.find((r) => r.buildId === b.id)
     const worst = result ? [...result.components].sort((x, y) => x.rel - y.rel)[0] : undefined
     const reason =

@@ -1,7 +1,7 @@
 import type { AxisId, RacialTag, Role } from '../data/schemas'
 
 /** Bump whenever the same answers could produce a different result. Share links carry it. */
-export const ENGINE_VERSION = 2
+export const ENGINE_VERSION = 3
 
 type Needs = Partial<Record<RacialTag, number>>
 
