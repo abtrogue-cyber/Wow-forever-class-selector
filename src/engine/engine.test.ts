@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { rawData } from '../data/raw'
-import type { Question } from '../data/schemas'
+import { AXIS_IDS, type Question, type Wording } from '../data/schemas'
 import { parseGameData } from '../data/validate'
 import { getContext } from './context'
+import { explainBuild } from './explain'
 import { exclusionReason } from './filters'
 import { buildProfile } from './profile'
 import { rank } from './rank'
@@ -176,6 +177,33 @@ describe('explanations', () => {
     const texts = res.results.flatMap((r) => [...r.reasons, ...r.watchOuts]).map((x) => x.text.veteran + x.text.newcomer)
     expect(texts.length).toBeGreaterThan(0)
     for (const t of texts) expect(t).not.toMatch(/as requested|you picked|asked for/i)
+  })
+
+  // Reported on Reddit: "Excellent BG healer with forms" for a player whose last priority is PvP.
+  const strengthAxes = (buildId: string, text: Wording) =>
+    build(buildId).strengths.find((s) => s.text.newcomer === text.newcomer)?.axes ?? []
+  const reasonAxes = (res: ReturnType<typeof rank>) => res.results.flatMap((r) => r.reasons.flatMap((x) => strengthAxes(r.buildId, x.text)))
+  const pve: Answers['picks'] = {
+    'two-hours': ['few-friends', 'own-pace', 'big-team'], 'group-project': 'nobody-behind', festival: 'backstage', feeling: 'calm',
+  }
+
+  it('never sells battlegrounds to a player with no PvP priority who turned battlegrounds down', () => {
+    const res = rank({ ...answers(pve), tweaks: { battlegrounds: 2 } }, data)
+    expect(reasonAxes(res)).not.toContain('battlegrounds')
+  })
+
+  it('skips PvP strengths when no answer points to PvP, but a dungeon player who skipped raids keeps group strengths', () => {
+    const res = rank(answers({ ...pve, 'two-hours': ['few-friends', 'own-pace'] }), data)
+    const axes = reasonAxes(res)
+    expect(axes).not.toContain('battlegrounds')
+    expect(axes).not.toContain('worldPvp')
+    expect(axes).toContain('raid') // e.g. "A healer every group wants" leans on dungeon and raid
+  })
+
+  it('falls back to the pitch when nothing honest is left to say', () => {
+    const profile = { ...buildProfile(answers(), ctx), turnedDown: [...AXIS_IDS] }
+    const b = build('warlock-destruction')
+    expect(explainBuild(b, [], profile, ctx).reasons).toEqual([{ source: 'pitch', text: b.pitch }])
   })
 })
 

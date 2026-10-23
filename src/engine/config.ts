@@ -69,6 +69,15 @@ export const CONFIG = {
     maxWatchOuts: 2,
     /** "Closeness" axis reasons describe the build: at or below `low` reads as the low end, at or above `high` as the high end. */
     fitBands: { low: 1.5, high: 4 },
+    /**
+     * Activities that belong together. A player who answered the priorities question and whose answers give no
+     * weight to any axis of a family (solo, group PvE, PvP) never sees a strength about that family.
+     */
+    activityFamilies: [
+      ['soloLeveling', 'goldFarming'],
+      ['dungeon', 'raid'],
+      ['worldPvp', 'battlegrounds'],
+    ],
     whyNotCount: 3,
     whyNotSkipTop: 5,
     /** Below this top match % we say the answers pull in different directions. */

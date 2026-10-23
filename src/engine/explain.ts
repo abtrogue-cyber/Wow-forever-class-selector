@@ -23,6 +23,24 @@ export function withRelativeContributions(all: RawComponent[][]): Component[][] 
 
 type Used = { strengths: Set<number>; weaknesses: Set<number>; hardcore: boolean }
 
+/** Whether a build strength may back "why it fits"; `own` is the axis the reason is about, which always may. */
+type Welcome = (strength: Build['strengths'][number], own?: AxisId) => boolean
+
+/**
+ * Axes the player doesn't want to hear about: the ones they turned down on the tweak sliders, and whole activity
+ * families (solo, group PvE, PvP) they left out when they picked what makes a great session, with no other answer
+ * pointing to them either.
+ */
+export function unwantedAxes(profile: PlayerProfile): Set<AxisId> {
+  const out = new Set<AxisId>(profile.turnedDown)
+  if (profile.priorities.length > 0) {
+    for (const family of CONFIG.explain.activityFamilies) {
+      if (family.every((a) => profile.axes[a].weight === 0)) family.forEach((a) => out.add(a))
+    }
+  }
+  return out
+}
+
 /** Tags that just restate the role; the role component already explains those. */
 const ROLE_TAG: Partial<Record<Build['role'], TagId>> = { healer: 'healer', tank: 'protector' }
 
@@ -40,14 +58,15 @@ function bestTag(build: Build, profile: PlayerProfile, sign: 1 | -1): TagId | nu
   return best
 }
 
-function fitReason(c: Component, build: Build, profile: PlayerProfile, ctx: EngineContext, used: Used): Reason | null {
+function fitReason(c: Component, build: Build, profile: PlayerProfile, ctx: EngineContext, used: Used, welcome: Welcome): Reason | null {
   const ex = ctx.data.explanations
   if (isAxis(c.id)) {
     if (profile.setup.ruleset === 'hardcore' && !used.hardcore && (c.id === 'survivability' || c.id === 'soloLeveling')) {
       used.hardcore = true
       return { source: c.id, text: build.hardcoreNote }
     }
-    const i = build.strengths.findIndex((s, idx) => !used.strengths.has(idx) && s.axes.includes(c.id as AxisId))
+    const own = c.id
+    const i = build.strengths.findIndex((s, idx) => !used.strengths.has(idx) && s.axes.includes(own) && welcome(s, own))
     const strength = build.strengths[i]
     if (strength) {
       used.strengths.add(i)
@@ -99,9 +118,26 @@ export function watchReason(c: Component, build: Build, profile: PlayerProfile, 
   return { source: 'novelty', text: profile.novelty > 0 ? ex.novelty.watchNew : ex.novelty.watchClassic }
 }
 
+/**
+ * Whether a component's "why it fits" text is true of the build even without an edge over other builds
+ * (positive components earn their text by standing out; fallback ones must describe the build).
+ */
+function describes(c: Component, build: Build, profile: PlayerProfile, ctx: EngineContext): boolean {
+  if (isAxis(c.id)) return ctx.axes.get(c.id)?.mode !== 'atLeast' || build.axes[c.id] >= CONFIG.explain.fitBands.high
+  if (c.id === 'role') {
+    const classRoles = ctx.classes.get(build.classId)?.roles.length ?? 1
+    return profile.roles[build.role] > 0 || (profile.roleFlex > 0 && classRoles > 1)
+  }
+  if (c.id === 'novelty') return profile.novelty > 0 ? build.novelty >= 2 : build.novelty <= 1
+  return true
+}
+
 const sameText = (a: Wording, b: Wording) => a.newcomer === b.newcomer
 
-/** Step 6: 3 "why it fits" reasons and 1–2 "watch out" caveats, always. */
+/**
+ * Step 6: up to 3 "why it fits" reasons (at least 1; the top 3 always have 3 in practice) and 1–2 "watch out" caveats.
+ * Reasons never lean on what the player turned down, skipped or what counts against the build for them (D46).
+ */
 export function explainBuild(
   build: Build,
   components: Component[],
@@ -114,6 +150,12 @@ export function explainBuild(
     if (r && !list.some((x) => sameText(x.text, r.text))) list.push(r)
   }
 
+  // A strength never leans on an axis the player doesn't want, or on one that counts against this build for them
+  // (that would contradict a "watch out"). Only the axis a reason is about is exempt: it does count for this build.
+  const unwanted = unwantedAxes(profile)
+  const against = new Set(components.filter((c) => c.rel < -minRel).map((c) => c.id))
+  const welcome: Welcome = (s, own) => s.axes.every((a) => a === own || (!unwanted.has(a) && !against.has(a)))
+
   const reasons: Reason[] = []
   // "Damage role fits your answers" says little on a DPS card, so it only fills a gap at the end.
   const lowValue = (c: Component) => c.id === 'role' && build.role === 'dps' && profile.roleFlex <= 0
@@ -122,14 +164,25 @@ export function explainBuild(
     .sort((a, b) => Number(lowValue(a)) - Number(lowValue(b)) || b.rel - a.rel)
   for (const c of positives) {
     if (reasons.length >= maxReasons) break
-    push(reasons, fitReason(c, build, profile, ctx, used))
+    push(reasons, fitReason(c, build, profile, ctx, used, welcome))
   }
   build.strengths.forEach((s, i) => {
-    if (reasons.length < maxReasons && !used.strengths.has(i)) {
+    if (reasons.length < maxReasons && !used.strengths.has(i) && welcome(s)) {
       used.strengths.add(i)
       push(reasons, { source: 'strength', text: s.text })
     }
   })
+  // Still short (a weak fit, or the player ruled out what the build is known for): fall back to the components
+  // that don't count against it, as long as their plain description is true for this build.
+  const neutral = components
+    .filter((c) => c.rel <= minRel && c.rel >= -minRel && !(isAxis(c.id) && unwanted.has(c.id)))
+    .sort((a, b) => b.rel - a.rel)
+  for (const c of neutral) {
+    if (reasons.length >= maxReasons) break
+    if (describes(c, build, profile, ctx)) push(reasons, fitReason(c, build, profile, ctx, used, welcome))
+  }
+  // A poor fit can run out (never seen in the top 3; lower ranks only show their first reason): say what the build is.
+  if (reasons.length === 0) reasons.push({ source: 'pitch', text: build.pitch })
 
   const watchOuts: Reason[] = []
   const negatives = components.filter((c) => c.rel < -minRel).sort((a, b) => a.rel - b.rel)

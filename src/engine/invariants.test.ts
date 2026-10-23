@@ -4,6 +4,7 @@ import type { AxisId } from '../data/schemas'
 import { parseGameData } from '../data/validate'
 import { CONFIG } from './config'
 import { getContext } from './context'
+import { unwantedAxes } from './explain'
 import { rank } from './rank'
 import { randomAnswers } from './testUtils'
 
@@ -17,6 +18,7 @@ describe(`engine invariants over ${RUNS} random players`, () => {
     const answers = randomAnswers(seed, data)
     const res = rank(answers, data)
     const filters = new Set(res.profile.filters)
+    const unwanted = [...unwantedAxes(res.profile)]
     const { faction, skyborne } = answers.setup
 
     it(`player #${seed}`, () => {
@@ -53,9 +55,23 @@ describe(`engine invariants over ${RUNS} random players`, () => {
           }
         }
 
-        // Explainable: 3 reasons and at least one caveat.
-        expect(r.reasons).toHaveLength(3)
+        // Explainable: the top 3 always get 3 reasons; lower ranks (the list shows only the first) get 1–3. Always a caveat.
+        if (r.rank <= 3) expect(r.reasons).toHaveLength(3)
+        expect(r.reasons.length).toBeGreaterThanOrEqual(1)
+        expect(r.reasons.length).toBeLessThanOrEqual(3)
         expect(r.watchOuts.length).toBeGreaterThanOrEqual(1)
+
+        // A strength never leans on an axis the player turned down or skipped, nor on one that counts against
+        // the build for them (D46). Only the axis a reason is about may be its own.
+        const against = r.components.filter((c) => c.rel < -CONFIG.explain.minRel).map((c) => c.id)
+        for (const reason of r.reasons) {
+          const strength = b.strengths.find((s) => s.text.newcomer === reason.text.newcomer)
+          for (const axis of strength?.axes ?? []) {
+            if (axis === reason.source) continue
+            expect(unwanted, `${b.id}: ${reason.text.veteran}`).not.toContain(axis)
+            expect(against, `${b.id}: ${reason.text.veteran}`).not.toContain(axis)
+          }
+        }
 
         // Axis reasons describe the build, not just the answer: no "heavy armor" on a leather wearer.
         const { low, high } = CONFIG.explain.fitBands

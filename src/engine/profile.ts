@@ -91,10 +91,13 @@ export function buildProfile(answers: Answers, ctx: EngineContext): PlayerProfil
   }
 
   // Per-axis multipliers: speculative axes (data) and the player's tweak sliders.
+  const turnedDown: AxisId[] = []
   for (const a of AXIS_IDS) {
     axes[a].weight *= ctx.axes.get(a)?.weightMultiplier ?? 1
     const tweak = answers.tweaks?.[a]
-    if (tweak != null) axes[a].weight *= CONFIG.tweakMultipliers[tweak] ?? 1
+    const multiplier = tweak != null ? (CONFIG.tweakMultipliers[tweak] ?? 1) : 1
+    axes[a].weight *= multiplier
+    if (multiplier < 1) turnedDown.push(a)
   }
 
   let tagStrength = 0
@@ -126,6 +129,7 @@ export function buildProfile(answers: Answers, ctx: EngineContext): PlayerProfil
     aesthetic,
     novelty: clamp(novelty, -2, 2),
     priorities,
+    turnedDown,
   }
 }
 

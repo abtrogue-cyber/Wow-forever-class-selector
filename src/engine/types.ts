@@ -38,6 +38,8 @@ export type PlayerProfile = {
   novelty: number
   /** Ordered picks from the priorities question. */
   priorities: AxisId[]
+  /** Axes the player turned below "as answered" on the tweak sliders. */
+  turnedDown: AxisId[]
 }
 
 export type ComponentId = AxisId | 'tags' | 'role' | 'novelty'
@@ -51,7 +53,7 @@ export type Component = {
   rel: number
 }
 
-export type Reason = { source: ComponentId | 'strength' | 'weakness'; text: Wording }
+export type Reason = { source: ComponentId | 'strength' | 'weakness' | 'pitch'; text: Wording }
 
 export type RaceContribution = {
   kind: 'racial' | 'classSpell' | 'aesthetic' | 'novelty' | 'purchase'
