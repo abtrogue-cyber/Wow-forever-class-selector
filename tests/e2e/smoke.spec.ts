@@ -11,19 +11,19 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   }
   await page.getByRole('button', { name: 'Begin' }).click()
 
-  // 13 questions, tapped through like a phone user. After each step we wait for the progress text,
+  // 12 screens, tapped through like a phone user. After each step we wait for the progress text,
   // because the outgoing question is still on screen during its exit animation.
-  const at = (n: number) => expect(page.getByText(`Question ${n} of 13`)).toBeVisible()
+  const at = (n: number) => expect(page.getByText(`Question ${n} of 12`)).toBeVisible()
   await at(1)
   await page.getByRole('button', { name: /steady progress/ }).click() // 1: two free hours (priorities)
   await page.getByRole('button', { name: /tough challenge/ }).click()
   await page.getByRole('button', { name: 'Next' }).click()
-  for (let n = 2; n <= 10; n++) {
+  for (let n = 2; n <= 9; n++) {
     await at(n)
-    await page.locator('button.choice').first().click() // scenarios and pick-ones, up to the place to live
+    await page.locator('button.choice').first().click() // scenarios and the feeling question
   }
-  await at(11)
-  // 11: this-or-that, answered by swiping toward the right card ("try something new")
+  await at(10)
+  // 10: this-or-that, answered by swiping toward the right card ("try something new")
   const usual = page.getByRole('button', { name: /order your usual/ })
   await expect(usual).toBeVisible()
   const card = (await usual.boundingBox())!
@@ -33,13 +33,18 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   await page.mouse.move(cx + 60, cy, { steps: 5 })
   await page.mouse.move(cx + 160, cy, { steps: 5 })
   await page.mouse.up()
+  await at(11)
+  await page.getByRole('button', { name: 'Next' }).click() // 11: patience slider
   await at(12)
-  await page.getByRole('button', { name: 'Next' }).click() // 12: patience slider
-  await at(13)
-  await page.getByRole('button', { name: 'Reveal my Forever Main' }).click() // 13: hard preferences, none picked
+  // 12: the last screen. Horde without the pack: Horde races only, Skyborne marked. Pick Tauren and no healing.
+  await expect(page.getByRole('radio', { name: 'Surprise me' })).toHaveAttribute('aria-checked', 'true')
+  await expect(page.getByRole('radio', { name: 'Human' })).toHaveCount(0)
+  await page.getByRole('radio', { name: 'Tauren' }).click()
+  await page.getByRole('checkbox', { name: "I don't want to heal" }).click()
+  await page.getByRole('button', { name: 'Reveal my Forever Main' }).click()
 
   // Reveal, then the full ranking
-  await expect(page).toHaveURL(/\/result\/v1\.[A-Za-z0-9_-]+$/)
+  await expect(page).toHaveURL(/\/result\/v2\.[A-Za-z0-9_-]+$/)
   const dialog = page.getByRole('dialog')
   await expect(dialog).toBeVisible()
   await dialog.getByRole('button', { name: 'See the full ranking' }).click()
@@ -48,6 +53,11 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   const cards = page.getByRole('article')
   await expect(cards).toHaveCount(3)
   await expect(cards.first().getByText(/^\d{1,2}%$/)).toBeVisible()
+  // The race in mind leads every card, and no healer is offered.
+  for (const card of await cards.all()) {
+    await expect(card.getByText('Your pick')).toBeVisible()
+    await expect(card.getByText(/· Healer$/)).toHaveCount(0)
+  }
   await expect(page.getByRole('heading', { name: 'Why not…?' })).toBeVisible()
 
   // The link alone reproduces the same top result.
