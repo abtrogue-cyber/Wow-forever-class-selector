@@ -71,6 +71,13 @@
   .kbd {
     @apply inline-flex size-6 shrink-0 items-center justify-center rounded-md border border-night-600 font-display text-xs text-ash-400;
   }
+  /* A real tick box for multi-select answers, so they don't read as one-tap choices. */
+  .checkbox {
+    @apply inline-flex size-6 shrink-0 items-center justify-center rounded-[5px] border-2 border-ash-400 text-transparent transition;
+  }
+  .choice[aria-checked="true"] .checkbox {
+    @apply border-gold-400 bg-gold-400 text-night-950;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

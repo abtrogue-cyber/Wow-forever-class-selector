@@ -162,17 +162,17 @@
       "id": "feeling", "type": "pickOne",
       "text": { "newcomer": "What feeling do you want more of in your free time?", "veteran": "What feeling do you want more of in your free time?" },
       "options": [
-        { "id": "calm", "label": { "newcomer": "Calm focus, like a quiet early morning", "veteran": "Calm focus, like a quiet early morning" },
+        { "id": "calm", "label": { "newcomer": "A quiet morning with nowhere to be", "veteran": "A quiet morning with nowhere to be" },
           "effects": { "axes": { "sustain": { "target": 3.5, "weight": 0.2 } }, "tags": { "healer": 0.2, "nature": 0.1, "holy": 0.1, "arcane": 0.15 } } },
-        { "id": "close-call", "label": { "newcomer": "The rush of a really close call", "veteran": "The rush of a really close call" },
+        { "id": "close-call", "label": { "newcomer": "The first drop on a rollercoaster", "veteran": "The first drop on a rollercoaster" },
           "effects": { "axes": { "burst": { "target": 4.5, "weight": 0.3 }, "survivability": { "target": 4.5, "weight": 0.3 } }, "tags": { "trickster": 0.2, "berserker": 0.2 } } },
-        { "id": "wonder", "label": { "newcomer": "Wonder at something strange and beautiful", "veteran": "Wonder at something strange and beautiful" },
+        { "id": "wonder", "label": { "newcomer": "Getting lost in a museum of odd things", "veteran": "Getting lost in a museum of odd things" },
           "effects": { "tags": { "arcane": 0.25, "elements": 0.2, "nature": 0.15, "holy": 0.1 } } },
-        { "id": "counted-on", "label": { "newcomer": "Being the one everyone can count on", "veteran": "Being the one everyone can count on" },
+        { "id": "counted-on", "label": { "newcomer": "A friend calling because they need you", "veteran": "A friend calling because they need you" },
           "effects": { "axes": { "dungeon": { "target": 4.5, "weight": 0.3 } }, "tags": { "protector": 0.25, "healer": 0.2 } } },
-        { "id": "edge", "label": { "newcomer": "A little danger: dark, sharp and unpredictable", "veteran": "A little danger: dark, sharp and unpredictable" },
+        { "id": "edge", "label": { "newcomer": "A late-night thriller you can't put down", "veteran": "A late-night thriller you can't put down" },
           "effects": { "axes": { "worldPvp": { "target": 4, "weight": 0.3 } }, "tags": { "shadow": 0.2, "trickster": 0.2, "fire": 0.1, "berserker": 0.1 } } },
-        { "id": "freedom", "label": { "newcomer": "Freedom: open roads and wind in my face", "veteran": "Freedom: open roads and wind in my face" },
+        { "id": "freedom", "label": { "newcomer": "A road trip with no fixed plan", "veteran": "A road trip with no fixed plan" },
           "effects": { "axes": { "soloLeveling": { "target": 4, "weight": 0.3 } }, "tags": { "nature": 0.2, "beast": 0.15, "elements": 0.15, "shapeshifter": 0.1 } } }
       ]
     },
@@ -225,7 +225,8 @@
     },
     {
       "id": "preferences", "type": "multi",
-      "text": { "newcomer": "Last one: any hard preferences? These are taken literally. (optional)", "veteran": "Hard preferences, taken literally (optional):" },
+      "text": { "newcomer": "Last one: any hard preferences? Tick as many as you like, or none.", "veteran": "Hard preferences? Tick any number, or none." },
+      "hint": { "newcomer": "Every box you tick is taken literally. Boxes you leave empty change nothing.", "veteran": "Ticked boxes are taken literally. Empty ones change nothing." },
       "options": [
         { "id": "want-companion", "label": { "newcomer": "I'd love an animal or creature companion fighting with me", "veteran": "I want a pet or demon companion" },
           "effects": { "axes": { "petReliance": { "target": 5, "weight": 1.5 } } } },

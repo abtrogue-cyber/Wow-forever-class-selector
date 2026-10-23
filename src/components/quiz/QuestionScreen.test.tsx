@@ -39,6 +39,17 @@ describe('QuestionScreen', () => {
     expect(screen.getByTestId('value').textContent).toBe('["fortune","own-pace"]')
   })
 
+  it('says hard preferences take any number of ticks, and takes several', async () => {
+    const user = userEvent.setup()
+    render(<Harness id="preferences" />)
+    expect(screen.getByRole('heading', { name: /as many as you like, or none/i })).toBeTruthy()
+    expect(screen.getByText(/leave empty change nothing/i)).toBeTruthy()
+    await user.click(screen.getByRole('checkbox', { name: /no pets/i }))
+    await user.click(screen.getByRole('checkbox', { name: /must be able to heal/i }))
+    await user.click(screen.getByRole('checkbox', { name: /stealth/i }))
+    expect(screen.getByTestId('value').textContent).toBe('["no-pets","must-heal","no-stealth"]')
+  })
+
   it('never allows both "ranged only" and "melee only"', async () => {
     const user = userEvent.setup()
     render(<Harness id="preferences" />)

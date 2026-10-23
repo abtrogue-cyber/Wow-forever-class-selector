@@ -275,9 +275,13 @@ function MultiAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast, o
   return (
     <>
       <div className="grid gap-2 sm:grid-cols-2">
-        {q.options.map((o, i) => (
+        {q.options.map((o) => (
           <button key={o.id} type="button" role="checkbox" aria-checked={picked.includes(o.id)} className="choice" onClick={() => toggle(o.id)} {...previewOn(onPreview, () => toggled(o.id))}>
-            <span className="kbd">{picked.includes(o.id) ? '✓' : i + 1}</span>
+            <span className="checkbox" aria-hidden="true">
+              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12.5l4.5 4.5L19 7.5" />
+              </svg>
+            </span>
             <span>{o.label[w]}</span>
           </button>
         ))}
