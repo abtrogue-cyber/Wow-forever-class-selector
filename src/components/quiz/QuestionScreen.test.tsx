@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { gameData } from '../../data'
 import type { Setup } from '../../engine/types'
 import { QuestionGroup, QuestionScreen } from './QuestionScreen'
-import { quizScreens } from './screens'
+import { classesFor, quizScreens } from './screens'
 
 afterEach(cleanup)
 
@@ -180,6 +180,31 @@ describe('the last screen', () => {
     await user.click(screen.getByRole('radio', { name: 'Surprise me' }))
     expect(values().race).toBeUndefined()
     expect(screen.getByRole('button', { name: 'Reveal my Forever Main' })).toBeTruthy()
+  })
+
+  it("counts the builds still in the running, greys out classes the race can't be, and warns when none are left", async () => {
+    const user = userEvent.setup()
+    render(<LastScreen setup={horde} />)
+    const total = gameData.builds.length
+    // Nothing is ruled out before the first tick: every class exists on both sides.
+    expect(screen.getByText(`Still in the running: ${total} of ${total} builds.`)).toBeTruthy()
+    await user.click(screen.getByRole('checkbox', { name: /don't want to heal/i }))
+    expect(screen.queryByText(`Still in the running: ${total} of ${total} builds.`)).toBeNull()
+    expect(screen.getByText(/^Still in the running: \d+ of/)).toBeTruthy()
+
+    await user.click(screen.getByRole('radio', { name: 'Tauren' }))
+    const playable = classesFor('tauren')
+    const classes = LAST.find((q) => q.type === 'skipClasses')!.options
+    for (const o of classes) {
+      const note = screen.getByRole('checkbox', { name: o.label.newcomer }).getAttribute('aria-describedby')
+      expect(note ? document.getElementById(note)?.textContent : null, o.id).toBe(
+        playable.some((c) => c === o.id) ? null : "Greyed out: Tauren can't play these, so they're out already.",
+      )
+    }
+    for (const o of classes.filter((x) => playable.some((c) => c === x.id))) {
+      await user.click(screen.getByRole('checkbox', { name: o.label.newcomer }))
+    }
+    expect(screen.getByText(/^Nothing fits all of these yet/)).toBeTruthy()
   })
 
   it('marks Skyborne when the pack is unsure, and drops a race the setup no longer allows', () => {

@@ -1,11 +1,11 @@
 import { motion, useMotionValue, useTransform } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { gameData, type ClassId, type Question, type Wording } from '../../data'
-import type { Setup } from '../../engine/types'
+import type { Answers, Setup } from '../../engine/types'
 import { en } from '../../i18n/en'
 import { ClassGlyph } from '../icons/Glyphs'
 import { PickMark } from './PickMark'
-import { racesFor } from './screens'
+import { buildsLeft, classesFor, racesFor } from './screens'
 import { digitIndex, useHotkeys } from './useHotkeys'
 
 type Value = string | string[] | undefined
@@ -15,6 +15,8 @@ type MultiQ = Extract<Question, { type: 'multi' }>
 type RaceQ = Extract<Question, { type: 'race' }>
 type SkipClassesQ = Extract<Question, { type: 'skipClasses' }>
 type SingleQ = Extract<Question, { type: 'scenario' | 'thisOrThat' | 'pickOne' }>
+/** The race picked under "Got a race in mind?", for the class chips on the same screen. */
+type RaceInMind = { id: string; label: string }
 
 type Common = {
   wording: keyof Wording
@@ -105,6 +107,13 @@ export function QuestionGroup({ questions, values, onChange, onPreview, ...commo
     else if (key === 'ArrowLeft') onBack()
     else if (key === 'Enter' || key === 'ArrowRight') onNext()
   })
+  // A race in mind the setup still allows (the race chips drop any other).
+  const raceQ = questions.find((x): x is RaceQ => x.type === 'race')
+  const raceId = raceQ && values[raceQ.id]
+  const race: RaceInMind | undefined =
+    raceQ && typeof raceId === 'string' && (!common.setup || racesFor(common.setup).includes(raceId))
+      ? { id: raceId, label: raceQ.options.find((o) => o.id === raceId)?.label[w] ?? raceId }
+      : undefined
   if (!first) return null
   return (
     <div className="flex flex-col gap-5">
@@ -112,7 +121,7 @@ export function QuestionGroup({ questions, values, onChange, onPreview, ...commo
         <h1 className="text-2xl leading-snug sm:text-3xl">{first.text[w]}</h1>
         {first.hint && <p className="mt-1 text-ash-300">{first.hint[w]}</p>}
       </div>
-      <DirectAnswer q={first} {...answer(first)} />
+      <DirectAnswer q={first} {...answer(first)} race={race} />
       {rest.map((q) => (
         <section key={q.id} aria-labelledby={`q-${q.id}`} className="flex flex-col gap-2.5">
           <div>
@@ -121,19 +130,30 @@ export function QuestionGroup({ questions, values, onChange, onPreview, ...commo
             </h2>
             {q.hint && <p className="text-sm text-ash-400">{q.hint[w]}</p>}
           </div>
-          <DirectAnswer q={q} {...answer(q)} />
+          <DirectAnswer q={q} {...answer(q)} race={race} />
         </section>
       ))}
+      {isLast && common.setup && <BuildsLeft answers={{ setup: common.setup, picks: values }} />}
       <Footer onBack={onBack} onNext={onNext} nextLabel={isLast ? en.quiz.seeResults : en.quiz.next} stacked={isLast} />
     </div>
   )
 }
 
+/** The last screen's live count of builds still in the running, and a warning when the answers leave none. */
+function BuildsLeft({ answers }: { answers: Answers }) {
+  const left = buildsLeft(answers)
+  return (
+    <p className={`text-sm ${left > 0 ? 'text-ash-300' : 'text-ember-400'}`} aria-live="polite">
+      {left > 0 ? en.quiz.buildsLeft(left, gameData.builds.length) : en.quiz.noBuildsLeft}
+    </p>
+  )
+}
+
 /** The answer area of a question that can share a screen: tick boxes, race chips or class chips. */
-function DirectAnswer({ q, ...common }: Common & { q: Question }) {
+function DirectAnswer({ q, race, ...common }: Common & { q: Question; race?: RaceInMind }) {
   if (q.type === 'multi') return <TickGrid q={q} {...common} />
   if (q.type === 'race') return <RaceChips q={q} {...common} />
-  if (q.type === 'skipClasses') return <ClassChips q={q} {...common} />
+  if (q.type === 'skipClasses') return <ClassChips q={q} {...common} race={race} />
   return null
 }
 
@@ -432,24 +452,38 @@ function RaceChips({ q, wording: w, value, onChange, setup = ANY_SETUP }: Common
   )
 }
 
-/** Classes to skip: tap to strike one out, tap again to bring it back. Our own class glyphs (no game icons in the quiz). */
-function ClassChips({ q, wording: w, value, onChange }: Common & { q: SkipClassesQ }) {
+/**
+ * Classes to skip: tap to strike one out, tap again to bring it back. Our own class glyphs (no game icons in the quiz).
+ * With a race in mind, the classes it can't be are greyed out, since they're out already; they can still be tapped.
+ */
+function ClassChips({ q, wording: w, value, onChange, race }: Common & { q: SkipClassesQ; race?: RaceInMind }) {
   const skipped = asList(value)
+  const playable = race && classesFor(race.id)
+  const isOut = (id: string) => !!playable && !playable.includes(id as ClassId)
+  const noteId = `q-${q.id}-race`
   return (
-    <div role="group" aria-label={q.text[w]} className="flex flex-wrap gap-2">
-      {q.options.map((o) => (
-        <button
-          key={o.id}
-          type="button"
-          role="checkbox"
-          aria-checked={skipped.includes(o.id)}
-          className="chip"
-          onClick={() => onChange(skipped.includes(o.id) ? skipped.filter((x) => x !== o.id) : [...skipped, o.id])}
-        >
-          <ClassGlyph classId={o.id as ClassId} className="size-4 shrink-0" />
-          {o.label[w]}
-        </button>
-      ))}
-    </div>
+    <>
+      <div role="group" aria-label={q.text[w]} className="flex flex-wrap gap-2">
+        {q.options.map((o) => (
+          <button
+            key={o.id}
+            type="button"
+            role="checkbox"
+            aria-checked={skipped.includes(o.id)}
+            aria-describedby={isOut(o.id) ? noteId : undefined}
+            className={isOut(o.id) ? 'chip chip-out' : 'chip'}
+            onClick={() => onChange(skipped.includes(o.id) ? skipped.filter((x) => x !== o.id) : [...skipped, o.id])}
+          >
+            <ClassGlyph classId={o.id as ClassId} className="size-4 shrink-0" />
+            {o.label[w]}
+          </button>
+        ))}
+      </div>
+      {race && q.options.some((o) => isOut(o.id)) && (
+        <p id={noteId} className="text-sm text-ash-400">
+          {en.quiz.raceRulesOut(race.label)}
+        </p>
+      )}
+    </>
   )
 }

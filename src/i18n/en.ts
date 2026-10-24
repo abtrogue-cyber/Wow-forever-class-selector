@@ -63,6 +63,11 @@ export const en = {
     exit: 'Leave quiz',
     surpriseMe: 'Surprise me',
     needsPack: 'needs pack',
+    /** The last screen's live count of builds the direct answers leave. */
+    buildsLeft: (left: number, total: number) => `Still in the running: ${left} of ${total} builds.`,
+    noBuildsLeft: 'Nothing fits all of these yet: untick a preference, bring back a class or pick another race.',
+    /** Under the class chips when a race in mind rules some out. */
+    raceRulesOut: (race: string) => `Greyed out: ${race} can't play these, so they're out already.`,
   },
   roles: { tank: 'Tank', healer: 'Healer', dps: 'Damage' },
   compass: {

@@ -95,6 +95,10 @@
   .chip[role="checkbox"][aria-checked="true"] {
     @apply border-ember-400/70 bg-night-900 text-ash-400 line-through decoration-ember-400/80;
   }
+  /* A class the race in mind can't be: greyed out with a dashed edge, its text still readable (AA). */
+  .chip-out {
+    @apply border-dashed text-ash-400;
+  }
   /* The check on a picked answer, setup choice or race (PickMark), so a pick isn't shown by the border alone. */
   .pick-mark {
     @apply pointer-events-none inline-flex size-5 shrink-0 scale-50 items-center justify-center rounded-full bg-gold-400 text-night-950 opacity-0 transition;

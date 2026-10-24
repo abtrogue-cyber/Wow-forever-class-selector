@@ -49,6 +49,13 @@ test.describe('accessibility', () => {
     })
   }
 
+  test('quiz screen 12 with a race in mind: greyed-out classes and their note', async ({ page }) => {
+    await quizAt(page, 12)
+    await page.getByRole('radio', { name: 'Tauren' }).click()
+    await expect(page.getByText(/^Greyed out: Tauren can't play these/)).toBeVisible()
+    expect(await violations(page)).toEqual([])
+  })
+
   test('result page: the reveal, then the full ranking', async ({ page }) => {
     await page.goto(RESULT)
     const dialog = page.getByRole('dialog')
