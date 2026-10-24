@@ -54,6 +54,10 @@ export const en = {
     seeResults: 'Reveal my Forever Main',
     progress: (n: number, total: number) => `Question ${n} of ${total}`,
     prioritiesHint: (left: number) => (left > 0 ? `Pick ${left} more, in order of importance.` : 'Tap one again to remove it.'),
+    /** Shown when another answer is tapped while the picks are full. */
+    prioritiesFull: (pick: number) => `You've picked ${pick}. Tap one of them to remove it first.`,
+    /** A ranked pick's place: 1st, 2nd, 3rd… */
+    rank: (n: number) => `${n}${n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th'}`,
     sliderValue: (label: string) => `Your answer: ${label}`,
     swipeHint: 'Tap a card, or swipe toward your pick.',
     exit: 'Leave quiz',

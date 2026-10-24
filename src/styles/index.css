@@ -98,6 +98,16 @@
   }
 }
 
+/* Quiz: tapping a 4th priority shakes the hint that says to remove one first. */
+@keyframes nudge {
+  20%, 60% { translate: -4px 0; }
+  40%, 80% { translate: 4px 0; }
+}
+.nudge {
+  display: inline-block;
+  animation: nudge 0.4s ease-in-out;
+}
+
 /* Quiz compass (2D): pulse on every answer, spinning novelty ring, orbiting companion. */
 @keyframes compass-pulse {
   from { transform: scale(1); opacity: 0.85; }

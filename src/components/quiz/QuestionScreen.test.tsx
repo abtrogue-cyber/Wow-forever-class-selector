@@ -41,6 +41,25 @@ describe('QuestionScreen', () => {
     expect(screen.getByTestId('value').textContent).toBe('["fortune","own-pace"]')
   })
 
+  it('tags each priority pick with its place, and says what to do when a 4th is tapped', async () => {
+    const user = userEvent.setup()
+    render(<Harness id="two-hours" />)
+    const fortune = screen.getByRole('button', { name: /fortune/i })
+    await user.click(fortune)
+    await user.click(screen.getByRole('button', { name: /few friends/i }))
+    // The place goes in its own tag; the number badge keeps the option's number.
+    expect(fortune.textContent).toMatch(/^6.*1st$/)
+    expect(screen.getByRole('button', { name: /few friends/i }).textContent).toMatch(/^2.*2nd$/)
+    await user.click(screen.getByRole('button', { name: /own pace/i }))
+    expect(screen.queryByText(/you've picked 3/i)).toBeNull()
+    await user.click(screen.getByRole('button', { name: /big, well-organized team/i }))
+    expect(screen.getByText(/you've picked 3/i)).toBeTruthy()
+    // Removing a pick clears the note.
+    await user.click(screen.getByRole('button', { name: /own pace/i }))
+    expect(screen.queryByText(/you've picked 3/i)).toBeNull()
+    expect(screen.getByText(/pick 1 more/i)).toBeTruthy()
+  })
+
   it('says hard preferences take any number of ticks, and takes several', async () => {
     const user = userEvent.setup()
     render(<Harness id="preferences" />)

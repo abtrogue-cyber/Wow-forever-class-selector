@@ -302,9 +302,15 @@ function SliderAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast }
 
 function Priorities({ q, wording: w, value, onChange, onNext, onBack, isLast, onPreview }: Common & { q: PrioritiesQ }) {
   const picked = asList(value)
+  // Taps on another answer once the picks are full. Each one shakes the hint, which then says what to do.
+  const [blocked, setBlocked] = useState(0)
   const toggled = (id: string) =>
     picked.includes(id) ? picked.filter((x) => x !== id) : picked.length < q.pick ? [...picked, id] : picked
-  const toggle = (id: string) => onChange(toggled(id))
+  const toggle = (id: string) => {
+    if (picked.length >= q.pick && !picked.includes(id)) return setBlocked((n) => n + 1)
+    setBlocked(0)
+    onChange(toggled(id))
+  }
   useHotkeys((key) => {
     const option = q.options[digitIndex(key)]
     if (option) toggle(option.id)
@@ -313,16 +319,24 @@ function Priorities({ q, wording: w, value, onChange, onNext, onBack, isLast, on
   })
   return (
     <>
-      <p className="text-sm text-ash-400" aria-live="polite">
-        {en.quiz.prioritiesHint(q.pick - picked.length)}
+      <p className={`text-sm transition-colors ${blocked ? 'text-gold-300' : 'text-ash-400'}`} aria-live="polite">
+        <span key={blocked} className={blocked ? 'nudge' : undefined}>
+          {blocked ? en.quiz.prioritiesFull(q.pick) : en.quiz.prioritiesHint(q.pick - picked.length)}
+        </span>
       </p>
-      <div className="grid gap-2 sm:grid-cols-2">
+      {/* The rank sits in a tag on the tile's top edge, away from the number-key badge (and with no reflow). */}
+      <div className="grid gap-x-2 gap-y-3 sm:grid-cols-2">
         {q.options.map((o, i) => {
           const rank = picked.indexOf(o.id)
           return (
             <button key={o.id} type="button" className="choice" aria-pressed={rank >= 0} onClick={() => toggle(o.id)} {...previewOn(onPreview, () => toggled(o.id))}>
-              <span className={rank >= 0 ? 'kbd border-gold-400 bg-gold-400 text-night-950' : 'kbd'}>{rank >= 0 ? rank + 1 : i + 1}</span>
+              <span className="kbd">{i + 1}</span>
               <span>{o.label[w]}</span>
+              {rank >= 0 && (
+                <span className="absolute -top-2 right-3 rounded-full bg-gold-400 px-2 py-px font-display text-[11px] leading-tight font-semibold tracking-wider text-night-950">
+                  {en.quiz.rank(rank + 1)}
+                </span>
+              )}
             </button>
           )
         })}

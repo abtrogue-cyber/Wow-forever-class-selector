@@ -17,6 +17,7 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   await at(1)
   await page.getByRole('button', { name: /steady progress/ }).click() // 1: two free hours (priorities)
   await page.getByRole('button', { name: /tough challenge/ }).click()
+  await expect(page.getByRole('button', { name: /steady progress/ })).toContainText('1st')
   await page.getByRole('button', { name: 'Next' }).click()
   for (let n = 2; n <= 9; n++) {
     await at(n)
