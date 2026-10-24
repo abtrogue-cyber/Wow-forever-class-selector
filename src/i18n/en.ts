@@ -67,6 +67,8 @@ export const en = {
   roles: { tank: 'Tank', healer: 'Healer', dps: 'Damage' },
   compass: {
     hint: 'Every answer moves your star.',
+    /** After an answer that moved the star, followed by the compass end it moved toward (e.g. "From afar"). */
+    drift: 'Your star drifts toward',
     skip: 'Tap to skip',
     /**
      * Plain words for both ends of each axis [low, high], used to label the compass directions.

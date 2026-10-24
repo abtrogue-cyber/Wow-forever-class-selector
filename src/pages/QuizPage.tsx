@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation } from 'wouter'
 import { gameData } from '../data'
-import { AXIS_ENDS, lookFor, positionFor, STARS, trailFor } from '../components/compass/compass'
+import { AXIS_ENDS, driftToward, lookFor, positionFor, STARS, trailFor } from '../components/compass/compass'
 import { CompassStage } from '../components/compass/CompassStage'
 import { QuestionGroup, QuestionScreen } from '../components/quiz/QuestionScreen'
 import { quizScreens } from '../components/quiz/screens'
@@ -39,6 +39,15 @@ export function QuizPage() {
   const position = trail[trail.length - 1]!
   const stops = useMemo(() => trail.slice(0, -1), [trail])
   const pulse = useMemo(() => JSON.stringify([setup, picks]), [setup, picks])
+
+  // Which way the last answer moved your star, for the line under the compass (null: it didn't move it).
+  // Setup changes move the star too, but only answers get a line.
+  const [drift, setDrift] = useState<string | null>(null)
+  const before = useRef({ position, picks })
+  useEffect(() => {
+    if (picks !== before.current.picks) setDrift(driftToward(before.current.position, position))
+    before.current = { position, picks }
+  }, [position, picks])
 
   // Hovering an answer previews where it would take you (and the sky or star color it would give).
   const [preview, setPreview] = useState<{ questionId: string; value: Value } | null>(null)
@@ -122,7 +131,17 @@ export function QuizPage() {
             className={`w-full transition-[height] duration-700 ${reveal ? 'h-[60vh] lg:h-[540px]' : 'h-44 sm:h-52 lg:h-[460px]'}`}
           />
           <p className="text-center text-xs text-ash-400" aria-live="polite">
-            {reveal ? en.compass.skip : step <= 1 ? en.compass.hint : ' '}
+            {reveal ? (
+              en.compass.skip
+            ) : step > 0 && drift ? (
+              <>
+                {en.compass.drift} <span className="font-display tracking-[0.18em] text-gold-300 uppercase">{drift}</span>
+              </>
+            ) : step <= 1 ? (
+              en.compass.hint
+            ) : (
+              ' '
+            )}
           </p>
         </aside>
 

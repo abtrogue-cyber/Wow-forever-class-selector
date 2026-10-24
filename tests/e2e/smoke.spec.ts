@@ -24,6 +24,8 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   await page.getByRole('button', { name: 'Next' }).click()
   for (let n = 2; n <= 9; n++) {
     await at(n)
+    // The line under the compass says which way the last answer moved the star.
+    if (n === 3) await expect(page.getByText(/^Your star drifts toward \S/)).toBeVisible()
     await page.locator('button.choice').first().click() // scenarios and the feeling question
   }
   await at(10)

@@ -67,6 +67,8 @@ export function positionFor(setup: Partial<Setup>, picks: Picks): Vec3 {
 
 const answered = (pick: Picks[string]) => pick != null && !(Array.isArray(pick) && pick.length === 0)
 const dist = (a: Vec3, b: Vec3) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2])
+/** A shorter move isn't one: it adds no stop to the trail and gets no line under the compass. */
+const MOVED = 0.01
 
 /**
  * Where your star stopped after each answer, in question order, starting from the setup.
@@ -79,7 +81,7 @@ export function trailFor(setup: Partial<Setup>, picks: Picks): Vec3[] {
     if (!answered(picks[q.id])) continue
     soFar[q.id] = picks[q.id]
     const p = positionFor(setup, soFar)
-    if (dist(p, path[path.length - 1]!) > 0.01) path.push(p)
+    if (dist(p, path[path.length - 1]!) > MOVED) path.push(p)
   }
   return path
 }
@@ -110,3 +112,14 @@ export const AXIS_ENDS: [string, string][] = galaxy.components.map((component) =
   const negName = neg ? WORDS[neg.axis][1] : WORDS[pos!.axis][0]
   return [negName, posName]
 })
+
+/**
+ * The compass end a move heads for most (e.g. "From afar"), in the words of the compass labels, or null if the star
+ * didn't move. Shown under the compass after an answer, so the move means something even where the labels don't fit.
+ */
+export function driftToward(from: Vec3, to: Vec3): string | null {
+  const d = [to[0] - from[0], to[1] - from[1], to[2] - from[2]]
+  if (Math.hypot(...d) <= MOVED) return null
+  const k = d.reduce((best, x, i) => (Math.abs(x) > Math.abs(d[best]!) ? i : best), 0)
+  return AXIS_ENDS[k]?.[d[k]! > 0 ? 1 : 0] ?? null
+}

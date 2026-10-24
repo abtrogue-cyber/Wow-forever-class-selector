@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { gameData } from '../../data'
-import { AXIS_ENDS, DEFAULT_ORB, DEFAULT_TINT, FEELING_COLOR, FEELING_TINT, LOOK_IDS, lookFor, positionFor, STARS, trailFor } from './compass'
+import type { Vec3 } from '../../galaxy/pca'
+import { AXIS_ENDS, DEFAULT_ORB, DEFAULT_TINT, driftToward, FEELING_COLOR, FEELING_TINT, LOOK_IDS, lookFor, positionFor, STARS, trailFor } from './compass'
 
 const options = (id: string) => gameData.questions.questions.find((q) => q.id === id)?.options.map((o) => o.id) ?? []
 const setup = { experience: 'played', faction: 'any', ruleset: 'normal', skyborne: 'no' } as const
@@ -37,5 +38,17 @@ describe('quiz compass', () => {
       expect(neg).not.toBe(pos)
     }
     expect(STARS).toHaveLength(28)
+  })
+
+  it('names the end a move heads for most, and nothing when the star stays put', () => {
+    const at: Vec3 = [0.1, -0.2, 0.3]
+    expect(driftToward(at, at)).toBeNull()
+    expect(driftToward(at, [0.105, -0.2, 0.3])).toBeNull() // too small to add a stop to the trail
+    expect(driftToward(at, [0.4, -0.25, 0.3])).toBe(AXIS_ENDS[0]![1])
+    expect(driftToward(at, [0.1, -0.6, 0.4])).toBe(AXIS_ENDS[1]![0])
+    expect(driftToward(at, [0.15, -0.1, 0])).toBe(AXIS_ENDS[2]![0])
+    // Every stop on the trail gets a line.
+    const [start, stop] = trailFor(setup, { festival: 'front-row' })
+    expect(driftToward(start!, stop!)).toBeTruthy()
   })
 })
