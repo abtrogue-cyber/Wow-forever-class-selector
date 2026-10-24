@@ -19,7 +19,7 @@ describe('stale deploy recovery', () => {
   })
 
   it('recognizes the errors browsers throw for missing code files', () => {
-    expect(isChunkLoadError(new TypeError('Failed to fetch dynamically imported module: https://x/assets/QuizPage-abc.js'))).toBe(true)
+    expect(isChunkLoadError(new TypeError('Failed to fetch dynamically imported module: https://x/static/QuizPage-abc.js'))).toBe(true)
     expect(isChunkLoadError(new TypeError('Importing a module script failed.'))).toBe(true)
     expect(isChunkLoadError(new Error('error loading dynamically imported module'))).toBe(true)
     expect(isChunkLoadError(new Error('Cannot read properties of undefined'))).toBe(false)

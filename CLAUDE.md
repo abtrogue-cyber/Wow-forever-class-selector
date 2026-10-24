@@ -50,7 +50,7 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - `src/galaxy/` — Spec Galaxy math: `pca.ts` (layout, nearest builds, player position), `constellations.ts` (class lines), `declutter.ts` (nudges overlapping flat-map icons apart)
 - `src/state/quizStore.ts` — Zustand quiz progress (sessionStorage, falls back to memory)
 - `src/i18n/en.ts` — every UI string
-- `tests/e2e/` — Playwright smoke test; `vercel.json` — SPA rewrites + asset caching
+- `tests/e2e/` — Playwright smoke test; `vercel.json` — SPA rewrites; build files live in `/static/` and revalidate on every load (D49)
 - `scripts/` — node scripts run with `tsx`
 - `docs/` — RESEARCH, OPEN_QUESTIONS, PLAN, DECISIONS, SCORES_REVIEW and BALANCE (both generated)
 
