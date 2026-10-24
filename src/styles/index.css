@@ -80,7 +80,7 @@
   }
   /* Compact pill answers on the last screen: a race in mind, classes to skip. */
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-night-600 bg-night-800/70 px-3.5 py-1.5 text-[15px] text-parchment-100 transition hover:border-gold-500/70 hover:bg-night-700/80;
+    @apply relative inline-flex items-center gap-1.5 rounded-full border border-night-600 bg-night-800/70 px-3.5 py-1.5 text-[15px] text-parchment-100 transition hover:border-gold-500/70 hover:bg-night-700/80;
   }
   .chip[role="radio"][aria-checked="true"] {
     @apply border-gold-400 bg-night-700 shadow-[0_0_18px_-6px_rgb(245_200_107/0.7)];
@@ -88,6 +88,15 @@
   /* A skipped class: struck through in ember, so it reads as "out". */
   .chip[role="checkbox"][aria-checked="true"] {
     @apply border-ember-400/70 bg-night-900 text-ash-400 line-through decoration-ember-400/80;
+  }
+  /* The check on a picked answer, setup choice or race (PickMark), so a pick isn't shown by the border alone. */
+  .pick-mark {
+    @apply pointer-events-none inline-flex size-5 shrink-0 scale-50 items-center justify-center rounded-full bg-gold-400 text-night-950 opacity-0 transition;
+  }
+  .choice[aria-pressed="true"] .pick-mark,
+  .choice[aria-checked="true"] .pick-mark,
+  .chip[aria-checked="true"] .pick-mark {
+    @apply scale-100 opacity-100;
   }
 }
 

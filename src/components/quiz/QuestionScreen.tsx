@@ -4,6 +4,7 @@ import { gameData, type ClassId, type Question, type Wording } from '../../data'
 import type { Setup } from '../../engine/types'
 import { en } from '../../i18n/en'
 import { ClassGlyph } from '../icons/Glyphs'
+import { PickMark } from './PickMark'
 import { racesFor } from './screens'
 import { digitIndex, useHotkeys } from './useHotkeys'
 
@@ -180,9 +181,10 @@ function ChoiceList({ q, wording: w, hardcore, value, onChange, onNext, onBack, 
     <>
       <div className="flex flex-col gap-2.5">
         {q.options.map((o, i) => (
-          <button key={o.id} type="button" className="choice" aria-pressed={value === o.id} onClick={() => pick(o.id)} {...previewOn(onPreview, () => o.id)}>
+          <button key={o.id} type="button" className="choice pr-11" aria-pressed={value === o.id} onClick={() => pick(o.id)} {...previewOn(onPreview, () => o.id)}>
             <span className="kbd">{i + 1}</span>
             <span>{(hardcore && o.hardcoreLabel ? o.hardcoreLabel : o.label)[w]}</span>
+            <PickMark className="absolute top-1/2 right-3.5 -translate-y-1/2" />
           </button>
         ))}
       </div>
@@ -238,7 +240,10 @@ function ThisOrThat({ q, wording: w, value, onChange, onNext, onBack, onPreview 
               className="pointer-events-none absolute inset-0 rounded-[inherit] border-2 border-gold-400"
               style={{ opacity: i === 0 ? leftGlow : rightGlow }}
             />
-            <span className="kbd">{i + 1}</span>
+            <span className="flex w-full items-center">
+              <span className="kbd">{i + 1}</span>
+              <PickMark className="ml-auto" />
+            </span>
             <span className="font-display text-lg leading-snug sm:text-xl">{o.label[w]}</span>
           </button>
         ))}
@@ -396,6 +401,9 @@ function TickGrid({ q, wording: w, value, onChange, onPreview }: Common & { q: M
   )
 }
 
+/** A picked race's check: a small badge on the chip's top-right corner, so the row of chips doesn't reflow. */
+const CHIP_MARK = 'absolute -top-1.5 -right-1.5 size-4'
+
 /** "Got a race in mind?": "Surprise me" (the racials decide) or one race the player's faction and pack allow. */
 function RaceChips({ q, wording: w, value, onChange, setup = ANY_SETUP }: Common & { q: RaceQ }) {
   const allowed = racesFor(setup)
@@ -409,6 +417,7 @@ function RaceChips({ q, wording: w, value, onChange, setup = ANY_SETUP }: Common
     <div role="radiogroup" aria-label={q.text[w]} className="flex flex-wrap gap-2">
       <button type="button" role="radio" aria-checked={!picked} className="chip" onClick={() => onChange(undefined)}>
         {en.quiz.surpriseMe}
+        <PickMark className={CHIP_MARK} />
       </button>
       {q.options
         .filter((o) => allowed.includes(o.id))
@@ -416,6 +425,7 @@ function RaceChips({ q, wording: w, value, onChange, setup = ANY_SETUP }: Common
           <button key={o.id} type="button" role="radio" aria-checked={picked === o.id} className="chip" onClick={() => onChange(o.id)}>
             {o.label[w]}
             {needsPack(o.id) && <span className="text-xs text-ash-400">· {en.quiz.needsPack}</span>}
+            <PickMark className={CHIP_MARK} />
           </button>
         ))}
     </div>

@@ -2,6 +2,7 @@ import { gameData, type Wording } from '../../data'
 import type { Setup } from '../../engine/types'
 import { en } from '../../i18n/en'
 import { isSetupComplete, useQuizStore, wordingFor } from '../../state/quizStore'
+import { PickMark } from './PickMark'
 import { useHotkeys } from './useHotkeys'
 
 export function SetupScreen({ onBegin }: { onBegin: () => void }) {
@@ -33,10 +34,11 @@ export function SetupScreen({ onBegin }: { onBegin: () => void }) {
                   type="button"
                   role="radio"
                   aria-checked={checked}
-                  className="choice py-3"
+                  className="choice py-3 pr-11"
                   onClick={() => setSetup(field.id, o.id as Setup[typeof field.id])}
                 >
                   {o.label[w]}
+                  <PickMark className="absolute top-1/2 right-3.5 -translate-y-1/2" />
                 </button>
               )
             })}
