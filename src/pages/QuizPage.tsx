@@ -93,9 +93,11 @@ export function QuizPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <div className="mx-auto grid w-full max-w-5xl flex-1 gap-4 px-4 pt-4 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-10">
+      <div className="mx-auto grid w-full max-w-5xl flex-1 content-start gap-4 px-4 pt-4 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-10 lg:pt-0">
         {/* Phones: the compass sits above the questions. Desktop: questions left, compass right; at the reveal the
-            compass glides to the middle of the page while the questions fade out. */}
+            compass glides to the middle of the page while the questions fade out. The rows keep their own height
+            (content-start), so a short question isn't pushed down on a phone; desktop has no top padding, since the
+            compass column is exactly one screen tall. */}
         <aside
           className={`flex flex-col items-center gap-3 transition-transform duration-700 ease-out lg:sticky lg:top-0 lg:order-2 lg:h-dvh lg:justify-center ${reveal ? 'lg:-translate-x-[70%] lg:scale-[1.15]' : ''}`}
         >
@@ -121,8 +123,10 @@ export function QuizPage() {
           </p>
         </aside>
 
+        {/* Desktop: every question starts at the same height (not centered), so the progress line and the title
+            stay put from one question to the next. The offset lets a 6-answer question fit a 720 px tall window. */}
         <section
-          className={`flex flex-col gap-4 pb-6 transition-opacity duration-500 lg:order-1 lg:justify-center lg:py-10 ${reveal ? 'pointer-events-none opacity-0' : ''}`}
+          className={`flex flex-col gap-4 pb-6 transition-opacity duration-500 lg:order-1 lg:pt-[max(2rem,calc(50dvh_-_18rem))] ${reveal ? 'pointer-events-none opacity-0' : ''}`}
           aria-hidden={reveal ? true : undefined}
         >
           <div className="flex items-center justify-between text-sm text-ash-400">
