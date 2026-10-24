@@ -71,6 +71,12 @@
   .kbd {
     @apply inline-flex size-6 shrink-0 items-center justify-center rounded-md border border-night-600 font-display text-xs text-ash-400;
   }
+  /* Number-key hints mean nothing on a phone or tablet without a keyboard. */
+  @media (hover: none) and (pointer: coarse) {
+    .kbd {
+      @apply hidden;
+    }
+  }
   /* A real tick box for multi-select answers, so they don't read as one-tap choices. */
   .checkbox {
     @apply inline-flex size-6 shrink-0 items-center justify-center rounded-[5px] border-2 border-ash-400 text-transparent transition;

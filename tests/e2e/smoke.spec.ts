@@ -15,6 +15,9 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   // because the outgoing question is still on screen during its exit animation.
   const at = (n: number) => expect(page.getByText(`Question ${n} of 12`)).toBeVisible()
   await at(1)
+  // Number-key badges only where there's a keyboard: touch screens hide them. (A string, since tests have no DOM types.)
+  const touch = await page.evaluate<boolean>("matchMedia('(hover: none) and (pointer: coarse)').matches")
+  await expect(page.locator('.kbd').first()).toBeVisible({ visible: !touch })
   await page.getByRole('button', { name: /steady progress/ }).click() // 1: two free hours (priorities)
   await page.getByRole('button', { name: /tough challenge/ }).click()
   await expect(page.getByRole('button', { name: /steady progress/ })).toContainText('1st')
