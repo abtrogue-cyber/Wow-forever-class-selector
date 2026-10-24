@@ -338,5 +338,5 @@ As in brief §6, plus:
 
 ## 11. Backlog
 
-- **Quiz UI, what's left** from the Phase 5 walkthrough (batch 1 is D51; Back gesture, compass line and live build count are D52). (d) The slider (Q11) as five tappable steps instead of a small native thumb. (e) Setup: compact rows without lone tiles, wording that doesn't change while you fill it in, and "Begin" saying which choice is missing. Taste calls for the owner: long questions in Cinzel caps; our own glyphs on the this-or-that cards.
+- **Quiz UI, taste calls for the owner** from the Phase 5 walkthrough (everything else is done: D51–D53). Long questions in Cinzel caps (Q1 and Q12 run 4 lines on a phone) read slowly: a smaller size for long ones, or the body font for the question line. The two this-or-that cards are big but empty: our own glyph per side would make them more visual, but every option needs art.
 - **Race look, inert since D47.** With the place-to-live question gone, `profile.aesthetic` is always empty, so the look part of race ranking does nothing: the `aesthetic` answer effect, each race's `aesthetic` scores, `CONFIG.races.aestheticWeight` / `rpAestheticMultiplier` and `explanations.race.aesthetic`. It stays in place this close to launch (an engine test keeps it working with a made-up question). After launch: feed it from a new question or remove it.
