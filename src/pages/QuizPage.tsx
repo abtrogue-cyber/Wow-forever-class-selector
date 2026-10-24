@@ -7,6 +7,7 @@ import { CompassStage } from '../components/compass/CompassStage'
 import { QuestionGroup, QuestionScreen } from '../components/quiz/QuestionScreen'
 import { quizScreens } from '../components/quiz/screens'
 import { SetupScreen } from '../components/quiz/SetupScreen'
+import { useQuizHistory } from '../components/quiz/useQuizHistory'
 import { ENGINE_VERSION } from '../engine/config'
 import { rank } from '../engine/rank'
 import { en } from '../i18n/en'
@@ -88,8 +89,10 @@ export function QuizPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setReveal({ code, target })
   }
-  const next = () => (step >= TOTAL ? finish() : goTo(step + 1))
-  const back = () => (step === 0 ? navigate('/') : goTo(step - 1))
+  // Every screen has its own browser-history entry, so the browser's Back button and ours go the same way.
+  const { forward, back: backOne } = useQuizHistory(step, goTo)
+  const next = () => (step >= TOTAL ? finish() : forward(step + 1))
+  const back = () => (step === 0 ? navigate('/') : backOne())
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -175,7 +178,7 @@ export function QuizPage() {
                   isLast={step === TOTAL}
                 />
               ) : (
-                <SetupScreen onBegin={() => goTo(1)} />
+                <SetupScreen onBegin={() => forward(1)} />
               )}
             </motion.div>
           </AnimatePresence>

@@ -85,6 +85,37 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   await expect(page.getByText(/^#1 for you · \d+% match$/)).toBeVisible()
 })
 
+test("the browser's Back button goes to the previous question, not out of the quiz", async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Find your Forever Main' }).click()
+  for (const choice of ["I'm new to WoW", 'Horde', 'Normal (relaxed)', 'Not sure']) {
+    await page.getByRole('radio', { name: choice }).click()
+  }
+  await page.getByRole('button', { name: 'Begin' }).click()
+  const at = (n: number) => expect(page.getByText(`Question ${n} of 12`)).toBeVisible()
+  await at(1)
+  await page.getByRole('button', { name: 'Next' }).click()
+  await at(2)
+  await page.locator('button.choice').first().click()
+  await at(3)
+  await page.goBack()
+  await at(2)
+  await page.goBack()
+  await at(1)
+  await page.goForward()
+  await at(2)
+  // The quiz's own Back button walks the same entries (wait until the outgoing screen has gone)…
+  const backButton = page.getByRole('button', { name: '← Back' })
+  await expect(backButton).toHaveCount(1)
+  await backButton.click()
+  await at(1)
+  await page.goBack()
+  await expect(page.getByRole('heading', { name: 'Before we begin' })).toBeVisible()
+  // …and only Back from the setup screen leaves the quiz.
+  await page.goBack()
+  await expect(page).toHaveURL(/\/$/)
+})
+
 test('unknown pages show the 404', async ({ page }) => {
   await page.goto('/nope')
   await expect(page.getByRole('heading', { name: 'Lost in the fog' })).toBeVisible()
