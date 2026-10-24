@@ -18,8 +18,12 @@ import { randomAnswers } from '../src/engine/testUtils'
 import type { Answers, Component, ComponentId } from '../src/engine/types'
 
 const PLAYERS = 2000
-/** Proposed targets (Reddit round, phase C). */
-const TARGETS = { classMin: 0.05, classMax: 0.2, tankMax: 0.18, healerMax: 0.22, flipMax: 0.4 }
+/**
+ * Targets agreed in the Reddit round (D48). Warriors and warlocks are held back by their build scores, not by the quiz,
+ * so they're exempt from the floor until those scores are reviewed after launch. A question that is the main source
+ * of an axis (range, burst, armor) decides about half the results by design, hence 55% rather than 40%.
+ */
+const TARGETS = { classMin: 0.05, classMax: 0.2, floorExempt: ['warrior', 'warlock'] as ClassId[], tankMax: 0.18, healerMax: 0.22, flipMax: 0.55 }
 
 const data = parseGameData(rawData)
 const ctx = getContext(data)
@@ -162,12 +166,17 @@ out('## Targets')
 out()
 out('| Target | Now | |')
 out('|---|---|---|')
-const classes = CLASS_IDS.map((c) => classTop[c])
-out(`| Every class ${pct(TARGETS.classMin)}–${pct(TARGETS.classMax)} of #1s | ${pct(Math.min(...classes))}–${pct(Math.max(...classes))} | ${check(classes.every((x) => x >= TARGETS.classMin && x <= TARGETS.classMax))} |`)
+const highest = [...CLASS_IDS].sort((x, y) => classTop[y] - classTop[x])[0]!
+const floored = CLASS_IDS.filter((c) => !TARGETS.floorExempt.includes(c))
+const lowest = [...floored].sort((x, y) => classTop[x] - classTop[y])[0]!
+const exempt = TARGETS.floorExempt.map((c) => `${className(c)} ${pct(classTop[c])}`).join(', ')
+out(`| No class above ${pct(TARGETS.classMax)} of #1s | ${className(highest)} ${pct(classTop[highest])} | ${check(classTop[highest] <= TARGETS.classMax)} |`)
+out(`| Every other class at least ${pct(TARGETS.classMin)} (exempt until their scores are reviewed: ${exempt}) | ${className(lowest)} ${pct(classTop[lowest])} | ${check(classTop[lowest] >= TARGETS.classMin)} |`)
 out(`| Tank #1 ≤ ${pct(TARGETS.tankMax)} | ${pct(roleTop.tank)} | ${check(roleTop.tank <= TARGETS.tankMax)} |`)
 out(`| Healer #1 ≤ ${pct(TARGETS.healerMax)} | ${pct(roleTop.healer)} | ${check(roleTop.healer <= TARGETS.healerMax)} |`)
 out(`| No answer flips the #1 build for more than ${pct(TARGETS.flipMax)} of players | ${pct(maxFlip.flips)} (${maxFlip.question}: ${maxFlip.option}) | ${check(maxFlip.flips <= TARGETS.flipMax)} |`)
-out(`| Every class fan finds their class in the top 3 | ${fans.filter((f) => f.ok).length} of ${fans.length} | ${check(fans.every((f) => f.ok))} |`)
+const missed = fans.filter((f) => !f.ok).map((f) => className(f.classId))
+out(`| Every class fan finds their class in the top 3 | ${fans.length - missed.length} of ${fans.length}${missed.length ? ` (misses: ${missed.join(', ')})` : ''} | ${check(missed.length === 0)} |`)
 out(`| Every persona passes its checks | ${personas.filter((p) => p.ok).length} of ${personas.length} | ${check(personas.every((p) => p.ok))} |`)
 out()
 out('## #1 by role')
