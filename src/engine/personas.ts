@@ -17,6 +17,14 @@ export type Persona = {
   match?: { minTop?: number; minGap?: number; maxMedian?: number; why: string }
 }
 
+/** Every damage build, for personas whose #1 should simply not be a healer or a tank. */
+const DAMAGE = [
+  'warrior-arms', 'warrior-fury', 'paladin-retribution', 'hunter-beast-mastery', 'hunter-marksmanship', 'hunter-survival',
+  'rogue-assassination', 'rogue-combat', 'rogue-subtlety', 'priest-shadow', 'shaman-elemental', 'shaman-enhancement',
+  'mage-arcane', 'mage-fire', 'mage-frost', 'warlock-affliction', 'warlock-demonology', 'warlock-destruction',
+  'druid-balance', 'druid-feral-cat',
+]
+
 export const PERSONAS: Persona[] = [
   {
     id: 'cozy-healer',
@@ -166,6 +174,34 @@ export const PERSONAS: Persona[] = [
       { inTop: 1, anyOf: ['druid-feral-bear', 'warrior-protection', 'paladin-protection'] },
       { inTop: 3, anyOf: ['druid-feral-bear'] },
     ],
+  },
+  // From the Reddit round (D48): players who got healers they didn't want.
+  {
+    id: 'no-healing-please',
+    label: 'Caring damage dealer who never wants to heal (no healing)',
+    answers: {
+      setup: { experience: 'played', faction: 'any', ruleset: 'normal', skyborne: 'no' },
+      picks: {
+        'two-hours': ['few-friends', 'fair-match', 'own-pace'], 'group-project': 'nobody-behind', 'team-sport': 'scorer',
+        annoyance: 'not-mattering', wins: 'big-moment', stuck: 'ask-friends', festival: 'overview', packing: 'practical',
+        feeling: 'counted-on', restaurant: 'something-new', patience: 'annoying', preferences: ['no-healing'],
+      },
+    },
+    expect: [{ inTop: 1, anyOf: DAMAGE }],
+  },
+  {
+    id: 'solo-with-a-heart',
+    label: 'Solo damage dealer with one caring answer',
+    answers: {
+      setup: { experience: 'played', faction: 'any', ruleset: 'normal', skyborne: 'no' },
+      picks: {
+        'two-hours': ['own-pace', 'fortune', 'rivals'], 'group-project': 'nobody-behind', 'team-sport': 'solo-sport',
+        annoyance: 'depending', wins: 'big-moment', stuck: 'come-back', festival: 'roaming', packing: 'light',
+        feeling: 'freedom', restaurant: 'usual', patience: 'agony',
+      },
+    },
+    expect: [{ inTop: 1, anyOf: DAMAGE }],
+    match: { minTop: 80, minGap: 10, why: 'Mixed answers on purpose: a good fit, not a perfect one (D48).' },
   },
 ]
 

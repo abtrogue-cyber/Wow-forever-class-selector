@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { rawData } from '../data/raw'
+import type { ClassId } from '../data/schemas'
 import { parseGameData } from '../data/validate'
-import { PERSONAS } from './personas'
+import { CLASS_FANS, PERSONAS } from './personas'
 import { rank } from './rank'
 
 const data = parseGameData(rawData)
@@ -17,6 +18,14 @@ describe('persona snapshots', () => {
           expect(ids.slice(0, inTop).some((id) => anyOf.includes(id))).toBe(true)
         })
       }
+
+      it('never offers a role it ruled out, not even as the dual spec', () => {
+        const ruledOut = [res.profile.filters.includes('noHeal') && 'healer', res.profile.filters.includes('noTank') && 'tank']
+        for (const r of res.results) {
+          const roles = [r.buildId, r.dualSpec?.buildId].map((id) => data.builds.find((b) => b.id === id)?.role)
+          for (const role of roles) expect(ruledOut).not.toContain(role)
+        }
+      })
 
       const { minTop = 85, minGap = 15, maxMedian = 70 } = persona.match ?? {}
       it(`lands a great fit at ${minTop}–97% and keeps mediocre fits clearly lower`, () => {
@@ -43,6 +52,19 @@ describe('persona snapshots', () => {
         summary.push(`excluded: ${res.excluded.map((e) => `${e.buildId}(${e.reason})`).join(', ') || '-'}`)
         expect(summary).toMatchSnapshot()
       })
+    })
+  }
+})
+
+// D30's check, rebuilt (D48): a typical fan of each class finds that class in the top 3. The druid fan doesn't yet:
+// no answer speaks to shapeshifting, so all-rounders (Survival, Enhancement) outscore Balance and Feral.
+const KNOWN_MISSES: ClassId[] = ['druid']
+
+describe('class fans', () => {
+  for (const fan of CLASS_FANS) {
+    it(`${fan.classId}: ${fan.label}`, () => {
+      const classes = rank(fan.answers, data).results.slice(0, 3).map((r) => data.builds.find((b) => b.id === r.buildId)?.classId)
+      expect(classes.includes(fan.classId)).toBe(!KNOWN_MISSES.includes(fan.classId))
     })
   }
 })

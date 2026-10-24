@@ -12,6 +12,18 @@ exports[`persona snapshots > Alliance stormcaller (elements, burst, PvP) > match
 ]
 `;
 
+exports[`persona snapshots > Caring damage dealer who never wants to heal (no healing) > matches the snapshot 1`] = `
+[
+  "1. hunter-marksmanship 89% | races troll, orc, human | dual hunter-survival | why: burst, range, novelty | watch: weakness",
+  "2. shaman-elemental 89% | races troll, orc, dwarf | dual shaman-enhancement | why: burst, range, novelty | watch: weakness",
+  "3. shaman-enhancement 82% | races troll, orc, dwarf | dual shaman-elemental | why: burst, novelty, armor | watch: range",
+  "4. mage-arcane 82% | races orc, troll, gnome | dual mage-frost | why: burst, range, novelty | watch: armor, soloLeveling",
+  "5. druid-balance 80% | races night-elf, tauren | dual druid-feral-bear | why: range, novelty, burst | watch: dungeon, soloLeveling",
+  "why not: hunter-beast-mastery, mage-frost, paladin-retribution",
+  "excluded: paladin-holy(noHeal), priest-discipline(noHeal), priest-holy(noHeal), shaman-restoration(noHeal), druid-restoration(noHeal)",
+]
+`;
+
 exports[`persona snapshots > Cozy healer (new, any faction, must heal) > matches the snapshot 1`] = `
 [
   "1. druid-restoration 89% | races tauren, night-elf | dual druid-feral-cat | why: role, burst, armor | watch: soloLeveling",
@@ -80,6 +92,18 @@ exports[`persona snapshots > Raid logger (veteran, ranged, complex, owns Skyborn
   "4. hunter-marksmanship 91% | races troll, skyborne-high-order, skyborne-windshaper | dual hunter-survival | why: burst, range, goldFarming | watch: armor",
   "5. shaman-elemental 89% | races troll, skyborne-windshaper, orc | dual shaman-restoration | why: burst, range, tags | watch: armor",
   "why not: rogue-combat, hunter-beast-mastery, paladin-retribution",
+  "excluded: -",
+]
+`;
+
+exports[`persona snapshots > Solo damage dealer with one caring answer > matches the snapshot 1`] = `
+[
+  "1. druid-feral-cat 82% | races tauren, night-elf | dual druid-balance | why: soloLeveling, goldFarming, tags | watch: weakness",
+  "2. mage-frost 82% | races troll, undead, orc | dual mage-fire | why: armor, soloLeveling, goldFarming | watch: weakness",
+  "3. mage-fire 77% | races troll, undead, orc | dual mage-frost | why: burst, armor, soloLeveling | watch: survivability, sustain",
+  "4. hunter-marksmanship 76% | races troll, tauren, dwarf | dual hunter-beast-mastery | why: burst, soloLeveling, goldFarming | watch: armor, novelty",
+  "5. warlock-demonology 75% | races troll, undead, orc | dual warlock-affliction | why: armor, soloLeveling, goldFarming | watch: burst",
+  "why not: hunter-beast-mastery, rogue-combat, warlock-affliction",
   "excluded: -",
 ]
 `;
