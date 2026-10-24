@@ -280,9 +280,13 @@ function ThisOrThat({ q, wording: w, value, onChange, onNext, onBack, onPreview 
   )
 }
 
-function SliderAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast }: Common & { q: SliderQ }) {
+/**
+ * A scale ("Waiting for something good is…") as steps on a line, each one a big tap target (a native range's thumb was
+ * small and hid how many steps there are). The middle step is picked until you choose another, and Next keeps it.
+ */
+function SliderAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast, onPreview }: Common & { q: SliderQ }) {
   const answered = q.options.findIndex((o) => o.id === value)
-  const [index, setIndex] = useState(answered >= 0 ? answered : 2)
+  const [index, setIndex] = useState(answered >= 0 ? answered : Math.floor((q.options.length - 1) / 2))
   const current = q.options[index]
   const commit = (i: number) => {
     setIndex(i)
@@ -300,18 +304,25 @@ function SliderAnswer({ q, wording: w, value, onChange, onNext, onBack, isLast }
   })
   return (
     <>
-      <div className="panel flex flex-col gap-4 p-5">
-        <input
-          type="range"
-          min={0}
-          max={q.options.length - 1}
-          step={1}
-          value={index}
-          onChange={(e) => commit(Number(e.target.value))}
-          aria-label={q.text[w]}
-          aria-valuetext={current?.label[w]}
-          className="w-full accent-gold-400"
-        />
+      <div className="panel flex flex-col gap-3 p-5">
+        <div role="radiogroup" aria-label={q.text[w]} className="relative flex items-center justify-between">
+          {/* The line the steps sit on, from the middle of the first step to the middle of the last. */}
+          <span aria-hidden="true" className="absolute inset-x-5.5 top-1/2 h-px -translate-y-1/2 bg-night-600" />
+          {q.options.map((o, i) => (
+            <button
+              key={o.id}
+              type="button"
+              role="radio"
+              aria-checked={i === index}
+              aria-label={o.label[w]}
+              className="step"
+              onClick={() => commit(i)}
+              {...previewOn(onPreview, () => o.id)}
+            >
+              <span className="step-dot" />
+            </button>
+          ))}
+        </div>
         <div className="flex justify-between gap-4 text-sm text-ash-400">
           <span className="max-w-[45%]">{q.minLabel[w]}</span>
           <span className="max-w-[45%] text-right">{q.maxLabel[w]}</span>

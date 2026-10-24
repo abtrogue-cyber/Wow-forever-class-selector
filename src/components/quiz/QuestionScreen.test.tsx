@@ -60,6 +60,24 @@ describe('QuestionScreen', () => {
     expect(screen.getByText(/pick 1 more/i)).toBeTruthy()
   })
 
+  it('answers the scale with five tappable steps, the middle one picked until you choose', async () => {
+    const user = userEvent.setup()
+    const onNext = vi.fn()
+    render(<Harness id="patience" onNext={onNext} />)
+    expect(screen.getAllByRole('radio').map((s) => s.getAttribute('aria-checked'))).toEqual(['false', 'false', 'true', 'false', 'false'])
+    await user.click(screen.getByRole('radio', { name: 'Kind of nice' }))
+    expect(screen.getByTestId('value').textContent).toBe('"kind-of-nice"')
+    expect(screen.getByRole('radio', { name: 'Kind of nice' }).getAttribute('aria-checked')).toBe('true')
+    expect(onNext).not.toHaveBeenCalled() // a step only picks; Next moves on
+    await user.click(screen.getByRole('button', { name: 'Next' }))
+    expect(onNext).toHaveBeenCalledTimes(1)
+    cleanup()
+    // Next without a pick keeps the middle step.
+    render(<Harness id="patience" />)
+    await user.click(screen.getByRole('button', { name: 'Next' }))
+    expect(screen.getByTestId('value').textContent).toBe('"fine"')
+  })
+
   it('says hard preferences take any number of ticks, and takes several', async () => {
     const user = userEvent.setup()
     render(<Harness id="preferences" />)

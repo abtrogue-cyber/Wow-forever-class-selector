@@ -40,7 +40,9 @@ test('a newcomer finishes the quiz and gets a shareable, explained result', asyn
   await page.mouse.move(cx + 160, cy, { steps: 5 })
   await page.mouse.up()
   await at(11)
-  await page.getByRole('button', { name: 'Next' }).click() // 11: patience slider
+  await page.getByRole('radio', { name: 'Kind of nice' }).click() // 11: patience, a scale of five tappable steps
+  await expect(page.getByRole('radio', { name: 'Kind of nice' })).toHaveAttribute('aria-checked', 'true')
+  await page.getByRole('button', { name: 'Next' }).click()
   await at(12)
   // 12: the last screen. Horde without the pack: Horde races only, Skyborne marked. Pick Tauren and no healing.
   await expect(page.getByRole('radio', { name: 'Surprise me' })).toHaveAttribute('aria-checked', 'true')

@@ -95,6 +95,21 @@
   .chip[role="checkbox"][aria-checked="true"] {
     @apply border-ember-400/70 bg-night-900 text-ash-400 line-through decoration-ember-400/80;
   }
+  /* The scale question's steps: a 44 px tap target around a dot. The picked one is bigger and gold. */
+  .step {
+    @apply relative flex size-11 items-center justify-center rounded-full;
+  }
+  .step-dot {
+    @apply size-4 rounded-full border-2 border-ash-400 bg-night-900 transition-all;
+  }
+  @media (hover: hover) {
+    .step:hover .step-dot {
+      @apply border-gold-500;
+    }
+  }
+  .step[aria-checked="true"] .step-dot {
+    @apply size-6 border-gold-400 bg-gold-400 shadow-[0_0_18px_-4px_rgb(245_200_107/0.8)];
+  }
   /* A class the race in mind can't be: greyed out with a dashed edge, its text still readable (AA). */
   .chip-out {
     @apply border-dashed text-ash-400;
