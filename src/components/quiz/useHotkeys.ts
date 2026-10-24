@@ -10,6 +10,9 @@ export function useHotkeys(handler: (key: string, event: KeyboardEvent) => void)
       const t = e.target
       if (t instanceof HTMLInputElement && t.type !== 'checkbox' && t.type !== 'radio') return
       if (t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement) return
+      // Enter on a focused button or link belongs to that control (pick this answer, tick this box). Acting on it
+      // here too made one key press do two things: skip the question unanswered, or untick a box and finish.
+      if (e.key === 'Enter' && t instanceof Element && t.closest('button, a[href]')) return
       ref.current(e.key, e)
     }
     window.addEventListener('keydown', onKey)

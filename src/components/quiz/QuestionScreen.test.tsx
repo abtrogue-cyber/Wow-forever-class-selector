@@ -76,6 +76,34 @@ describe('QuestionScreen', () => {
     vi.useRealTimers()
   })
 
+  // Phase 4 keyboard pass: Enter on a focused answer used to skip the question unanswered.
+  it('Enter on a focused answer picks it, and moves on once', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    const onNext = vi.fn()
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
+    render(<Harness id="group-project" onNext={onNext} />)
+    screen.getByRole('button', { name: /nobody falls behind/i }).focus()
+    await user.keyboard('{Enter}')
+    vi.advanceTimersByTime(400)
+    expect(screen.getByTestId('value').textContent).toBe('"nobody-behind"')
+    expect(onNext).toHaveBeenCalledTimes(1)
+    vi.useRealTimers()
+  })
+
+  it('Enter on a focused tick box only ticks it; Enter elsewhere moves on', async () => {
+    const onNext = vi.fn()
+    const user = userEvent.setup()
+    render(<Harness id="preferences" onNext={onNext} />)
+    const box = screen.getByRole('checkbox', { name: /no pets/i })
+    box.focus()
+    await user.keyboard('{Enter}')
+    expect(screen.getByTestId('value').textContent).toBe('["no-pets"]')
+    expect(onNext).not.toHaveBeenCalled()
+    box.blur()
+    await user.keyboard('{Enter}')
+    expect(onNext).toHaveBeenCalledTimes(1)
+  })
+
   it('previews the answer under the pointer, including what a priority pick would make the list', async () => {
     const user = userEvent.setup()
     const onPreview = vi.fn()
