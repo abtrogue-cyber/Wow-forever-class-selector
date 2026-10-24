@@ -16,6 +16,9 @@ export const CLASS_IDS = ['druid', 'hunter', 'mage', 'paladin', 'priest', 'rogue
 
 export const ROLES = ['tank', 'healer', 'dps'] as const
 
+/** Fantasy tags that just restate a role. Answers never set them (the role component carries roles, D48). */
+export const ROLE_TAGS = { healer: 'healer', tank: 'protector' } as const
+
 export const FACTIONS = ['alliance', 'horde'] as const
 
 // What a racial is good for. Builds and player context turn these into a "needs" vector.

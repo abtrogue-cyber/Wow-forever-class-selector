@@ -1,4 +1,4 @@
-import { AXIS_IDS } from '../data/vocab'
+import { AXIS_IDS, ROLE_TAGS } from '../data/vocab'
 import type { AxisId, Build, TagId, Wording } from '../data/schemas'
 import { CONFIG } from './config'
 import { entries, type EngineContext } from './context'
@@ -43,7 +43,7 @@ export function unwantedAxes(profile: PlayerProfile): Set<AxisId> {
 }
 
 /** Tags that just restate the role; the role component already explains those. */
-const ROLE_TAG: Partial<Record<Build['role'], TagId>> = { healer: 'healer', tank: 'protector' }
+const ROLE_TAG: Partial<Record<Build['role'], TagId>> = ROLE_TAGS
 
 function bestTag(build: Build, profile: PlayerProfile, sign: 1 | -1): TagId | null {
   let best: TagId | null = null

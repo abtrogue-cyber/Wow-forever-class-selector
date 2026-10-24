@@ -18,15 +18,16 @@ describe('persona snapshots', () => {
         })
       }
 
-      it('lands a great fit at 85–97% and keeps mediocre fits clearly lower', () => {
+      const { minTop = 85, minGap = 15, maxMedian = 70 } = persona.match ?? {}
+      it(`lands a great fit at ${minTop}–97% and keeps mediocre fits clearly lower`, () => {
         const matches = res.results.map((r) => r.match)
-        expect(matches[0]).toBeGreaterThanOrEqual(85)
+        expect(matches[0]).toBeGreaterThanOrEqual(minTop)
         expect(matches[0]).toBeLessThanOrEqual(97)
-        if (matches.length >= 10) expect((matches[0] ?? 0) - (matches[9] ?? 0)).toBeGreaterThanOrEqual(15)
+        if (matches.length >= 10) expect((matches[0] ?? 0) - (matches[9] ?? 0)).toBeGreaterThanOrEqual(minGap)
         if (matches.length === data.builds.length) {
           const median = matches[Math.floor(matches.length / 2)] ?? 0
           expect(median).toBeGreaterThanOrEqual(25)
-          expect(median).toBeLessThanOrEqual(70)
+          expect(median).toBeLessThanOrEqual(maxMedian)
         }
       })
 

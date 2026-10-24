@@ -1,5 +1,5 @@
 import {
-  AXIS_IDS, CLASS_IDS, FACTIONS, GameDataSchema, HARD_FILTERS, SETUP_FIELDS, SETUP_OPTIONS, TAG_IDS,
+  AXIS_IDS, CLASS_IDS, FACTIONS, GameDataSchema, HARD_FILTERS, ROLE_TAGS, SETUP_FIELDS, SETUP_OPTIONS, TAG_IDS,
   type GameData,
 } from './schemas'
 
@@ -133,6 +133,8 @@ export function findDataProblems(d: GameData): string[] {
   })
   const fedAxes = new Set<string>()
   const setFilters = new Set<string>()
+  const moreIsFine = new Set<string>(d.axes.filter((a) => a.mode === 'atLeast').map((a) => a.id))
+  const roleTags = new Set<string>(Object.values(ROLE_TAGS))
   for (const q of d.questions.questions) {
     duplicates(`question ${q.id} options`, q.options.map((o) => o.id))
     if (q.type === 'thisOrThat' && q.options.length !== 2) fail(`question ${q.id}: this-or-that needs exactly 2 options`)
@@ -151,7 +153,14 @@ export function findDataProblems(d: GameData): string[] {
       }
     } else {
       for (const o of q.options) {
-        for (const axis of Object.keys(o.effects.axes ?? {})) fedAxes.add(axis)
+        for (const [axis, wish] of Object.entries(o.effects.axes ?? {})) {
+          fedAxes.add(axis)
+          // An indirect answer asks for "good at it" at most; only the priorities question may ask for more (D31, D48).
+          if (moreIsFine.has(axis) && wish.target > 4) fail(`question ${q.id}: ${o.id} asks for ${axis} ${wish.target} (at most 4)`)
+        }
+        for (const tag of Object.keys(o.effects.tags ?? {})) {
+          if (roleTags.has(tag)) fail(`question ${q.id}: ${o.id} sets the ${tag} tag, which restates a role (use roles)`)
+        }
         o.effects.filters?.forEach((f) => setFilters.add(f))
       }
     }

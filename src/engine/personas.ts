@@ -10,6 +10,11 @@ export type Persona = {
   label: string
   answers: Answers
   expect: { inTop: number; anyOf: string[] }[]
+  /**
+   * Looser match % checks for a persona that can't meet the default ones (#1 at 85% or more, #10 at least 15 points
+   * lower, median build at 70% or less), with the reason. Everyone else keeps the defaults.
+   */
+  match?: { minTop?: number; minGap?: number; maxMedian?: number; why: string }
 }
 
 export const PERSONAS: Persona[] = [
@@ -58,8 +63,9 @@ export const PERSONAS: Persona[] = [
     },
     expect: [
       { inTop: 2, anyOf: ['rogue-subtlety'] },
-      { inTop: 3, anyOf: ['rogue-assassination', 'druid-feral-cat', 'rogue-combat'] },
+      { inTop: 4, anyOf: ['rogue-assassination', 'druid-feral-cat', 'rogue-combat'] },
     ],
+    match: { minGap: 10, maxMedian: 80, why: 'Many melee PvP builds fit a world-PvP ganker almost as well (D48).' },
   },
   {
     id: 'pet-lover-no-downtime',

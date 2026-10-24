@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { rawData } from '../data/raw'
 import { AXIS_IDS, type Question, type Wording } from '../data/schemas'
 import { parseGameData } from '../data/validate'
+import { CONFIG } from './config'
 import { getContext } from './context'
 import { explainBuild } from './explain'
 import { exclusionReason } from './filters'
@@ -34,7 +35,7 @@ describe('fit curve and calibration', () => {
     expect(toMatch(0)).toBe(5)
     expect(toMatch(1)).toBe(97)
     expect(toMatch(0.9)).toBeGreaterThan(toMatch(0.8))
-    expect(toMatch(0.8)).toBe(50)
+    expect(toMatch(CONFIG.calibration.s0)).toBe(50)
   })
 })
 
@@ -50,7 +51,7 @@ describe('profile', () => {
   it('Hardcore raises survival and solo leveling', () => {
     const p = buildProfile(answers({ festival: 'overview' }, { ruleset: 'hardcore' }), ctx)
     expect(p.axes.survivability.target).toBe(4)
-    expect(p.axes.survivability.weight).toBeCloseTo(0.2 + 2)
+    expect(p.axes.survivability.weight).toBeCloseTo(0.1 + 2)
     expect(p.axes.soloLeveling.target).toBe(4)
   })
 
@@ -282,6 +283,18 @@ describe('rank', () => {
     const skipAll = rank(answers({ race: 'tauren', 'skip-classes': ['druid', 'hunter', 'shaman', 'warrior'] }), data)
     expect(skipAll.results).toHaveLength(0)
     expect(skipAll.notes).toEqual([data.explanations.notes.nothingLeft])
+  })
+
+  // Reported on Reddit: one caring answer among damage-dealer answers made the #1 a healer (D48).
+  it('one caring answer no longer turns a damage dealer into a healer', () => {
+    const caringDps = answers({
+      'two-hours': ['few-friends', 'fair-match', 'own-pace'], 'group-project': 'nobody-behind', 'team-sport': 'scorer',
+      annoyance: 'not-mattering', wins: 'big-moment', stuck: 'ask-friends', festival: 'overview', packing: 'practical',
+      feeling: 'counted-on', restaurant: 'something-new', patience: 'annoying',
+    })
+    const top3 = rank(caringDps, data).results.slice(0, 3).map((r) => build(r.buildId).role)
+    expect(top3[0]).toBe('dps')
+    expect(top3.filter((role) => role === 'dps').length).toBeGreaterThanOrEqual(2)
   })
 
   it('never offers a ruled-out role, not even as the dual spec', () => {

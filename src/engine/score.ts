@@ -28,12 +28,13 @@ export function tagFit(build: Build, profile: PlayerProfile): number {
 }
 
 export function roleFit(build: Build, profile: PlayerProfile, ctx: EngineContext): number {
-  // Flexibility only counts roles the player is open to: "no healing" makes a druid a two-role class.
-  const roles = Math.max(1, openRoles(build.classId, profile, ctx).length)
+  // Flexibility only counts roles the player is open to ("no healing" makes a druid a two-role class), and a third
+  // role adds nothing over a second: being able to switch is what matters.
+  const extraRoles = Math.min(CONFIG.role.maxExtraRoles, Math.max(0, openRoles(build.classId, profile, ctx).length - 1))
   const fit =
     0.5 +
     CONFIG.role.perPoint * profile.roles[build.role] +
-    CONFIG.role.hybridBonus * profile.roleFlex * (roles - 1)
+    CONFIG.role.hybridBonus * profile.roleFlex * extraRoles
   return Math.min(1, Math.max(0, fit))
 }
 
