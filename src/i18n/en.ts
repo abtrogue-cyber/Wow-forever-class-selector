@@ -46,6 +46,12 @@ export const en = {
     setupTitle: 'Before we begin',
     setupLead: 'Four quick choices so the questions and results fit you.',
     begin: 'Begin',
+    /** Under "Begin" when it's pressed with choices missing, e.g. "Still to choose: a side and the Skyborne pack." */
+    setupMissing: (fields: string[]) =>
+      `Still to choose: ${fields.length > 1 ? `${fields.slice(0, -1).join(', ')} and ${fields.at(-1)}` : fields[0]}.`,
+    setupFields: { experience: 'your WoW experience', faction: 'a side', ruleset: "where you'll play", skyborne: 'the Skyborne pack' },
+    /** Next to each missing field's title once Begin was pressed early. */
+    setupStill: 'still to choose',
     back: 'Back',
     next: 'Next',
     skip: 'Skip',

@@ -39,6 +39,11 @@ test.describe('accessibility', () => {
     await page.goto('/quiz?no3d')
     await expect(page.getByRole('heading', { name: 'Before we begin' })).toBeVisible()
     expect(await violations(page)).toEqual([])
+    // Begin pressed with choices missing: the note, the marked fields and the dimmed (aria-disabled) button.
+    // Playwright won't click an aria-disabled button, people can.
+    await page.getByRole('button', { name: 'Begin' }).click({ force: true })
+    await expect(page.getByText(/^Still to choose: /)).toBeVisible()
+    expect(await violations(page)).toEqual([])
   })
 
   // 1 priorities, 2 scenario, 9 pick-one, 10 this-or-that, 11 slider, 12 the last screen.
@@ -74,9 +79,9 @@ test.describe('accessibility', () => {
 
   test('a keyboard-only player finishes the quiz', async ({ page }) => {
     await page.goto('/quiz?no3d')
-    // Setup: Tab to a choice and press Space, like any button.
-    // The wording switches to veteran once the experience is picked.
-    for (const choice of [/Classic or retail/, 'Horde', 'Normal (PvE)', 'No']) {
+    // Setup: Tab to a choice and press Space, like any button. The setup keeps its newcomer wording while it's
+    // filled in, even after "played" is picked; the questions after it switch to veteran wording.
+    for (const choice of [/Classic or retail/, 'Horde', 'Normal (relaxed)', 'No']) {
       await page.getByRole('radio', { name: choice, exact: typeof choice === 'string' }).focus()
       await page.keyboard.press('Space')
     }
