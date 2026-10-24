@@ -35,7 +35,12 @@ export function AboutPage() {
           <ul className="space-y-1 text-sm">
             {sources.map((s) => (
               <li key={s.id}>
-                <a href={s.url} target="_blank" rel="noreferrer noopener" className="text-gold-300 underline-offset-4 hover:underline">
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="text-gold-300 underline decoration-gold-300/40 underline-offset-4 hover:decoration-gold-300"
+                >
                   {s.title}
                 </a>{' '}
                 <span className="text-ash-400">
