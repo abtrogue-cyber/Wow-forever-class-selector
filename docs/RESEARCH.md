@@ -294,4 +294,9 @@ Priest white needs special care on our light/parchment surfaces (outline or a da
 ## 11. What will still move before launch
 
 Elemental Shaman tree (restructured Oct 15), Arcane Blast (redesigned Oct 15), Warrior rage bugs, Touch of the Grave numbers, racial cooldowns (mostly unknown), Champion of the Light, Paladin Reckoning fixes, Salvation/Mass Salvation.
-**Plan:** keep `meta.json` `gameState: "Beta"` until we re-check against the launch patch notes (Phase 4, Nov 2–3, and again on Nov 4).
+**Plan:** keep `meta.json` `gameState: "Beta"` until we re-check against the launch patch notes, as soon as Blizzard posts them (likely Nov 2–4), and again on Nov 4.
+
+**Checked Oct 24 (Phase 4, D50):** Blizzard hasn't posted anything newer than the Oct 15 notes (BLZ-NOTES): the last post in the
+dev-notes thread is from Oct 16, and no launch notes are out yet. The fan sites we found (conquestcapped's patch notes page,
+updated Oct 18; Massively OP, Oct 17) cover the Oct 15 build or older ones. Nothing to change, so `lastVerified` stays
+2026-10-18, the day of the full check.

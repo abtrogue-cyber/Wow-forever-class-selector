@@ -3,7 +3,7 @@
 Fan-made, very visual class / spec / race finder for **World of Warcraft: Forever** (launch Nov 4, 2026).
 Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current plan: [docs/PLAN.md](docs/PLAN.md).
 
-**Status:** Phases 2 and 3 are merged into `main` and live at https://wow-forever-class-selector.vercel.app: the playable MVP with the person-first quiz (M1), plus the quiz compass (D40, replaced the 3D hero), card reveal, Spec Galaxy, result image and link previews (M2, ahead of Sun Nov 1). Share layouts V1 and V2 are published: question changes need `LAYOUT_V3`. The Reddit feedback round ([docs/prompts/reddit-feedback-v2.md](docs/prompts/reddit-feedback-v2.md)) is merged and live: honest reasons (D46), quiz V2 with 12 screens, no healing / no tanking, a race in mind and classes to skip (D47), and balance tuning with `npm run balance` (D48). Warrior and warlock scores get a sourced review after launch. Next: Phase 4 (launch hardening, Nov 2–3).
+**Status:** Phases 2 and 3 are merged into `main` and live at https://wow-forever-class-selector.vercel.app: the playable MVP with the person-first quiz (M1), plus the quiz compass (D40, replaced the 3D hero), card reveal, Spec Galaxy, result image and link previews (M2, ahead of Sun Nov 1). Share layouts V1 and V2 are published: question changes need `LAYOUT_V3`. The Reddit feedback round ([docs/prompts/reddit-feedback-v2.md](docs/prompts/reddit-feedback-v2.md)) is merged and live: honest reasons (D46), quiz V2 with 12 screens, no healing / no tanking, a race in mind and classes to skip (D47), and balance tuning with `npm run balance` (D48). Warrior and warlock scores get a sourced review after launch. Phase 4, launch hardening (D50), is done: axe accessibility scans, a keyboard fix, Safari (WebKit) e2e runs, a performance check and a data check. Still to do before launch: re-check the data against Blizzard's launch patch notes as soon as they're out (likely Nov 2–4).
 
 **Hosting:** GitHub `abtrogue-cyber/Wow-forever-class-selector` (`origin`). Vercel deploys every push to `main` automatically. Commits use the GitHub noreply email (set in this repo's local git config).
 
@@ -24,7 +24,8 @@ Source of truth: [forever-main-kickoff.md](forever-main-kickoff.md). Current pla
 npm install
 npm run dev            # http://localhost:5173 — /debug is the dev-only engine inspector
 npm test               # Vitest: data validation, engine unit tests, 300 random-player invariants, persona snapshots, share codec, components (jsdom)
-npm run test:e2e       # Playwright smoke test of the full quiz flow on the production build (mobile + desktop)
+npm run test:e2e       # Playwright on the production build: quiz smoke test in Chromium and WebKit (phone + desktop), axe scans, keyboard-only run
+E2E_FIREFOX=1 npm run test:e2e   # also Firefox (Playwright's Firefox build doesn't start on this Windows 10 machine)
 npm run typecheck      # tsc for the app (src) and the node scripts
 npm run build          # production build
 npm run scores:review  # regenerate docs/SCORES_REVIEW.md after editing builds.json
@@ -36,7 +37,7 @@ npx vitest run -u      # update persona snapshots — only after reviewing the d
 Spikes (standalone, not part of the app): `spikes/r3f-hero` (port 5181) and `spikes/wow-model-viewer` (port 5180, dropped).
 The desktop app's browser pane starts servers via `.claude/launch.json` (`app`, `spike-a-…`, `spike-b-…`).
 
-Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: TypeScript 7.0.2, Vite 8.3.4, Vitest 5.0.5, React 19.3.1, Zod 4.6.7, Tailwind 4.3.3.
+Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: TypeScript 7.0.2, Vite 8.3.4, Vitest 5.0.5, React 19.3.1, Zod 4.6.7, Tailwind 4.3.3, Playwright 1.64.1 with `@axe-core/playwright` 4.13.0 (dev, D50).
 
 ## Project map
 
@@ -50,7 +51,7 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - `src/galaxy/` — Spec Galaxy math: `pca.ts` (layout, nearest builds, player position), `constellations.ts` (class lines), `declutter.ts` (nudges overlapping flat-map icons apart)
 - `src/state/quizStore.ts` — Zustand quiz progress (sessionStorage, falls back to memory)
 - `src/i18n/en.ts` — every UI string
-- `tests/e2e/` — Playwright smoke test; `vercel.json` — SPA rewrites; build files live in `/static/` and revalidate on every load (D49)
+- `tests/e2e/` — Playwright: `smoke.spec.ts` (full quiz flow, 404) and `a11y.spec.ts` (axe scans of every page and kind of quiz screen, keyboard-only run, reduced motion); `vercel.json` — SPA rewrites; build files live in `/static/` and revalidate on every load (D49)
 - `scripts/` — node scripts run with `tsx`
 - `docs/` — RESEARCH, OPEN_QUESTIONS, PLAN, DECISIONS, SCORES_REVIEW and BALANCE (both generated)
 
@@ -64,6 +65,7 @@ Environment: Windows 10, Node 24.14, npm 11.13, Git Bash + PowerShell. Pinned: T
 - Ids are kebab-case (`warrior-protection`, `skyborne-high-order`). Every player-facing sentence has `newcomer` and `veteran` wording.
 - After changing scores or weights: `npm run scores:review`, `npm run balance`, `npm test`, review the snapshot diff, then `npx vitest run -u`.
 - 3D only in `src/three/` (lazy chunk). Everything must work without WebGL. Respect `prefers-reduced-motion`.
+- Accessibility target: WCAG 2.1 AA. New pages and new kinds of quiz screen get an axe scan in `tests/e2e/a11y.spec.ts`. Quiz hotkeys leave Enter on a focused button or link to that control (D50).
 - Line endings: LF (`.gitattributes`).
 
 ## IP / legal hygiene
