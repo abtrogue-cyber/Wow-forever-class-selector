@@ -3,8 +3,8 @@
 exports[`persona snapshots > Alliance stormcaller (elements, burst, PvP) > matches the snapshot 1`] = `
 [
   "1. shaman-elemental 95% | races dwarf | dual shaman-enhancement | why: burst, novelty, range | watch: weakness",
-  "2. hunter-marksmanship 93% | races human, skyborne-high-order, night-elf | dual hunter-survival | why: burst, novelty, range | watch: weakness",
-  "3. druid-balance 90% | races skyborne-high-order, night-elf | dual druid-feral-cat | why: novelty, range, burst | watch: dungeon",
+  "2. hunter-marksmanship 93% | races human, night-elf, dwarf | dual hunter-survival | why: burst, novelty, range | watch: weakness",
+  "3. druid-balance 90% | races night-elf, skyborne-high-order | dual druid-feral-cat | why: novelty, range, burst | watch: dungeon",
   "4. mage-arcane 90% | races human, gnome, skyborne-high-order | dual mage-frost | why: burst, novelty, range | watch: weakness",
   "5. shaman-enhancement 89% | races dwarf | dual shaman-elemental | why: burst, novelty, tags | watch: range",
   "why not: shaman-restoration, mage-frost, paladin-retribution",
@@ -17,7 +17,7 @@ exports[`persona snapshots > Caring damage dealer who never wants to heal (no he
   "1. hunter-marksmanship 89% | races troll, orc, human | dual hunter-survival | why: burst, range, novelty | watch: weakness",
   "2. shaman-elemental 89% | races troll, orc, dwarf | dual shaman-enhancement | why: burst, range, novelty | watch: weakness",
   "3. shaman-enhancement 82% | races troll, orc, dwarf | dual shaman-elemental | why: burst, novelty, armor | watch: range",
-  "4. mage-arcane 82% | races orc, troll, gnome | dual mage-frost | why: burst, range, novelty | watch: armor, soloLeveling",
+  "4. mage-arcane 82% | races troll, orc, gnome | dual mage-frost | why: burst, range, novelty | watch: armor, soloLeveling",
   "5. druid-balance 80% | races night-elf, tauren | dual druid-feral-bear | why: range, novelty, burst | watch: dungeon, soloLeveling",
   "why not: hunter-beast-mastery, mage-frost, paladin-retribution",
   "excluded: paladin-holy(noHeal), priest-discipline(noHeal), priest-holy(noHeal), shaman-restoration(noHeal), druid-restoration(noHeal)",
@@ -26,11 +26,11 @@ exports[`persona snapshots > Caring damage dealer who never wants to heal (no he
 
 exports[`persona snapshots > Cozy healer (new, any faction, must heal) > matches the snapshot 1`] = `
 [
-  "1. druid-restoration 89% | races tauren, night-elf | dual druid-feral-cat | why: role, burst, armor | watch: soloLeveling",
-  "2. priest-holy 83% | races troll, undead, gnome | dual priest-shadow | why: role, armor, dungeon | watch: soloLeveling",
-  "3. shaman-restoration 83% | races troll, tauren, dwarf | dual shaman-enhancement | why: role, complexity, dungeon | watch: soloLeveling, armor",
-  "4. priest-discipline 81% | races troll, undead, gnome | dual priest-shadow | why: role, armor, dungeon | watch: soloLeveling, complexity",
-  "5. priest-shadow 80% | races troll, night-elf, dwarf | dual priest-holy | why: armor, burst, soloLeveling | watch: role",
+  "1. druid-restoration 89% | races night-elf, tauren | dual druid-feral-cat | why: role, burst, armor | watch: soloLeveling",
+  "2. priest-holy 83% | races troll, undead, human | dual priest-shadow | why: role, armor, dungeon | watch: soloLeveling",
+  "3. shaman-restoration 83% | races troll, tauren, orc | dual shaman-enhancement | why: role, complexity, dungeon | watch: soloLeveling, armor",
+  "4. priest-discipline 81% | races troll, undead, human | dual priest-shadow | why: role, armor, dungeon | watch: soloLeveling, complexity",
+  "5. priest-shadow 80% | races troll, night-elf, undead | dual priest-holy | why: armor, burst, soloLeveling | watch: role",
   "why not: paladin-holy, warrior-fury, hunter-beast-mastery",
   "excluded: warrior-arms(mustHeal), warrior-fury(mustHeal), warrior-protection(mustHeal), hunter-beast-mastery(mustHeal), hunter-marksmanship(mustHeal), hunter-survival(mustHeal), rogue-assassination(mustHeal), rogue-combat(mustHeal), rogue-subtlety(mustHeal), mage-arcane(mustHeal), mage-fire(mustHeal), mage-frost(mustHeal), warlock-affliction(mustHeal), warlock-demonology(mustHeal), warlock-destruction(mustHeal)",
 ]
@@ -38,11 +38,11 @@ exports[`persona snapshots > Cozy healer (new, any faction, must heal) > matches
 
 exports[`persona snapshots > Hardcore survivor (pets, solo, escapes) > matches the snapshot 1`] = `
 [
-  "1. hunter-beast-mastery 93% | races troll, tauren, dwarf | dual hunter-survival | why: petReliance, soloLeveling, range | watch: weakness",
+  "1. hunter-beast-mastery 93% | races troll, tauren, night-elf | dual hunter-survival | why: petReliance, soloLeveling, range | watch: weakness",
   "2. warlock-demonology 91% | races troll, undead, orc | dual warlock-affliction | why: petReliance, soloLeveling, range | watch: weakness",
   "3. warlock-affliction 86% | races troll, undead, orc | dual warlock-demonology | why: petReliance, soloLeveling, range | watch: burst",
-  "4. hunter-survival 82% | races troll, tauren, dwarf | dual hunter-beast-mastery | why: petReliance, soloLeveling, goldFarming | watch: novelty, range",
-  "5. hunter-marksmanship 81% | races troll, tauren, dwarf | dual hunter-beast-mastery | why: petReliance, soloLeveling, range | watch: novelty",
+  "4. hunter-survival 82% | races troll, tauren, night-elf | dual hunter-beast-mastery | why: petReliance, soloLeveling, goldFarming | watch: novelty, range",
+  "5. hunter-marksmanship 81% | races troll, tauren, night-elf | dual hunter-beast-mastery | why: petReliance, soloLeveling, range | watch: novelty",
   "why not: mage-frost, rogue-combat, paladin-retribution",
   "excluded: -",
 ]
@@ -51,8 +51,8 @@ exports[`persona snapshots > Hardcore survivor (pets, solo, escapes) > matches t
 exports[`persona snapshots > Horde holy knight (healer, plate, Light) > matches the snapshot 1`] = `
 [
   "1. paladin-holy 94% | races undead | dual paladin-protection | why: role, burst, armor | watch: weakness",
-  "2. shaman-restoration 85% | races skyborne-windshaper, troll, tauren | dual shaman-elemental | why: role, armor, dungeon | watch: novelty",
-  "3. priest-discipline 80% | races undead, troll | dual priest-holy | why: role, novelty, dungeon | watch: armor",
+  "2. shaman-restoration 85% | races troll, skyborne-windshaper, tauren | dual shaman-elemental | why: role, armor, dungeon | watch: novelty",
+  "3. priest-discipline 80% | races troll, undead | dual priest-holy | why: role, novelty, dungeon | watch: armor",
   "4. shaman-elemental 75% | races troll, orc, skyborne-windshaper | dual shaman-restoration | why: burst, armor, novelty | watch: role, survivability",
   "5. shaman-enhancement 73% | races troll, orc, skyborne-windshaper | dual shaman-restoration | why: burst, armor, novelty | watch: role, range",
   "why not: paladin-retribution, priest-holy, warrior-fury",
@@ -62,11 +62,11 @@ exports[`persona snapshots > Horde holy knight (healer, plate, Light) > matches 
 
 exports[`persona snapshots > Pet lover who hates downtime (new, Alliance) > matches the snapshot 1`] = `
 [
-  "1. hunter-beast-mastery 90% | races dwarf, night-elf, human | dual hunter-marksmanship | why: petReliance, soloLeveling, range | watch: weakness",
+  "1. hunter-beast-mastery 90% | races night-elf, dwarf, human | dual hunter-marksmanship | why: petReliance, soloLeveling, range | watch: weakness",
   "2. warlock-demonology 90% | races gnome, human | dual warlock-affliction | why: petReliance, soloLeveling, range | watch: weakness",
   "3. warlock-affliction 84% | races gnome, human | dual warlock-demonology | why: petReliance, soloLeveling, range | watch: burst, complexity",
-  "4. hunter-marksmanship 82% | races dwarf, night-elf, human | dual hunter-beast-mastery | why: petReliance, soloLeveling, range | watch: weakness",
-  "5. hunter-survival 82% | races dwarf, night-elf, human | dual hunter-beast-mastery | why: petReliance, soloLeveling, goldFarming | watch: range, complexity",
+  "4. hunter-marksmanship 82% | races night-elf, dwarf, human | dual hunter-beast-mastery | why: petReliance, soloLeveling, range | watch: weakness",
+  "5. hunter-survival 82% | races night-elf, dwarf, human | dual hunter-beast-mastery | why: petReliance, soloLeveling, goldFarming | watch: range, complexity",
   "why not: mage-frost, rogue-combat, paladin-retribution",
   "excluded: -",
 ]
@@ -86,10 +86,10 @@ exports[`persona snapshots > Petless hunter fan (no pets, ranged only) > matches
 
 exports[`persona snapshots > Raid logger (veteran, ranged, complex, owns Skyborne) > matches the snapshot 1`] = `
 [
-  "1. mage-arcane 95% | races troll, skyborne-high-order, orc | dual mage-frost | why: burst, armor, range | watch: weakness",
-  "2. mage-fire 94% | races troll, skyborne-high-order, orc | dual mage-frost | why: burst, armor, range | watch: weakness",
-  "3. mage-frost 92% | races troll, skyborne-high-order, orc | dual mage-arcane | why: armor, range, burst | watch: weakness",
-  "4. hunter-marksmanship 91% | races troll, skyborne-high-order, skyborne-windshaper | dual hunter-survival | why: burst, range, goldFarming | watch: armor",
+  "1. mage-arcane 95% | races troll, gnome, orc | dual mage-frost | why: burst, armor, range | watch: weakness",
+  "2. mage-fire 94% | races troll, gnome, orc | dual mage-frost | why: burst, armor, range | watch: weakness",
+  "3. mage-frost 92% | races troll, gnome, orc | dual mage-arcane | why: armor, range, burst | watch: weakness",
+  "4. hunter-marksmanship 91% | races troll, orc, night-elf | dual hunter-survival | why: burst, range, goldFarming | watch: armor",
   "5. shaman-elemental 89% | races troll, skyborne-windshaper, orc | dual shaman-restoration | why: burst, range, tags | watch: armor",
   "why not: rogue-combat, hunter-beast-mastery, paladin-retribution",
   "excluded: -",
@@ -99,9 +99,9 @@ exports[`persona snapshots > Raid logger (veteran, ranged, complex, owns Skyborn
 exports[`persona snapshots > Solo damage dealer with one caring answer > matches the snapshot 1`] = `
 [
   "1. druid-feral-cat 82% | races tauren, night-elf | dual druid-balance | why: soloLeveling, goldFarming, tags | watch: weakness",
-  "2. mage-frost 82% | races troll, undead, orc | dual mage-fire | why: armor, soloLeveling, goldFarming | watch: weakness",
-  "3. mage-fire 77% | races troll, undead, orc | dual mage-frost | why: burst, armor, soloLeveling | watch: survivability, sustain",
-  "4. hunter-marksmanship 76% | races troll, tauren, dwarf | dual hunter-beast-mastery | why: burst, soloLeveling, goldFarming | watch: armor, novelty",
+  "2. mage-frost 82% | races troll, undead, gnome | dual mage-fire | why: armor, soloLeveling, goldFarming | watch: weakness",
+  "3. mage-fire 77% | races troll, undead, gnome | dual mage-frost | why: burst, armor, soloLeveling | watch: survivability, sustain",
+  "4. hunter-marksmanship 76% | races troll, tauren, night-elf | dual hunter-beast-mastery | why: burst, soloLeveling, goldFarming | watch: armor, novelty",
   "5. warlock-demonology 75% | races troll, undead, orc | dual warlock-affliction | why: armor, soloLeveling, goldFarming | watch: burst",
   "why not: hunter-beast-mastery, rogue-combat, warlock-affliction",
   "excluded: -",
@@ -112,9 +112,9 @@ exports[`persona snapshots > Tank for friends (must tank, nature, tribal) > matc
 [
   "1. druid-feral-bear 93% | races tauren, night-elf | dual druid-restoration | why: role, range, dungeon | watch: weakness",
   "2. paladin-protection 89% | races dwarf, undead, human | dual paladin-holy | why: role, range, dungeon | watch: raid",
-  "3. warrior-protection 87% | races troll, tauren, night-elf | dual warrior-fury | why: role, range, dungeon | watch: soloLeveling",
+  "3. warrior-protection 87% | races troll, tauren, dwarf | dual warrior-fury | why: role, range, dungeon | watch: soloLeveling",
   "4. druid-feral-cat 69% | races night-elf, tauren | dual druid-feral-bear | why: tags, range, soloLeveling | watch: role, dungeon",
-  "5. paladin-holy 62% | races dwarf, human, undead | dual paladin-protection | why: dungeon, raid, strength | watch: range, soloLeveling",
+  "5. paladin-holy 62% | races human, undead, dwarf | dual paladin-protection | why: dungeon, raid, strength | watch: range, soloLeveling",
   "why not: warrior-fury, paladin-retribution, hunter-beast-mastery",
   "excluded: hunter-beast-mastery(mustTank), hunter-marksmanship(mustTank), hunter-survival(mustTank), rogue-assassination(mustTank), rogue-combat(mustTank), rogue-subtlety(mustTank), priest-discipline(mustTank), priest-holy(mustTank), priest-shadow(mustTank), shaman-elemental(mustTank), shaman-enhancement(mustTank), shaman-restoration(mustTank), mage-arcane(mustTank), mage-fire(mustTank), mage-frost(mustTank), warlock-affliction(mustTank), warlock-demonology(mustTank), warlock-destruction(mustTank)",
 ]
@@ -124,9 +124,9 @@ exports[`persona snapshots > Total newcomer (plate, simple, Light) > matches the
 [
   "1. shaman-enhancement 93% | races troll, skyborne-windshaper(pack), dwarf | dual shaman-restoration | why: range, burst, armor | watch: weakness",
   "2. paladin-retribution 91% | races undead, human, dwarf | dual paladin-holy | why: range, burst, armor | watch: dungeon",
-  "3. rogue-assassination 88% | races troll, skyborne-windshaper(pack), skyborne-high-order(pack) | dual rogue-combat | why: range, novelty, burst | watch: dungeon",
-  "4. warrior-arms 87% | races troll, skyborne-windshaper(pack), skyborne-high-order(pack) | dual warrior-protection | why: range, burst, armor | watch: novelty, dungeon",
-  "5. hunter-marksmanship 85% | races troll, skyborne-windshaper(pack), skyborne-high-order(pack) | dual hunter-survival | why: burst, armor, soloLeveling | watch: range",
+  "3. rogue-assassination 88% | races troll, undead, skyborne-windshaper(pack) | dual rogue-combat | why: range, novelty, burst | watch: dungeon",
+  "4. warrior-arms 87% | races troll, undead, skyborne-windshaper(pack) | dual warrior-protection | why: range, burst, armor | watch: novelty, dungeon",
+  "5. hunter-marksmanship 85% | races troll, skyborne-windshaper(pack), human | dual hunter-survival | why: burst, armor, soloLeveling | watch: range",
   "why not: shaman-restoration, rogue-combat, warrior-fury",
   "excluded: -",
 ]
