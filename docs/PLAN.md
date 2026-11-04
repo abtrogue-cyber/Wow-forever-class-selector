@@ -44,21 +44,21 @@ Research (RESEARCH.md §8) found **no brand-new dedicated role**, so we keep the
 | id | Role | Armor | Range | Pet | Forever hooks (for explanations) |
 |---|---|---|---|---|---|
 | `warrior-arms` | dps | plate | melee | none | Weaponmaster, Spearing Strike (dismount), Victory Rush |
-| `warrior-fury` | dps | plate | melee | none | Raging Blows, Boundless Rage |
+| `warrior-fury` | dps | plate | melee | none | Raging Blows, Reckless Swings |
 | `warrior-protection` | **tank** | plate | melee | none | Vanguard, Bastion, shorter Shield Wall |
-| `paladin-holy` | **healer** | plate | ranged | none | Holy Shock at 21, Light's Vigil · *variant: Shockadin* |
-| `paladin-protection` | **tank** | plate | melee | none | Seal of Fury (taunting judgement), Templar's Bulwark |
-| `paladin-retribution` | dps | plate | melee | none | Twist of Light (seal twisting), Holy Strike, Sacred Arbiter |
+| `paladin-holy` | **healer** | plate | ranged | none | Oath of Light, Holy Shock at 21, Light's Vigil (heals only) · *variant: Shockadin* |
+| `paladin-protection` | **tank** | plate | melee | none | Seal of Fury (taunting judgement), Templar's Bulwark (11), Shieldsworn (31) |
+| `paladin-retribution` | dps | plate | melee | none | Unsealed Wrath (seal swapping), Holy Strike, Sacred Arbiter |
 | `hunter-beast-mastery` | dps | mail | ranged | required | Summon Hawk, pets scale with your gear, pet tanks solo |
 | `hunter-marksmanship` | dps | mail | ranged | **optional** | **Lone Wolf** (petless), Sniper Shot |
 | `hunter-survival` | dps | mail | **melee** | optional* | Lacerating Strikes, traps in combat, dual-wield |
-| `rogue-assassination` | dps | leather | melee | none | Mutilate, **Venom**, poison crits |
+| `rogue-assassination` | dps | leather | melee | none | Mutilate (31), **Venom** via Shank, poison crits |
 | `rogue-combat` | dps | leather | melee | none | **Hack and Slash**, Flawless Execution |
-| `rogue-subtlety` | dps | leather | melee | none | Thousand Cuts, Cutthroat |
+| `rogue-subtlety` | dps | leather | melee | none | Death Mark, Ghostly Strike, Shank |
 | `priest-discipline` | **healer** | cloth | ranged | none | Penance, Divine Aegis |
-| `priest-holy` | **healer** | cloth | ranged | none | Binding Heal, Prayer of Mending |
+| `priest-holy` | **healer** | cloth | ranged | none | Holy Binding, Prayer of Mending |
 | `priest-shadow` | dps | cloth | ranged | none | Devouring Plague for all, Devouring Contagion |
-| `shaman-elemental` | dps | mail | ranged | none | Lava Burst, Lightning Overload |
+| `shaman-elemental` | dps | mail | ranged | none | Lightning Overload, Call of Thunder, Lightning Mastery |
 | `shaman-enhancement` | dps | mail | melee | none | Maelstrom Weapon, Rage of the Farseer · *flag: small-group off-tank* |
 | `shaman-restoration` | **healer** | mail | ranged | none | Riptide, Call of the Elements |
 | `mage-arcane` | dps | cloth | ranged | none | Arcane Blast, Missile Barrage |
@@ -68,11 +68,11 @@ Research (RESEARCH.md §8) found **no brand-new dedicated role**, so we keep the
 | `warlock-demonology` | dps | cloth | ranged | required | Demonic Pact · *flag: Voidwalker tanking (Demonic Brand)* |
 | `warlock-destruction` | dps | cloth | ranged | **optional*** | Incinerate, Bane of Havoc (Demonic Sacrifice → petless) |
 | `druid-balance` | dps | leather | ranged | none | Eclipse, Moonkin aura raid-wide |
-| `druid-feral-cat` | dps | leather | melee | none | Shifting Power (powershifting), Berserk |
+| `druid-feral-cat` | dps | leather | melee | none | Shifting Power (powershifting, 31), Predatory Discipline |
 | `druid-feral-bear` | **tank** | leather | melee | none | Primal Bite, Lacerate, Thick Hide rework |
-| `druid-restoration` | **healer** | leather | ranged | none | Wild Growth, Swiftmend |
+| `druid-restoration` | **healer** | leather | ranged | none | Wild Growth, Swiftmend, Bloom |
 
-\* low confidence → OPEN_QUESTIONS A10/A11. Plate/mail are worn from level 40; the armor axis uses the endgame armor type.
+Hooks follow the launch notes (Nov 4, D54). \* low confidence → OPEN_QUESTIONS A10/A11. Plate/mail are worn from level 40; the armor axis uses the endgame armor type.
 
 **Build fields** (extends brief §6): `petStyle: none|optional|required`, `stealth: 0–3`, `offTank?: "smallGroup"`, `variants[]` (name + note), `popular` (for "Why not…?", hand-picked, B6), `strengths[]`/`weaknesses[]` each tagged with the axes they explain, and optional per-axis `confidence`.
 
@@ -338,5 +338,6 @@ As in brief §6, plus:
 
 ## 11. Backlog
 
+- **After launch (data):** re-check the game data after the first hotfixes and when raids open on Dec 9; the sourced warrior and warlock review (D48), now with the launch changes in A22 (rage fixed, demons get far less health from Stamina, Wrack doubled).
 - **Quiz UI, taste calls for the owner** from the Phase 5 walkthrough (everything else is done: D51–D53). Long questions in Cinzel caps (Q1 and Q12 run 4 lines on a phone) read slowly: a smaller size for long ones, or the body font for the question line. The two this-or-that cards are big but empty: our own glyph per side would make them more visual, but every option needs art.
 - **Race look, inert since D47.** With the place-to-live question gone, `profile.aesthetic` is always empty, so the look part of race ranking does nothing: the `aesthetic` answer effect, each race's `aesthetic` scores, `CONFIG.races.aestheticWeight` / `rpAestheticMultiplier` and `explanations.race.aesthetic`. It stays in place this close to launch (an engine test keeps it working with a made-up question). After launch: feed it from a new question or remove it.
