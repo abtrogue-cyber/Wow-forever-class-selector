@@ -26,10 +26,10 @@
   {
     "id": "paladin", "name": "Paladin", "colorHex": "#F48CBA", "colorVerified": false, "armor": "plate",
     "roles": ["tank", "healer", "dps"], "resources": ["mana"],
-    "pitch": { "newcomer": "A holy knight in heavy armor who can protect, heal or smite, and is very hard to kill.", "veteran": "Plate hybrid: tank, heal or melee; Seal of Fury tanking and Twist of Light seal twisting." },
+    "pitch": { "newcomer": "A holy knight in heavy armor who can protect, heal or smite, and is very hard to kill.", "veteran": "Plate hybrid: tank, heal or melee; Seal of Fury tanking and Unsealed Wrath seal swapping." },
     "strengths": ["Very strong against Undead and Demons.", "Effective tank, competitive damage dealer and strong single-target healer."],
     "weaknesses": ["Limited ranged reach.", "No interrupts and no movement slows."],
-    "sources": ["BLZ-PAL"], "verified": true
+    "sources": ["BLZ-PAL", "BLZ-NOTES-NOV2"], "verified": true
   },
   {
     "id": "priest", "name": "Priest", "colorHex": "#FFFFFF", "colorVerified": false, "armor": "cloth",
@@ -42,10 +42,10 @@
   {
     "id": "rogue", "name": "Rogue", "colorHex": "#FFF468", "colorVerified": false, "armor": "leather",
     "roles": ["dps"], "resources": ["energy"],
-    "pitch": { "newcomer": "A stealthy assassin who strikes from the shadows with blades and poison.", "veteran": "Melee DPS with stealth, poisons and control; Mutilate, Venom and Hack and Slash." },
+    "pitch": { "newcomer": "A stealthy assassin who strikes from the shadows with blades and poison.", "veteran": "Melee DPS with stealth, poisons and control; the new Shank, Mutilate and Hack and Slash." },
     "strengths": ["Stealth and control specialist.", "The only class with poisons; high single-target melee damage."],
     "weaknesses": ["(Editorial) Brings little to a group beyond damage and control, and can't heal or tank."],
-    "sources": ["BLZ-RW", "EDITORIAL"], "verified": true
+    "sources": ["BLZ-RW", "BLZ-NOTES-NOV2", "EDITORIAL"], "verified": true
   },
   {
     "id": "shaman", "name": "Shaman", "colorHex": "#0070DD", "colorVerified": false, "armor": "mail",
