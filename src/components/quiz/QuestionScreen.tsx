@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { gameData, type ClassId, type Question, type Wording } from '../../data'
 import type { Answers, Setup } from '../../engine/types'
 import { en } from '../../i18n/en'
-import { ClassGlyph } from '../icons/Glyphs'
+import { ClassIcon } from '../icons/GameIcons'
 import { PickMark } from './PickMark'
 import { buildsLeft, classesFor, racesFor } from './screens'
 import { digitIndex, useHotkeys } from './useHotkeys'
@@ -464,8 +464,9 @@ function RaceChips({ q, wording: w, value, onChange, setup = ANY_SETUP }: Common
 }
 
 /**
- * Classes to skip: tap to strike one out, tap again to bring it back. Our own class glyphs (no game icons in the quiz).
- * With a race in mind, the classes it can't be are greyed out, since they're out already; they can still be tapped.
+ * Classes to skip: tap to strike one out, tap again to bring it back. Each chip shows the class's Hearthstone icon (D55),
+ * which turns grey on a skipped class. With a race in mind, the classes it can't be are greyed out, since they're out
+ * already; they can still be tapped.
  */
 function ClassChips({ q, wording: w, value, onChange, race }: Common & { q: SkipClassesQ; race?: RaceInMind }) {
   const skipped = asList(value)
@@ -485,7 +486,8 @@ function ClassChips({ q, wording: w, value, onChange, race }: Common & { q: Skip
             className={isOut(o.id) ? 'chip chip-out' : 'chip'}
             onClick={() => onChange(skipped.includes(o.id) ? skipped.filter((x) => x !== o.id) : [...skipped, o.id])}
           >
-            <ClassGlyph classId={o.id as ClassId} className="size-4 shrink-0" />
+            {/* 24 px icon; the negative margins keep the chip as tall as one with text only. */}
+            <ClassIcon classId={o.id as ClassId} className="chip-icon -my-1 -ml-1.5 size-6 shrink-0 transition" />
             {o.label[w]}
           </button>
         ))}

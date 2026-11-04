@@ -114,6 +114,11 @@
   .chip-out {
     @apply border-dashed text-ash-400;
   }
+  /* A class chip's icon (D55) loses its color with the class: skipped, or ruled out by the race in mind. */
+  .chip[role="checkbox"][aria-checked="true"] .chip-icon,
+  .chip-out .chip-icon {
+    @apply opacity-45 grayscale;
+  }
   /* The check on a picked answer, setup choice or race (PickMark), so a pick isn't shown by the border alone. */
   .pick-mark {
     @apply pointer-events-none inline-flex size-5 shrink-0 scale-50 items-center justify-center rounded-full bg-gold-400 text-night-950 opacity-0 transition;

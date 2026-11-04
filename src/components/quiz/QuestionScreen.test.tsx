@@ -3,8 +3,9 @@ import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { gameData } from '../../data'
+import { gameData, type ClassId } from '../../data'
 import type { Setup } from '../../engine/types'
+import { classIconUrl } from '../icons/GameIcons'
 import { QuestionGroup, QuestionScreen } from './QuestionScreen'
 import { classesFor, quizScreens } from './screens'
 
@@ -223,6 +224,17 @@ describe('the last screen', () => {
       await user.click(screen.getByRole('checkbox', { name: o.label.newcomer }))
     }
     expect(screen.getByText(/^Nothing fits all of these yet/)).toBeTruthy()
+  })
+
+  it("shows each class's Hearthstone icon on its chip, without adding to the chip's name (D55)", () => {
+    render(<LastScreen setup={horde} />)
+    for (const o of LAST.find((q) => q.type === 'skipClasses')!.options) {
+      const chip = screen.getByRole('checkbox', { name: o.label.newcomer })
+      const img = chip.querySelector('img')
+      expect(img?.getAttribute('src'), o.id).toBe(classIconUrl(o.id as ClassId))
+      expect(img?.getAttribute('alt')).toBe('')
+      expect(img?.getAttribute('referrerpolicy')).toBe('no-referrer')
+    }
   })
 
   it('marks Skyborne when the pack is unsure, and drops a race the setup no longer allows', () => {

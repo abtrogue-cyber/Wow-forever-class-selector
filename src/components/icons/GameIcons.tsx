@@ -4,8 +4,9 @@ import icons from '../../data/icons.json'
 import { ClassGlyph } from './Glyphs'
 
 // Blizzard's own icons, shown by the owner's choice (D43): each class's Hearthstone icon and each spec's
-// WoW Classic talent-tree icon. They load from Blizzard's and Wowhead's image servers (never stored here),
-// without a referrer, and fall back to our own glyph if a server is unreachable or blocks the request.
+// WoW Classic talent-tree icon, on the results pages, the Spec Galaxy (D44) and the quiz's last screen (D55).
+// They load from Blizzard's and Wowhead's image servers (never stored here), without a referrer, and fall back
+// to our own glyph if a server is unreachable or blocks the request.
 
 const CLASS_FILES: Record<string, string> = icons.classes
 const SPEC_FILES: Record<string, string> = icons.specs
