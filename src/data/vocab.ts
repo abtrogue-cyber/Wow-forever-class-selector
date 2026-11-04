@@ -23,10 +23,10 @@ export const FACTIONS = ['alliance', 'horde'] as const
 
 // What a racial is good for. Builds and player context turn these into a "needs" vector.
 export const RACIAL_TAGS = [
-  'critChance', 'critPower', 'haste', 'burstCD', 'defensiveCD', 'stunBreak', 'stunResist',
+  'critChance', 'critPower', 'hitChance', 'haste', 'burstCD', 'defensiveCD', 'stunBreak', 'stunResist',
   'fearBreak', 'rootBreak', 'cleanseSelf', 'escape', 'stealthDetect', 'controlCD', 'health',
   'avoidance', 'mobility', 'downtime', 'selfHeal', 'manaRegen', 'resourcePool', 'beastDamage',
-  'elementalDamage', 'gold', 'profession', 'utility', 'healUtility',
+  'elementalDamage', 'petDamage', 'gold', 'profession', 'utility', 'healUtility',
 ] as const
 
 export const AESTHETICS = ['noble', 'rugged', 'clever', 'elven', 'primal', 'eerie'] as const

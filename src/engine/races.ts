@@ -15,6 +15,7 @@ export function racialNeeds(build: Build, profile: PlayerProfile, ctx: EngineCon
   const r = CONFIG.races
   add(r.baseNeeds)
   add(r.roleNeeds[build.role])
+  if (build.axes.petReliance > 0) add({ petDamage: build.axes.petReliance * r.petDamagePerPetPoint })
   for (const [axis, axisNeeds] of entries(r.axisNeeds)) {
     const weight = profile.axes[axis].weight
     if (weight > 0) add(axisNeeds, Math.min(r.axisNeedCap, weight / r.axisScale))

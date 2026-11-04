@@ -1,14 +1,15 @@
 import type { AxisId, RacialTag, Role } from '../data/schemas'
 
 /** Bump whenever the same answers could produce a different result. Share links carry it. */
-export const ENGINE_VERSION = 4
+export const ENGINE_VERSION = 5
 
 type Needs = Partial<Record<RacialTag, number>>
 
+/** Hit counts like crit for damage dealers and a little for tanks (threat); heals can't miss. */
 const roleNeeds: Record<Role, Needs> = {
-  dps: { critChance: 1, critPower: 0.7, haste: 1, burstCD: 1, resourcePool: 0.3 },
+  dps: { critChance: 1, hitChance: 1, critPower: 0.7, haste: 1, burstCD: 1, resourcePool: 0.3 },
   healer: { manaRegen: 1, critPower: 0.7, haste: 0.8, burstCD: 0.5, resourcePool: 0.6, critChance: 0.5, healUtility: 0.8 },
-  tank: { health: 1, defensiveCD: 1, avoidance: 0.8, haste: 0.3, critChance: 0.3, burstCD: 0.3, resourcePool: 0.3 },
+  tank: { health: 1, defensiveCD: 1, avoidance: 0.8, haste: 0.3, critChance: 0.3, hitChance: 0.3, burstCD: 0.3, resourcePool: 0.3 },
 }
 
 const baseNeeds: Needs = {
@@ -59,6 +60,8 @@ export const CONFIG = {
     axisNeedCap: 1.5,
     /** Mana regeneration barely matters to classes without mana. */
     nonManaFactor: 0.15,
+    /** Pet damage matters as much as the pet does: need per point of the build's pet-reliance score (BM 5 → 1). */
+    petDamagePerPetPoint: 0.2,
     /** A full look match (3 × 3/3) is worth ~4.5, about as much as a strong racial edge. */
     aestheticWeight: 1.5,
     rpAestheticMultiplier: 1.5,
