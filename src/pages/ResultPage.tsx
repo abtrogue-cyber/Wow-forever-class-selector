@@ -217,7 +217,7 @@ function ResultView({ decoded }: { decoded: DecodedShare }) {
 
         <SharePanel results={result.results.slice(0, 3)} wording={w} />
 
-        <p className="text-sm text-ash-400">{en.result.betaNote}</p>
+        <p className="text-sm text-ash-400">{en.result.scoresNote}</p>
         <div>
           <button type="button" className="btn-ghost" onClick={retake}>
             {en.nav.retake}

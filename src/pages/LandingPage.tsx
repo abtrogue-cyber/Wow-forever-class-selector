@@ -69,7 +69,7 @@ export function LandingPage() {
               </li>
             ))}
           </ul>
-          <p className="text-xs text-ash-400">{en.landing.beta(meta.lastVerified)}</p>
+          <p className="text-xs text-ash-400">{en.landing.dataNote(meta.lastVerified)}</p>
         </motion.div>
       </section>
     </Page>

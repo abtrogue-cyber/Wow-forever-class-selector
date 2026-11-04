@@ -3,12 +3,12 @@ export const en = {
   appName: 'Forever Main',
   tagline: 'Find your Forever Main.',
   landing: {
-    eyebrow: 'World of Warcraft: Forever · launches Nov 4',
+    eyebrow: 'World of Warcraft: Forever · out Nov 4',
     lead: 'Answer 12 quick questions, watch your star find its place, and get a ranked, explained shortlist of class, spec and race.',
     cta: 'Find your Forever Main',
     resume: 'Continue where you left off',
     facts: ['About 3 minutes', 'Every pick explained', 'Built for Forever: new combos, Skyborne, dual spec'],
-    beta: (date: string) => `Game data follows the beta notes, last checked ${date}. Things may still change before launch.`,
+    dataNote: (date: string) => `Game data follows Blizzard's launch notes, last checked ${date}. Scores will be revisited as the game settles.`,
   },
   nav: {
     home: 'Forever Main',
@@ -141,7 +141,7 @@ export const en = {
     invalid: "This result link doesn't work. It may be cut off or from a newer version.",
     takeQuiz: 'Take the quiz',
     setupSummary: { faction: 'Faction', ruleset: 'Ruleset', any: 'Any faction' },
-    betaNote: 'Forever is brand new: scores are our editorial estimates from the beta notes and will be updated after launch.',
+    scoresNote: "Forever is brand new: scores are our editorial estimates from Blizzard's notes and will be updated with real play data, especially once raids open on Dec 9.",
   },
   about: {
     title: 'About Forever Main',

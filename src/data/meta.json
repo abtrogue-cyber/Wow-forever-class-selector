@@ -1,6 +1,6 @@
 {
-  "dataVersion": 3,
-  "gameState": "Beta",
-  "lastVerified": "2026-10-18",
-  "note": "Classes and racials follow Blizzard's beta deep dives and the Oct 15 beta development notes. Re-check against the launch patch notes."
+  "dataVersion": 4,
+  "gameState": "Launch",
+  "lastVerified": "2026-11-04",
+  "note": "Classes and racials follow Blizzard's launch development notes (Nov 2, with the Oct 26 racial pass) on top of the beta deep dives and earlier dev notes. Re-check after the first hotfixes and when raids open on Dec 9."
 }
