@@ -213,12 +213,27 @@ export async function renderResultCard(d: CardData): Promise<Blob> {
   return new Promise((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('toBlob failed'))), 'image/png'))
 }
 
+/** An image ready to draw; rejects if it doesn't load. Only same-origin or data: URLs keep the canvas saveable. */
+async function loadImage(src: string): Promise<HTMLImageElement> {
+  const img = new Image()
+  img.src = src
+  await img.decode()
+  return img
+}
+
 /**
- * The site's link-preview image (Open Graph, 1200×630): title, the nine class glyphs in class colors, site.
+ * The site's link-preview image (Open Graph, 1200×630): title, the nine class icons, each glowing in its class color,
+ * and the site. `icon` is the class's Hearthstone icon as a data: URL (D55); without one, our own glyph is drawn.
+ * An icon that doesn't load stops the render rather than turning into a glyph.
  * Generated once into public/og-image.png by `npm run og:image`.
  */
-export async function renderSocialCard(d: { title: string; lead: string; site: string; classes: { id: ClassId; color: string }[] }): Promise<Blob> {
-  await fontsReady()
+export async function renderSocialCard(d: {
+  title: string
+  lead: string
+  site: string
+  classes: { id: ClassId; color: string; icon?: string }[]
+}): Promise<Blob> {
+  const [, icons] = await Promise.all([fontsReady(), Promise.all(d.classes.map((c) => (c.icon ? loadImage(c.icon) : null)))])
   const w = 1200
   const h = 630
   const canvas = document.createElement('canvas')
@@ -249,20 +264,28 @@ export async function renderSocialCard(d: { title: string; lead: string; site: s
   ctx.font = `400 34px ${BODY}`
   ctx.fillText(d.lead, w / 2, 260)
 
-  const size = 72
-  const gap = 40
+  const size = 88
+  const gap = 24
   const total = d.classes.length * size + (d.classes.length - 1) * gap
   d.classes.forEach((c, i) => {
+    const x = w / 2 - total / 2 + i * (size + gap)
+    const y = 322
+    const icon = icons[i]
     ctx.save()
-    ctx.translate(w / 2 - total / 2 + i * (size + gap), 330)
-    ctx.scale(size / 24, size / 24)
-    ctx.strokeStyle = c.color
-    ctx.lineWidth = 1.7
-    ctx.lineCap = 'round'
-    ctx.lineJoin = 'round'
     ctx.shadowColor = c.color
-    ctx.shadowBlur = 3
-    ctx.stroke(new Path2D(CLASS_PATHS[c.id]))
+    if (icon) {
+      ctx.shadowBlur = 26
+      ctx.drawImage(icon, x, y, size, size)
+    } else {
+      ctx.translate(x, y)
+      ctx.scale(size / 24, size / 24)
+      ctx.strokeStyle = c.color
+      ctx.lineWidth = 1.7
+      ctx.lineCap = 'round'
+      ctx.lineJoin = 'round'
+      ctx.shadowBlur = 3
+      ctx.stroke(new Path2D(CLASS_PATHS[c.id]))
+    }
     ctx.restore()
   })
 

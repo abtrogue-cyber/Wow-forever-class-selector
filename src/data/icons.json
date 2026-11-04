@@ -1,5 +1,5 @@
 {
-  "note": "Blizzard Entertainment's artwork, shown by the owner's choice (D43). Loaded from the publishers' image servers, never stored in this repo. Each class's Hearthstone icon; each spec's WoW Classic talent-tree icon (Feral Cat uses Cat Form's icon so it differs from Bear).",
+  "note": "Blizzard Entertainment's artwork, shown by the owner's choice (D43, D44, D55). Loaded from the publishers' image servers; the only copy in this repo is the nine class icons drawn into public/og-image.png, the link preview (D55). Each class's Hearthstone icon; each spec's WoW Classic talent-tree icon (Feral Cat uses Cat Form's icon so it differs from Bear).",
   "sources": ["BLZ-HS-CARDS", "WH-CLASSIC-TALENTS"],
   "verified": true,
   "checked": "2026-10-19",
